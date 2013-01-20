@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.directwebremoting.org/schema/spring-dwr 
+       http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd ">
+	<!-- 配置项不但启用了对类包进行扫描以实施注释驱动 Bean 定义的功能，同时还启用了注释驱动自动注入的功能  -->
+    <context:annotation-config />
+    <context:component-scan base-package="com.way.blog" />
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	        <property name="locations">
+	            <list>
+	                <value>classpath:jdbc.properties</value>
+	            </list>
+	        </property>
+    	</bean>
+    	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${connection.driver_class}"></property>
+		<property name="jdbcUrl" value="${connection.url}"></property>
+		<property name="user" value="${connection.username}"></property>
+		<property name="password" value="${connection.password}"></property>
+		<!-- 指定连接池的最大连接数 -->
+		<property name="maxPoolSize" value="${proxool.maximum.connection.count}"></property>
+		<property name="minPoolSize" value="${proxool.minimum.connection.count}"></property>
+		<!-- 指定连接数据库连接池的初始化连接数 -->
+		<property name="initialPoolSize" value="${proxool.initialPoolSize}"></property>
+		<!-- 指定连接数据库连接池的最大连接时间 -->
+		<property name="maxIdleTime" value="${proxool.maxIdleTime}"></property> 
+	</bean>
+		
+	<!-- 定义Hibernate的sessionFactory，通过该Bean，可以获得Hibernate的Session，使用注解的方式-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 注解的类，相当于配置*.hbm文件 -->
+		<property name="annotatedClasses">
+			<list>
+				<!-- admin entity-->
+				<value>com.way.blog.manager.admin.entity.Area</value>
+				<value>com.way.blog.manager.admin.entity.City</value>
+				<value>com.way.blog.manager.admin.entity.Province</value>
+				<value>com.way.blog.manager.admin.entity.Job</value>
+				<value>com.way.blog.manager.admin.entity.Interest</value>
+				 <!-- user entity  -->
+				<value>com.way.blog.user.entity.Address</value>
+				<value>com.way.blog.user.entity.MyUserDetial</value>
+				<value>com.way.blog.user.entity.UserLogin</value>
+				<value>com.way.blog.user.entity.UserRegister</value>
+				 <!--  zone entity -->
+				<value>com.way.blog.zone.entity.Album</value>
+				<value>com.way.blog.zone.entity.AlbumComment</value>
+				<value>com.way.blog.zone.entity.AlbumCommentReply</value>
+				<value>com.way.blog.zone.entity.AlbumType</value>
+				<value>com.way.blog.zone.entity.Attention</value>
+				<value>com.way.blog.zone.entity.BlogZone</value>
+				<value>com.way.blog.zone.entity.LogAttachment</value>
+				<value>com.way.blog.zone.entity.LogComment</value>
+				<value>com.way.blog.zone.entity.LogCommentReply</value>
+				<value>com.way.blog.zone.entity.LogDraft</value>
+				<value>com.way.blog.zone.entity.LogInfo</value>
+				<value>com.way.blog.zone.entity.LogLike</value>
+				<value>com.way.blog.zone.entity.LogStore</value>
+				<value>com.way.blog.zone.entity.LogReprint</value>
+				<value>com.way.blog.zone.entity.LogShare</value>
+				<value>com.way.blog.zone.entity.LogType</value>
+				<value>com.way.blog.zone.entity.LogVisit</value>
+				<value>com.way.blog.zone.entity.Music</value>
+				<value>com.way.blog.zone.entity.Vedio</value>
+				<!-- ss3 entity -->
+				<value>com.way.blog.ss3.entity.MyRoles</value>
+				<value>com.way.blog.ss3.entity.MyResources</value>
+				<value>com.way.blog.ss3.entity.MyAuthority</value>
+			</list>
+		</property>
+		<!-- 定义Hibernate相关的属性 -->	
+		<property name="hibernateProperties">
+			<props>
+			<!--org.hibernate.dialect.MySQLInnoDBDialect -->
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+				</prop>
+				<!-- 是否根据需要创建数据库 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!--设置显示Hibernate操作的SQL语句-->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 将sql脚本格式化后输出 -->
+				<prop key="hibernate.format_sql">true</prop>
+				<!--设置二级缓冲-->
+				<!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> -->
+				<!--设置二级缓冲，打开查询缓冲-->
+				<!--<prop key="hibernate.cache.use_query_cache">true</prop> -->
+			</props>
+		</property>
+	</bean>
+	
+	
+	
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory"/>
+		</property>
+	</bean>
+	<!-- proxy-target-class="true"表示采用动态代理来完成事务 -->
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> 
+	<!-- 配置事务增强处理Bean,指定事务管理器 --><!--
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		 用于配置详细的事务语义 
+		<tx:attributes>
+			 所有以'get'开头的方法是read-only的 
+			<tx:method name="get*,find*" read-only="true"/>
+			 其他方法使用默认的事务设置 
+			<tx:method name="*" rollback-for="java.lang.Exception" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	
+	--><!--<aop:config>
+		 配置一个切入点，在匹配条件下应用事务
+			两个Bean的所有方法的执行 
+		<aop:pointcut id="pointcut"
+			expression="execution(* com.way.ss3.service.*.*(..))"/>
+		 指定在pointcut切入点应用txAdvice事务增强处理 
+		<aop:advisor advice-ref="txAdvice" 
+			pointcut-ref="pointcut"/>
+	</aop:config>
+			
+    --><!-- 整合DWR -->
+    
+    <!-- 方法一 -->
+    <!-- *********************************************************************** -->
+<!--     <dwr:configuration> -->
+<!--     	<dwr:convert type="bean" class="com.lhq.User" /> -->
+<!--     	<dwr:convert type="bean" class="org.directwebremoting.ScriptSession" /> -->
+<!--     </dwr:configuration> -->
+   	
+
+<!--      <bean id="sayHello" class="cn.com.sengis.service.SayHello">  -->
+<!--           <dwr:remote javascript="sayHello">       -->
+<!--                 <dwr:include method="sayHello" />    -->
+<!--           </dwr:remote>   -->
+<!--      </bean> -->
+<!--   	 <bean id="ChatManager" class="com.lhq.ChatManager"> -->
+<!--   	 		<dwr:remote javascript="ChatManager"> -->
+<!--   	 				<dwr:include method="updateUsersList"/> -->
+<!--   	 				<dwr:include method="setScriptSessionFlag"/> -->
+<!--   	 				<dwr:include method="getScriptSession"/> -->
+<!--   	 				<dwr:include method="send"/> -->
+<!--   	 		</dwr:remote> -->
+<!--   	 </bean> -->
+  	 <!-- *********************************************************************** -->
+  	 
+  	 <!-- 方法二（注解的方式） -->
+  	    <!-- <dwr:configuration>
+    	<dwr:convert type="bean" class="cn.com.sengis.service.User" />
+    	<dwr:convert type="bean" class="org.directwebremoting.ScriptSession" />
+    </dwr:configuration>
+  	 <dwr:annotation-scan base-package="cn.com.sengis" scanDataTransferObject="true" scanRemoteProxy="true" /> -->
+  	 
+  	 
+  	 
+  	 
+  	 
+</beans>

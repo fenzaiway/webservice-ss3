@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+
+<struts>
+
+    <!-- 指定Web应用的默认编码集,相当于调用HttpServletRequest的setCharacterEncoding方法 -->
+    <constant name="struts.i18n.encoding" value="utf-8"/>
+    <!-- 该属性指定需要Struts 2处理的请求后缀，该属性的默认值是action，即所有匹配*.action的请求都由Struts2处理。
+  	  如果用户需要指定多个请求后缀，则多个后缀之间以英文逗号（,）隔开。 -->
+    <constant name="struts.action.extension" value="do,action"/>
+    <!-- 设置浏览器是否缓存静态内容,默认值为true(生产环境下使用),开发阶段最好关闭 -->
+    <constant name="struts.serve.static.browserCache" value="false"/>
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 开发模式下使用,这样可以打印出更详细的错误信息 -->
+    <constant name="struts.devMode" value="false" />
+	<!-- struts的action交由spring创建和管理 -->
+    <constant name="struts.objectFactory" value="spring" />
+    <!-- 避免struts2的action中@Autowired注入为null -->
+    <constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+    <constant name="struts.convention.result.path" value="/"></constant>
+    
+    <!-- 定义全局Session拦截器，拦截所有的请求，判读Session是否失效，如果失效，则返回登录页面 -->
+	<package name="iterceptor" namespace="/" extends="json-default">
+  		<interceptors>
+            <!-- 自定义拦截器 -->
+            <interceptor name="permission" class="com.way.blog.interceptor.UserSessionInterceptor" />
+            <!-- 配制默许的拦截器到拦截器栈 -->
+            <interceptor-stack name="permissionStack">
+                <!-- 此处先后顺序没影响-->
+                <interceptor-ref name="permission" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+        <!-- 配置默认的拦截器 -->
+        <default-interceptor-ref name="permissionStack" />
+        <!-- 全局变量,超时返回登录页面 -->
+        <global-results>
+            <result name="loginPage" type="redirect">/register/sessionError.do</result>
+        </global-results>
+        
+ 	</package>
+   
+</struts>
