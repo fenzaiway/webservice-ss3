@@ -1,0 +1,51 @@
+body {
+	padding:0;
+	margin:0;
+	font-size:13px;
+	color:#000;
+	font-family:arial, helvetica, sans-serif;
+	background:#DCE0E4;
+}
+
+ul{list-style: none;}
+	
+	
+td{
+	height=22;
+	background-color: #FFFFFF;
+			
+}
+
+a{text-decoration:none;}
+
+/* 给链接加入鼠标移过变色和去除下划线功能 */
+a:hover {color:red;text-decoration:underline;}
+
+/*ul li */
+#pagestyle{
+	margin:0px; padding: 0px;
+}
+
+#pagestyle li{
+	float: left;list-style: none; font-size: 14px;color: #707070;
+}
+
+/*返回顶部*/
+.backToTop {
+    display: none;
+    width: 18px;
+    line-height: 1.2;
+    padding: 5px 0;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    position: fixed;
+    _position: absolute;
+    right: 10px;
+    bottom: 100px;
+    _bottom: "auto";
+    cursor: pointer;
+    opacity: .6;
+    filter: Alpha(opacity=60);
+}
