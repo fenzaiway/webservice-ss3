@@ -24,7 +24,7 @@ import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogType;
 
 @Controller("logTypeAction")
-@ParentPackage("iterceptor")
+@ParentPackage("interceptor")
 @Namespace("/logtype")
 public class LogTypeAction extends BaseAction implements ModelDriven<LogType>,
 		Preparable {

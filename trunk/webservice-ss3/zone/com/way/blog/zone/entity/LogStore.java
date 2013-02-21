@@ -47,26 +47,56 @@ public class LogStore implements Serializable {
 	@Column(name="lst_store_time",unique = false, nullable = false, insertable = true, updatable = true,length=25)
 	private String storeTime;
 	
+	@Expose
+	@Column(name="lst_store_loginfo_title",unique = false, nullable = false, insertable = true, updatable = true,length=100)
+	private String logInfoTitle;
+	
+	/**
+	 * 收藏日志的地址
+	 */
+	@Expose
+	@Column(name="lst_store_source_url",unique = false, nullable = false, insertable = true, updatable = true,length=255)
+	private String sourceUrl;
+	
+	/**
+	 * 收藏的日志所属用户
+	 */
+	@Expose
+	@Column(name="lst_store_source_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
+	private String sourceUserName;
+	
 	/**
 	 * 收藏描述
 	 */
 	@Expose
-	@Column(name="lst_store_desc",unique = false, nullable = false, insertable = true, updatable = true,length=100)
+	@Column(name="lst_store_desc",unique = false, nullable = true, insertable = true, updatable = true,length=100)
 	private String storeDesc;
 	
-	@ManyToOne(targetEntity=LogStore.class)
+	@ManyToOne
 	private LogInfo logInfo;
 
 	public LogStore() {}
 
-	public LogStore(int id, LogInfo logInfo, String storeDesc,
-			String storeTime, String username) {
+	public LogStore(int id, String username, String storeTime,
+			String logInfoTitle, String sourceUrl, String sourceUserName,
+			String storeDesc, LogInfo logInfo) {
 		super();
 		this.id = id;
-		this.logInfo = logInfo;
-		this.storeDesc = storeDesc;
-		this.storeTime = storeTime;
 		this.username = username;
+		this.storeTime = storeTime;
+		this.logInfoTitle = logInfoTitle;
+		this.sourceUrl = sourceUrl;
+		this.sourceUserName = sourceUserName;
+		this.storeDesc = storeDesc;
+		this.logInfo = logInfo;
+	}
+
+	public String getLogInfoTitle() {
+		return logInfoTitle;
+	}
+
+	public void setLogInfoTitle(String logInfoTitle) {
+		this.logInfoTitle = logInfoTitle;
 	}
 
 	public LogInfo getLogInfo() {
@@ -108,4 +138,21 @@ public class LogStore implements Serializable {
 	public void setStoreDesc(String storeDesc) {
 		this.storeDesc = storeDesc;
 	}
+
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	public String getSourceUserName() {
+		return sourceUserName;
+	}
+
+	public void setSourceUserName(String sourceUserName) {
+		this.sourceUserName = sourceUserName;
+	}
+	
 }
