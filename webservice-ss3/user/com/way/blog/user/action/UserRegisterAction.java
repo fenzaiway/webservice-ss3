@@ -1,9 +1,5 @@
 package com.way.blog.user.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -11,9 +7,9 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
+import com.way.blog.base.action.BaseAction;
 import com.way.blog.service.MyUserLoginServiceImpl;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.entity.UserRegister;
@@ -24,7 +20,7 @@ import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 @Controller("userRegisterAction")
 @ParentPackage("struts-default")
 @Namespace("/register")
-public class UserRegisterAction extends ActionSupport implements ModelDriven<UserRegister>,Preparable {
+public class UserRegisterAction extends BaseAction implements ModelDriven<UserRegister>,Preparable {
 
 	@Autowired
 	private UserRegisterServiceImpl userRegisterServiceImpl;
@@ -32,27 +28,19 @@ public class UserRegisterAction extends ActionSupport implements ModelDriven<Use
 	private BlogZoneServiceImpl blogZoneServiceImpl;
 	@Autowired
 	private UserLoginServiceImpl userLoginServiceImpl;
-	
-	@Autowired MyUserLoginServiceImpl myUserLoginServiceImpl;
-	
-	HttpServletRequest request = null;
-	HttpSession session = null;
-	
+	@Autowired 
+	MyUserLoginServiceImpl myUserLoginServiceImpl;
+	@Autowired
+	private UserHeadImgAction userHeadImgAction;
 	private UserLogin userLogin;
 	
 	private UserRegister userRegister;
 	
 	private String account;
-	////用户的昵称，用于登录后转到用户的空间
-	private String myusername;
 	
 	private String mypassword;
 	
 	
-	public void prepare() throws Exception {
-		request = ServletActionContext.getRequest();
-		session = request.getSession();
-	}
 
 	/**
 	 * 用户注册
@@ -74,9 +62,12 @@ public class UserRegisterAction extends ActionSupport implements ModelDriven<Use
 			addFieldError("saveError", e.getMessage());
 			return INPUT;
 		}
+		///注册的时候同时为用户开通空间
 		blogZoneServiceImpl.createBlog(userRegister);
 		////注册成功后，将用户名保存到Session中
-		session.setAttribute("username",userRegister.getUsername());
+		session.setAttribute("myusername",userRegister.getUsername());
+		//为用户设置一个默认的头像
+		userHeadImgAction.save();
 		return SUCCESS;
 	}
 	

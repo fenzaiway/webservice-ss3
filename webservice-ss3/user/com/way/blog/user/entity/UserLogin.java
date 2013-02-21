@@ -103,23 +103,31 @@ public class UserLogin implements Serializable,UserDetails {
 	@JoinTable(name="tb_user_role",joinColumns={@JoinColumn(name="rid")},inverseJoinColumns={@JoinColumn(name="userid")})
 	private Set<MyRoles> myRoles = new HashSet<MyRoles>();
 	
+	/**
+	 * 用户头像
+	 */
+	@OneToOne(cascade=CascadeType.ALL,targetEntity=UserHeadImg.class)
+	@PrimaryKeyJoinColumn
+	private UserHeadImg userHeadImg;
+	
 	public UserLogin() {}
 
-	public UserLogin(String account, BlogZone blogZone, String createTime,
-			int enabled, int id, Set<MyRoles> myRoles,
-			MyUserDetial myUserDetial, String password,
-			UserRegister userRegister, String username) {
+	public UserLogin(int id, String username, String password, String account,
+			String createTime, int enabled, UserRegister userRegister,
+			BlogZone blogZone, MyUserDetial myUserDetial, Set<MyRoles> myRoles,
+			UserHeadImg userHeadImg) {
 		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
 		this.account = account;
-		this.blogZone = blogZone;
 		this.createTime = createTime;
 		this.enabled = enabled;
-		this.id = id;
-		this.myRoles = myRoles;
-		this.myUserDetial = myUserDetial;
-		this.password = password;
 		this.userRegister = userRegister;
-		this.username = username;
+		this.blogZone = blogZone;
+		this.myUserDetial = myUserDetial;
+		this.myRoles = myRoles;
+		this.userHeadImg = userHeadImg;
 	}
 
 	public int getId() {
@@ -222,6 +230,14 @@ public class UserLogin implements Serializable,UserDetails {
 		this.myRoles = myRoles;
 	}
 
+	public UserHeadImg getUserHeadImg() {
+		return userHeadImg;
+	}
+
+	public void setUserHeadImg(UserHeadImg userHeadImg) {
+		this.userHeadImg = userHeadImg;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -238,6 +254,8 @@ public class UserLogin implements Serializable,UserDetails {
 				+ ((myUserDetial == null) ? 0 : myUserDetial.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((userHeadImg == null) ? 0 : userHeadImg.hashCode());
 		result = prime * result
 				+ ((userRegister == null) ? 0 : userRegister.hashCode());
 		result = prime * result
@@ -287,6 +305,11 @@ public class UserLogin implements Serializable,UserDetails {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (userHeadImg == null) {
+			if (other.userHeadImg != null)
+				return false;
+		} else if (!userHeadImg.equals(other.userHeadImg))
 			return false;
 		if (userRegister == null) {
 			if (other.userRegister != null)
