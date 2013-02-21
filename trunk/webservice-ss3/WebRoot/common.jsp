@@ -14,7 +14,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="<%=basePath%>js/plugin/datePicker.js"></script>
   <script type="text/javascript" src="js/plugin/passwordStrength.js"></script>
  <script type="text/javascript" src="js/plugin/WdatePicker.js"></script>
-  <script type="text/javascript">
+ <script type="text/javascript" src="<%=basePath%>editor/editor_config.js"></script>
+ <script type="text/javascript" src="<%=basePath%>editor/editor_all.js"></script>
+ <script type="text/javascript">
  	$(function()
  	{
 		$(".registerform").Validform({

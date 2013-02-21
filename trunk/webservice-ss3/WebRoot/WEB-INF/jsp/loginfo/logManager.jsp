@@ -1,10 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="/top_shortup.jsp" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -22,7 +19,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<style type="text/css">
-		div{margin-top: 5px;}
+		div{margin-buttom: 5px;}
+		img {
+			width: 150px;
+			height: 150px;
+		}
 	</style>
 	<script type="text/javascript" src="<%=basePath%>js/jquery-1.6.2.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
@@ -89,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div style="position:absolute;right:20;bottom:5;">
 							<a style="padding-left: 10px;" href="loginfo/viewmore.do?zoneuser=${zoneuser }&logInfoid=<s:property value='#logInfo.id'/>">阅读</a>（<s:property value="#logInfo.logVisits.size()"/>）|
 							<a style="padding-left: 10px;" href="loginfo/viewmore.do?zoneuser=${zoneuser }&logInfoid=<s:property value='#logInfo.id'/>">评论</a>（<s:property value="#logInfo.logComments.size()"/>）|
-							<c:if test="${zoneuser==myusername}"><a style="padding-left: 10px;" href="javascript:void(0);">编辑</a>&nbsp;&nbsp;|<a style="padding-left: 10px;" href="">更多</a></c:if>
+							<c:if test="${zoneuser==myusername}"><a style="padding-left: 10px;" href="loginfo/gotoLogInfoUpdate.do?zoneuser=${zoneuser }&logInfoid=<s:property value='#logInfo.id'/>">编辑</a>&nbsp;&nbsp;|<a style="padding-left: 10px;" href="javascript:deleteLogInfo(<s:property value='#logInfo.id'/>);">删除</a></c:if>
 						</div>
 						<div style="clear:both;margin: 1px;"></div>
 					</div>
@@ -106,6 +107,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	
 	<script type="text/javascript">
+		
+		////删除日志
+		function deleteLogInfo(logId)
+		{
+			var flag = false;
+			if(window.confirm("你确定要删除吗？删除的日志可以到回收站恢复"))
+			{
+				var url = "loginfo/delete.do?zoneuser=${zoneuser }&logInfoid="+logId;
+				window.location=url;
+				flag = true;
+			}
+			return flag;
+		}
 		var changTd;
 		var logTypeName;
 		/////获取分类名称，将分类的名字设置到input中

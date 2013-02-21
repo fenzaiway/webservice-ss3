@@ -1,9 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="/top_shortup.jsp" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -33,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<ul style="list-style: none;">
 			<li><a href="">主页</a></li>
 			<li><a href="loginfo/gotologinfo.do?zoneuser=${zoneuser }">日志</a></li>
-			<li><a href="#">相册</a></li>
+			<li><a href="albumtype/gotoAlbumTypeList.do?zoneuser=${zoneuser }">相册</a></li>
 			<li><a href="#">声音</a></li>
 			<li><a href="#">影像</a></li>
 			<li><a href="myUserDetial/gotoUserdetial.do">个人档</a></li>

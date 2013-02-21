@@ -57,6 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td>标题</td><td><input type="text" name="logInfo.logTitle" value=""/></td>
 		</tr>
 		<tr>
+			<td>关键字：</td><td><input type="text" name="myLogTags" value=""/>(单词之间使用“，”分隔)</td>
+		</tr>
+		<tr>
 			<td>内容</td><td>
 				<div id="myEditor" ></div>
 			</td>
