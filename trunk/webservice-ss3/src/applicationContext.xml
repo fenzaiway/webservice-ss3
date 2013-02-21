@@ -59,6 +59,7 @@
 				<value>com.way.blog.user.entity.MyUserDetial</value>
 				<value>com.way.blog.user.entity.UserLogin</value>
 				<value>com.way.blog.user.entity.UserRegister</value>
+				<value>com.way.blog.user.entity.UserHeadImg</value>
 				 <!--  zone entity -->
 				<value>com.way.blog.zone.entity.Album</value>
 				<value>com.way.blog.zone.entity.AlbumComment</value>
@@ -79,6 +80,7 @@
 				<value>com.way.blog.zone.entity.LogVisit</value>
 				<value>com.way.blog.zone.entity.Music</value>
 				<value>com.way.blog.zone.entity.Vedio</value>
+				<value>com.way.blog.zone.entity.LogTag</value>
 				<!-- ss3 entity -->
 				<value>com.way.blog.ss3.entity.MyRoles</value>
 				<value>com.way.blog.ss3.entity.MyResources</value>
@@ -119,6 +121,7 @@
 	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean> 
+	
 	<!-- 配置事务增强处理Bean,指定事务管理器 --><!--
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">

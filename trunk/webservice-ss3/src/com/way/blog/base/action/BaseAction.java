@@ -41,6 +41,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 	protected String myusername;  ////登录用户的session
 	protected String zoneuser;	  //////空间用户的session
 	protected String prePage;	  ////登录前的页面
+	protected int isValSession;		////是否删除session 1为删除hql
 	
 	protected int startIndex = 0;
 	
@@ -50,7 +51,11 @@ public class BaseAction extends ActionSupport implements Preparable{
 		myusername = (String) session.getAttribute("myusername");
 		zoneuser = (String) session.getAttribute("zoneuser");
 		prePage = (String) session.getAttribute("prePage");
+		this.init();
 	}
+	
+	///定义一个初始化函数，用于Action初始化一值
+	public void init(){}
 	
 	/**
 	 * 根据传进来的List转换成json字符串
@@ -68,6 +73,14 @@ public class BaseAction extends ActionSupport implements Preparable{
 	 */
 	public void returnJsonByObject(Object obj){
 		gson = new Gson();
+		jsonString = gson.toJson(obj);
+		this.returnJson(jsonString);
+	}
+	
+	public void returnJsonByObjectOfExpose(Object obj){
+		GsonBuilder builder = new GsonBuilder();
+		builder.excludeFieldsWithoutExposeAnnotation();//只转化添加注解了的属性
+		gson = builder.create();
 		jsonString = gson.toJson(obj);
 		this.returnJson(jsonString);
 	}
@@ -144,6 +157,21 @@ public class BaseAction extends ActionSupport implements Preparable{
 
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
+	}
+	public PaginationSupport getPaginationSupport() {
+		return paginationSupport;
+	}
+
+	public void setPaginationSupport(PaginationSupport paginationSupport) {
+		this.paginationSupport = paginationSupport;
+	}
+
+	public int getIsValSession() {
+		return isValSession;
+	}
+
+	public void setIsValSession(int isValSession) {
+		this.isValSession = isValSession;
 	}
 	
 }
