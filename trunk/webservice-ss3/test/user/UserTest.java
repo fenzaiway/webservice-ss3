@@ -7,8 +7,10 @@ import org.junit.Test;
 
 import com.way.blog.service.MyUserLoginServiceImpl;
 import com.way.blog.user.entity.MyUserDetial;
+import com.way.blog.user.entity.UserHeadImg;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.entity.UserRegister;
+import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.user.service.impl.UserRegisterServiceImpl;
 import com.way.blog.util.MyFormatDate;
@@ -23,11 +25,34 @@ public class UserTest extends BaseTest {
 	
 	private MyUserLoginServiceImpl myUserLoginServiceImpl;
 	
+	private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	
 	
 	public void init(){
 		userRegisterService = (UserRegisterServiceImpl)this.context.getBean("userRegisterServiceImpl");
 		userLoginService = (UserLoginServiceImpl)this.context.getBean("userLoginServiceImpl");
-		myUserLoginServiceImpl = (MyUserLoginServiceImpl)this.context.getBean("myUserLoginServiceImpl");
+		//myUserLoginServiceImpl = (MyUserLoginServiceImpl)this.context.getBean("myUserLoginServiceImpl");
+		userHeadImgServiceImpl = (UserHeadImgServiceImpl)this.context.getBean("userHeadImgServiceImpl");
+	}
+	
+	/**
+	 * 保存用户头像
+	 */
+	@Test
+	public void setUserHeadImg(){
+		this.init();
+		List<UserLogin> userLoginList = userLoginService.loadAll();
+		for (UserLogin userLogin : userLoginList) {
+			///System.out.println(userLogin.getUserHeadImg());
+			if(null == userLogin.getUserHeadImg()){
+				UserHeadImg userHeadImg = new UserHeadImg();
+				userHeadImg.setImgLocation("images/default_head/001.png");
+				userHeadImg.setUsername(userLogin.getUsername());
+				userHeadImg.setUser(userLogin);
+				userLogin.setUserHeadImg(userHeadImg);
+				userHeadImgServiceImpl.save(userHeadImg);
+			}
+		}
 	}
 	
 	@Test

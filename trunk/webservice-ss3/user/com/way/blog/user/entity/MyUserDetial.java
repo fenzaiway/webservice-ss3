@@ -120,28 +120,27 @@ public class MyUserDetial implements Serializable {
 
 	public MyUserDetial() {}
 
-	public MyUserDetial(Address address, String addressDetial, String birthday,
-			int bloodType, String companyAddress, String companyName, int id,
-			String interests, String jobName, int loveStatue, String phone,
-			UserLogin user, String username, String zcode) {
+	public MyUserDetial(int id, String username, String birthday,
+			int bloodType, int loveStatue, String companyName,
+			String companyAddress, String addressDetial, String zcode,
+			String phone, Address address, String jobName, String interests,
+			UserLogin user) {
 		super();
-		this.address = address;
-		this.addressDetial = addressDetial;
+		this.id = id;
+		this.username = username;
 		this.birthday = birthday;
 		this.bloodType = bloodType;
-		this.companyAddress = companyAddress;
-		this.companyName = companyName;
-		this.id = id;
-		this.interests = interests;
-		this.jobName = jobName;
 		this.loveStatue = loveStatue;
-		this.phone = phone;
-		this.user = user;
-		this.username = username;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.addressDetial = addressDetial;
 		this.zcode = zcode;
+		this.phone = phone;
+		this.address = address;
+		this.jobName = jobName;
+		this.interests = interests;
+		this.user = user;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -254,5 +253,6 @@ public class MyUserDetial implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 	
 }
