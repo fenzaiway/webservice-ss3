@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -121,6 +122,13 @@ public class LogInfo implements Serializable {
 	private int sourceLogInfoId;
 	
 	/**
+	 * 日志删除状态，如果状态为1，则，在显示日志列表的时候就不显示出来
+	 */
+	@Expose
+	@Column(name="li_deleteStatue",unique = false, nullable = false, insertable = true, updatable = true)
+	private int deleteStatue;
+	
+	/**
 	 * 日志所属类型
 	 */
 	@ManyToOne
@@ -174,38 +182,58 @@ public class LogInfo implements Serializable {
 	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogVisit.class)
 	public Set<LogVisit> logVisits = new HashSet<LogVisit>();
 
+	/**
+	 * 日志标签表
+	 */
+	@ManyToMany(mappedBy="logInfos",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=LogTag.class)
+	private Set<LogTag> logTags = new HashSet<LogTag>();
+	
 	public LogInfo() {}
 
-	public LogInfo(int id, int logAllowComment, int logAllowVisit,
+	public LogInfo(int id, String logTitle, String logText,
+			String logPublishTime, int logContentStatus, int logAllowComment,
+			int logIsOriginal, int logToTop, int logAllowVisit,
+			String username, String reprintUsername, int sourceLogInfoId,
+			int deleteStatue, LogType logType,
 			Set<LogAttachment> logAttachments, Set<LogComment> logComments,
-			int logContentStatus, Set<LogDraft> logDraft, int logIsOriginal,
-			Set<LogLike> logLikes, String logPublishTime,
-			Set<LogReprint> logReprints, Set<LogShare> logShares,
-			Set<LogStore> logStores, String logText, String logTitle,
-			int logToTop, LogType logType, Set<LogVisit> logVisits,
-			String reprintUsername, int sourceLogInfoId, String username) {
+			Set<LogReprint> logReprints, Set<LogDraft> logDraft,
+			Set<LogShare> logShares, Set<LogLike> logLikes,
+			Set<LogStore> logStores, Set<LogVisit> logVisits,
+			Set<LogTag> logTags) {
 		super();
 		this.id = id;
-		this.logAllowComment = logAllowComment;
-		this.logAllowVisit = logAllowVisit;
-		this.logAttachments = logAttachments;
-		this.logComments = logComments;
-		this.logContentStatus = logContentStatus;
-		this.logDraft = logDraft;
-		this.logIsOriginal = logIsOriginal;
-		this.logLikes = logLikes;
-		this.logPublishTime = logPublishTime;
-		this.logReprints = logReprints;
-		this.logShares = logShares;
-		this.logStores = logStores;
-		this.logText = logText;
 		this.logTitle = logTitle;
+		this.logText = logText;
+		this.logPublishTime = logPublishTime;
+		this.logContentStatus = logContentStatus;
+		this.logAllowComment = logAllowComment;
+		this.logIsOriginal = logIsOriginal;
 		this.logToTop = logToTop;
-		this.logType = logType;
-		this.logVisits = logVisits;
+		this.logAllowVisit = logAllowVisit;
+		this.username = username;
 		this.reprintUsername = reprintUsername;
 		this.sourceLogInfoId = sourceLogInfoId;
-		this.username = username;
+		this.deleteStatue = deleteStatue;
+		this.logType = logType;
+		this.logAttachments = logAttachments;
+		this.logComments = logComments;
+		this.logReprints = logReprints;
+		this.logDraft = logDraft;
+		this.logShares = logShares;
+		this.logLikes = logLikes;
+		this.logStores = logStores;
+		this.logVisits = logVisits;
+		this.logTags = logTags;
+	}
+
+
+
+	public int getDeleteStatue() {
+		return deleteStatue;
+	}
+
+	public void setDeleteStatue(int deleteStatue) {
+		this.deleteStatue = deleteStatue;
 	}
 
 	public int getId() {
@@ -379,4 +407,13 @@ public class LogInfo implements Serializable {
 	public void setSourceLogInfoId(int sourceLogInfoId) {
 		this.sourceLogInfoId = sourceLogInfoId;
 	}
+
+	public Set<LogTag> getLogTags() {
+		return logTags;
+	}
+
+	public void setLogTags(Set<LogTag> logTags) {
+		this.logTags = logTags;
+	}
+	
 }

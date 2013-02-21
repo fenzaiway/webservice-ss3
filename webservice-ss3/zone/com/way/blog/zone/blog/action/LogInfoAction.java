@@ -29,6 +29,7 @@ import com.way.blog.zone.blog.service.impl.LogCommentServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogLikeServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogReprintServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTypeServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogVisitServiceImpl;
 import com.way.blog.zone.entity.LogComment;
@@ -36,8 +37,11 @@ import com.way.blog.zone.entity.LogCommentReply;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogLike;
 import com.way.blog.zone.entity.LogReprint;
+import com.way.blog.zone.entity.LogStore;
+import com.way.blog.zone.entity.LogTag;
 import com.way.blog.zone.entity.LogType;
 import com.way.blog.zone.entity.LogVisit;
+import com.way.blog.zone.entity.SimilarLogInfo;
 
 /**
  * 
@@ -45,7 +49,7 @@ import com.way.blog.zone.entity.LogVisit;
  * 日志管理
  */
 @Controller("logInfoAction")
-@ParentPackage("iterceptor")
+@ParentPackage("interceptor")
 @Namespace("/loginfo")
 public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	
@@ -61,7 +65,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private LogLikeServiceImpl logLikeServiceImpl;
 	@Autowired
 	private LogCommentServiceImpl logCommentServiceImpl;
-	
+	@Autowired
+	private LogTagServiceImpl logTagServiceImpl;
 	
 	
 	private List<LogInfo> logInfoList = new ArrayList<LogInfo>();
@@ -69,26 +74,29 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private List<LogComment> logCommentList = new ArrayList<LogComment>();
 	private List<LogReprint> logReprintList = new ArrayList<LogReprint>();
 	private List<LogLike> logLikeList = new ArrayList<LogLike>();
-	
+	private List<LogTag> logTagList = new ArrayList<LogTag>();
+	private List<SimilarLogInfo> similarLogInfoList = new ArrayList<SimilarLogInfo>();
+	private List<LogStore> logStoreList = new ArrayList<LogStore>();
 	
 	private LogInfo logInfo;
 	private LogType logType;
 	private LogLike logLike;
+	private LogTag logTag;
 	private int logTypeId;
-	private String content;
+	private String content;		////文章内容
 	private int logInfoid;		////文章ID
 	private int myLogInfoId;	////用与获取转载日志的ID，方便更新该日志的转载量
 	private LogVisit logVisit;  ////日志访问
 	private int sourceLogInfoId; ////源日志ID
 	private int isLike;			/////如果like，则为1，否则为0
-	
+	private String myLogTags;		///日志关键字
 	
 	/**
 	 * 保存
 	 */
 	@Action(value="save",results={
-			@Result(name="success",location="/loginfo/gotologinfo.do",type="redirect"),
-			@Result(name="input",location="/WEB-INF/jsp/loginfo/newLogInfo.jsp")
+			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})
 	public String save(){
 		//根据分类ID取得分类记录
@@ -98,14 +106,63 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		Set<LogInfo> logInfos = new HashSet<LogInfo>();
 		logInfos.add(logInfo);
 		logType.setLogInfos(logInfos);
-		
 		logInfo.setLogText(content);
 		logInfo.setUsername(myusername);
-		logInfo.setSourceLogInfoId(logInfo.getId());
-		logInfoServiceImpl.save(logInfo);
+		logInfo.setSourceLogInfoId(0);
+		int myid = logInfoServiceImpl.save(logInfo);
+		
+		logInfo = logInfoServiceImpl.findById(myid);
+		this.saveTag(logInfo);
+		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 保存关键字
+	 */
+	public String saveTag(LogInfo logInfo){
+	////保存关键字
+		String[] tags = myLogTags.split("，");////根据，分隔
+		for(int i=0; i<tags.length; i++){
+			////先根据关键字判断该关键字是否在tag表中,
+			//后期为了扩充关键字，改为like的方式，然后在判断全出来的关键字是不是相等，
+			//如果相等的话，就更新，否则将该关键字添加保存，同时相似的关键字也保存文章信息
+			logTag = logTagServiceImpl.myFindByProperty("tagName", tags[i]);
+			if(null!=logTag && null != logTag.getTagName()){	////tag表中已经存在该关键字
+				
+				if(null !=logTag.getLogInfos() && !logTag.getLogInfos().isEmpty()){
+					logTag.getLogInfos().add(logInfo);
+					Set<LogTag> tagset = new HashSet<LogTag>();
+					tagset.add(logTag);
+					logInfo.setLogTags(tagset);
+					logTagServiceImpl.save(logTag);
+				}else{
+					Set<LogInfo> logInfoSet = new HashSet<LogInfo>();
+					logInfoSet.add(logInfo);
+					logTag.setLogInfos(logInfoSet);
+					Set<LogTag> tagset = new HashSet<LogTag>();
+					tagset.add(logTag);
+					logInfo.setLogTags(tagset);
+					logTagServiceImpl.save(logTag);
+				}
+				
+			}else{
+				logTag = new LogTag();
+				logTag.setTagCreateTime(MyFormatDate.getNowDate());
+				logTag.setTagName(tags[i]);
+				///设置双向关联
+				Set<LogInfo> logInfoSet = new HashSet<LogInfo>();
+				logInfoSet.add(logInfo);
+				logTag.setLogInfos(logInfoSet);
+				Set<LogTag> tagset = new HashSet<LogTag>();
+				tagset.add(logTag);
+				logInfo.setLogTags(tagset);
+				logTagServiceImpl.save(logTag);
+			}
+			
+		}
+		return null;
+	}
 	
 	////进入转载页面
 	//进入日志管理页面
@@ -126,8 +183,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * @return
 	 */
 	@Action(value="saveLogReprint",results={
-			@Result(name="success",location="/loginfo/gotologinfo.do",type="redirect"),
-			@Result(name="input",location="/WEB-INF/jsp/loginfo/newLogInfo.jsp")
+			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})
 	public String saveReprint(){
 		//根据分类ID取得分类记录
@@ -218,9 +275,53 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		}
 		
 		logCommentList = new ArrayList<LogComment>(logInfo.getLogComments());
+		logStoreList = new ArrayList<LogStore>(logInfo.getLogStores());
 		logLikeList = logLikeServiceImpl.findByProperty("logInfo", logInfoServiceImpl.findOriginalLogInfo(logInfoid));
+		////加载与这篇文章相似的文章
+		logTagList = new ArrayList<LogTag>(logInfo.getLogTags());
+		loadSimilarLogInfo(logInfo, logTagList);
+		//logTagList = this.removeSaveLogInfo(logInfo, logTagList);
+//		Set<LogInfo> logInfos = new HashSet<LogInfo>();
+//		logInfos.add(logInfo);
+//		logTagList = logTagServiceImpl.find("from LogTag where logInfos=?", new Object[]{logInfo});
+		//先在这里修改为查看文章所属于的空间用户到session中,方便用户查看该篇日志所属用户的其他文章
+		
+		//session.removeAttribute("zoneuser");
+		//session.setAttribute("zoneuser", logInfo.getUsername());
 		return SUCCESS; 
 	}
+	
+	////加载相似文章
+	public void loadSimilarLogInfo(LogInfo logInfo,List<LogTag> logTagList){
+		SimilarLogInfo similarLogInfo = null;
+		int i=0;
+		for (LogTag logTag : logTagList) {
+			for (LogInfo logInfos : new ArrayList<LogInfo>(logTag.getLogInfos())) {
+				if(logInfo.getId() != logInfos.getId()){
+					similarLogInfo = new SimilarLogInfo();
+					similarLogInfo.setId(i);
+					similarLogInfo.setLogId(logInfos.getId());
+					similarLogInfo.setLogTitle(logInfos.getLogTitle());
+					similarLogInfo.setZoneuser(logInfos.getUsername());
+					similarLogInfoList.add(similarLogInfo);
+					i++;
+				}
+			}
+		}
+	}
+	
+	///移除相似文章中的当前文章
+//	public List<LogTag> removeSaveLogInfo(LogInfo logInfo,List<LogTag> logTagList){
+//		int length=logTagList.size();
+//		List<LogTag> myLogTagList = new ArrayList<LogTag>();
+//		for(int i=0; i<length; i++){
+//			logTag = logTagList.get(i);
+//			if(!(logTag.getLogInfos().contains(logInfo))){
+//				myLogTagList.add(logTag);
+//			}
+//		}
+//		return myLogTagList;
+//	}
 	
 	//进入日志管理页面
 	@Action(value="gotologinfo",results={
@@ -231,7 +332,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		/**
 		 * 根据登录用户，取得相应的用户数据
 		 */
-		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=?", PaginationSupport.PAGESIZE, startIndex, "fenzaiway");
+		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=? and deleteStatue=0", PaginationSupport.PAGESIZE, startIndex, zoneuser);
 		paginationSupport.setUrl("loginfo/gotologinfo.do");
 		logInfoList = paginationSupport.getItems();
 		//logInfoList = logInfoServiceImpl.findByProperty("username", zoneuser);
@@ -358,22 +459,73 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 //		return null;
 //	}
 //	
+	//进入日志更新页面
+	@Action(value="gotoLogInfoUpdate",results={
+			@Result(name="success",location="/WEB-INF/jsp/loginfo/logInfoUpdate.jsp"),
+	})
+	public String gotoLogInfoUpdate(){
+		logInfo = logInfoServiceImpl.findById(logInfoid);
+		logTypeList = logTypeServiceImpl.find("from LogType where username=?", new String[]{zoneuser});
+		return SUCCESS;
+	}
 	
+	//更新日志
+	@Action(value="update",results={
+			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+	})
+	public String update(){
+		System.out.println(logInfo.getLogTitle()+"  id===" + logInfo.getId());
+		LogInfo logInfoTemp = logInfoServiceImpl.findById(logInfo.getId());
+		//根据分类ID取得分类记录
+		logType = logTypeServiceImpl.findById(logTypeId);
+		///设置双向关联
+		logInfoTemp.setLogType(logType);
+		Set<LogInfo> logInfos = new HashSet<LogInfo>();
+		logInfos.add(logInfoTemp);
+		logType.setLogInfos(logInfos);
+		logInfoTemp.setLogTitle(logInfo.getLogTitle());
+		logInfoTemp.setLogAllowVisit(logInfo.getLogAllowVisit());
+		logInfoTemp.setLogIsOriginal(logInfo.getLogIsOriginal());
+		logInfoTemp.setLogText(content);
+		logInfoServiceImpl.update(logInfoTemp);
+		return SUCCESS;
+	}
+	
+	//删除日志
+	/**
+	 * 这里只是将删除状态设置为1，这样用户还可以通过回收站恢复日志
+	 * 只有当用户到回收站删除的时候，这个时候才真正的将日志从表中删除
+	 */
+	@Action(value="delete",results={
+			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+	})
+	public String delete(){
+		logInfo = logInfoServiceImpl.findById(logInfoid);
+		//logInfoServiceImpl.delete(logInfo);
+		logInfo.setDeleteStatue(1);
+		logInfoServiceImpl.update(logInfo);
+		return SUCCESS;
+	}
 	
 	public List<LogInfo> getLogInfoList() {
 		return logInfoList;
 	}
 
-
 	public void setLogInfoList(List<LogInfo> logInfoList) {
 		this.logInfoList = logInfoList;
 	}
-
 
 	public List<LogType> getLogTypeList() {
 		return logTypeList;
 	}
 
+	public List<LogStore> getLogStoreList() {
+		return logStoreList;
+	}
+
+	public void setLogStoreList(List<LogStore> logStoreList) {
+		this.logStoreList = logStoreList;
+	}
 
 	public void setLogTypeList(List<LogType> logTypeList) {
 		this.logTypeList = logTypeList;
@@ -465,12 +617,30 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		this.logLikeList = logLikeList;
 	}
 
-	public PaginationSupport getPaginationSupport() {
-		return paginationSupport;
+	public String getMyLogTags() {
+		return myLogTags;
 	}
 
-	public void setPaginationSupport(PaginationSupport paginationSupport) {
-		this.paginationSupport = paginationSupport;
+	public void setMyLogTags(String myLogTags) {
+		this.myLogTags = myLogTags;
+	}
+
+
+
+	public List<LogTag> getLogTagList() {
+		return logTagList;
+	}
+
+	public void setLogTagList(List<LogTag> logTagList) {
+		this.logTagList = logTagList;
+	}
+
+	public List<SimilarLogInfo> getSimilarLogInfoList() {
+		return similarLogInfoList;
+	}
+
+	public void setSimilarLogInfoList(List<SimilarLogInfo> similarLogInfoList) {
+		this.similarLogInfoList = similarLogInfoList;
 	}
 	
 }

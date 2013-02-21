@@ -31,8 +31,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		
 		logInfo.setLogPublishTime(MyFormatDate.getNowDate());
 		logInfo.setLogToTop(0);
-		logInfo.setLogAllowVisit(1);
 		logInfo.setLogContentStatus(1);
+		logInfo.setDeleteStatue(0);
 		return super.save(logInfo);
 	}
 	
@@ -65,7 +65,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public LogInfo findOriginalLogInfo(int id){
 		LogInfo logInfo = null;
 		logInfo = super.findById(id);
-		if(null!=logInfo || "".equals(logInfo)){
+		if(null!=logInfo && 0!=logInfo.getId()){
 			int sourceLogInfoId = logInfo.getSourceLogInfoId();
 			if(0!=sourceLogInfoId){
 				///不是原创日志，得再根据源日志ID取出原创日志
@@ -75,4 +75,14 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		}
 		return logInfo;
 	}
+
+	@Override
+	public void update(LogInfo logInfo) {
+		logInfo.setLogPublishTime(MyFormatDate.getNowDate());
+		logInfo.setLogToTop(0);
+		logInfo.setLogContentStatus(1);
+		super.update(logInfo);
+	}
+	
+	
 }

@@ -63,6 +63,13 @@ public class Album implements Serializable {
 	private String picUpLoadTime;
 	
 	/**
+	 * 相片存储位置
+	 */
+	@Expose
+	@Column(name="pic_album_location",unique = false, nullable = true, insertable = true, updatable = true,length=100)
+	private String albumLocation;
+	
+	/**
 	 * 相片所属相册类型
 	 */
 	@ManyToOne
@@ -76,15 +83,17 @@ public class Album implements Serializable {
 
 	public Album() {}
 
-	public Album(Set<AlbumComment> albumComment, AlbumType albumType, int id,
-			String picDetial, String picName, String picUpLoadTime) {
+	public Album(int id, String picName, String picDetial,
+			String picUpLoadTime, String albumLocation, AlbumType albumType,
+			Set<AlbumComment> albumComment) {
 		super();
-		this.albumComment = albumComment;
-		this.albumType = albumType;
 		this.id = id;
-		this.picDetial = picDetial;
 		this.picName = picName;
+		this.picDetial = picDetial;
 		this.picUpLoadTime = picUpLoadTime;
+		this.albumLocation = albumLocation;
+		this.albumType = albumType;
+		this.albumComment = albumComment;
 	}
 
 	public int getId() {
@@ -133,6 +142,14 @@ public class Album implements Serializable {
 
 	public void setAlbumComment(Set<AlbumComment> albumComment) {
 		this.albumComment = albumComment;
+	}
+
+	public String getAlbumLocation() {
+		return albumLocation;
+	}
+
+	public void setAlbumLocation(String albumLocation) {
+		this.albumLocation = albumLocation;
 	}
 	
 }

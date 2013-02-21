@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
-import com.way.blog.user.entity.UserLogin;
+import com.way.blog.base.action.BaseAction;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 import com.way.blog.zone.entity.BlogZone;
@@ -29,29 +29,33 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	private BlogZoneServiceImpl blogZoneService;
 	@Autowired
 	private UserLoginServiceImpl userLoginServiceImpl;
-	
+	HttpServletRequest request = null;
+	HttpSession session = null;
 	private String username;
-	private String sessionUsername;	///Session中的用户名
+	private String myusername;	///Session中的用户名
 	private String type;	////要访问的空间分类（日志、相册。。。）
 	private String page;	///分类分页
 	
 	private BlogZone blogZone;
 	
-	HttpServletRequest request = null;
-	HttpSession session = null;
-	
 	public void prepare() throws Exception {
 		request = ServletActionContext.getRequest();
 		session = request.getSession();
-		sessionUsername = (String) session.getAttribute("username");
+		myusername = (String) session.getAttribute("myusername");
 	}
+	
 
 	////收到请求，根据用户名跳转到对于用户的空间
 	@Action(value="userzone",results={
 			@Result(name="success",location="/WEB-INF/jsp/zone/userzone.jsp"),
-			@Result(name="input",location="/404.jsp")
+			@Result(name="input",location="/404.jsp"),
+			@Result(name="login",location="/register/sessionError.do",type="redirect")
 	})
 	public String gotoUserZone(){
+		////判断用户名是不是为空，为空的话，跳转到用户登录
+		if("".equals(username)){
+			return "login";
+		}
 		////1、先判断用户访问的这个路径的用户是否存在
 		if(!userLoginServiceImpl.isUserNameExist(username)){
 			return INPUT;
@@ -59,11 +63,11 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 		
 		/////根据session获取查看用户
 		////如果是其他用户查看，则空间的访问量+1
-		if(null == sessionUsername){ ////游客查看
+		if(null == myusername){ ////游客查看
 			System.out.println("游客查看空间");
-		}else if(!username.equals(sessionUsername)){
+		}else if(!username.equals(myusername)){
 			////其他登录用户
-			System.out.println("会员用户:" + sessionUsername);
+			System.out.println("会员用户:" + myusername);
 		}else{
 			System.out.println("用户自己查看空间");
 		}
@@ -112,5 +116,7 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	public void setPage(String page) {
 		this.page = page;
 	}
+
+	
 	
 }

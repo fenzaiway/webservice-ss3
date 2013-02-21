@@ -84,6 +84,20 @@ public class AlbumType implements Serializable {
 	private String passwordAnswer;
 	
 	/**
+	 * 相册分类所属用户
+	 */
+	@Expose
+	@Column(name="at_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
+	private String username;
+	
+	/**
+	 * 封面
+	 */
+	@Expose
+	@Column(name="at_coverimg",unique = false, nullable = false, insertable = true, updatable = true,length=100)
+	private String coverImg;
+	
+	/**
 	 * 相册分类所属空间
 	 */
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -97,20 +111,30 @@ public class AlbumType implements Serializable {
 
 	public AlbumType() {}
 
-	public AlbumType(Set<Album> album, String albumTypeCreateTime,
-			String albumTypeName, BlogZone blogZone, int id,
-			int isAlbumAllowView, int isPasswordView, String passwordAnswer,
-			String question) {
+	public AlbumType(int id, String albumTypeName, String albumTypeCreateTime,
+			int isAlbumAllowView, int isPasswordView, String question,
+			String passwordAnswer, String username, String coverImg,
+			BlogZone blogZone, Set<Album> album) {
 		super();
-		this.album = album;
-		this.albumTypeCreateTime = albumTypeCreateTime;
-		this.albumTypeName = albumTypeName;
-		this.blogZone = blogZone;
 		this.id = id;
+		this.albumTypeName = albumTypeName;
+		this.albumTypeCreateTime = albumTypeCreateTime;
 		this.isAlbumAllowView = isAlbumAllowView;
 		this.isPasswordView = isPasswordView;
-		this.passwordAnswer = passwordAnswer;
 		this.question = question;
+		this.passwordAnswer = passwordAnswer;
+		this.username = username;
+		this.coverImg = coverImg;
+		this.blogZone = blogZone;
+		this.album = album;
+	}
+
+	public String getCoverImg() {
+		return coverImg;
+	}
+
+	public void setCoverImg(String coverImg) {
+		this.coverImg = coverImg;
 	}
 
 	public int getId() {
@@ -183,6 +207,14 @@ public class AlbumType implements Serializable {
 
 	public void setPasswordAnswer(String passwordAnswer) {
 		this.passwordAnswer = passwordAnswer;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }

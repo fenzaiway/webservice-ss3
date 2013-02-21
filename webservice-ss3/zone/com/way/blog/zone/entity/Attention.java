@@ -59,6 +59,20 @@ public class Attention implements Serializable {
 	public String cancelAttentionTime;
 	
 	/**
+	 * 关注用户名
+	 */
+	@Expose
+	@Column(name="att_from_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
+	public String fromUserName;
+	
+	/**
+	 * 被关注用户名
+	 */
+	@Expose
+	@Column(name="att_to_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
+	public String toUserName;
+	
+	/**
 	 * 关注的空间
 	 */
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -66,14 +80,17 @@ public class Attention implements Serializable {
 
 	public Attention() {}
 
-	public Attention(String attentionTime, BlogZone blogZone,
-			String cancelAttentionTime, int id, int isAttention) {
+	public Attention(int id, int isAttention, String attentionTime,
+			String cancelAttentionTime, String fromUserName, String toUserName,
+			BlogZone blogZone) {
 		super();
-		this.attentionTime = attentionTime;
-		this.blogZone = blogZone;
-		this.cancelAttentionTime = cancelAttentionTime;
 		this.id = id;
 		this.isAttention = isAttention;
+		this.attentionTime = attentionTime;
+		this.cancelAttentionTime = cancelAttentionTime;
+		this.fromUserName = fromUserName;
+		this.toUserName = toUserName;
+		this.blogZone = blogZone;
 	}
 
 	public int getId() {
@@ -114,6 +131,22 @@ public class Attention implements Serializable {
 
 	public void setCancelAttentionTime(String cancelAttentionTime) {
 		this.cancelAttentionTime = cancelAttentionTime;
+	}
+
+	public String getFromUserName() {
+		return fromUserName;
+	}
+
+	public void setFromUserName(String fromUserName) {
+		this.fromUserName = fromUserName;
+	}
+
+	public String getToUserName() {
+		return toUserName;
+	}
+
+	public void setToUserName(String toUserName) {
+		this.toUserName = toUserName;
 	}
 	
 }

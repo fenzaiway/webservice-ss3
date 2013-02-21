@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.service.BaseGenericService;
+import com.way.blog.util.MyFormatDate;
 import com.way.blog.zone.entity.Album;
 
 @Service("albumServiceImpl")
@@ -19,4 +20,9 @@ public class AlbumServiceImpl extends BaseGenericService<Album, Integer> {
 		super.setDao(dao);
 	}
 	
+	@Override
+	public int save(Album album) {
+		album.setPicUpLoadTime(MyFormatDate.getNowDate());
+		return super.save(album);
+	}
 }
