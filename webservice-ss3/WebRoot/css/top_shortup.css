@@ -1,0 +1,27 @@
+/*顶部导航的css*/
+/* reset */
+	*{margin:0;padding:0;list-style-type:none;}
+	a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免出现奇怪的选中区域*/
+	:focus{outline:0;}
+	h1{font-size:16px;}h2,h3,h4{font-size:14px;}h5,h6{font-size:12px;}
+	
+	a,img{border:0;}
+	a,a:visited{color:#5e5e5e; text-decoration:none;}
+	a:hover{color:#4183C4;text-decoration:underline;}
+	/* shortcut */
+	.shortcut{position:fixed;top:0;left:0;z-index:9999;width:100%;}
+	*html .clearfix{height:1%;}
+	*html,*html body /* 修正IE6振动bug */{background-image:url(about:blank);background-attachment:fixed;}
+	*html .shortcut{position:absolute;top:expression(eval(document.documentElement.scrollTop));}
+	.shortcut{height:28px;line-height:28px;font-size:12px;background:#EEEEEE;text-transform:uppercase;box-shadow:1px 0px 2px rgba(0,0,0,0.2);border-bottom:1px solid #DDDDDD;margin-bottom: 5px;}
+	.shortcut h1{font-size:14px;font-family:"微软雅黑","宋体";}
+	.shortcut a,.shortcut h1{padding:0px 10px;letter-spacing:1px;color:#333;text-shadow:0px 1px 1px #fff;display:block;float:left;}
+	.shortcut a:hover{background:#fff;}
+	.shortcut span.right{float:right;}
+	.shortcut span.right a{float:left;display:block;color:#ff6600;font-weight:800;}
+	.headeline{height:40px;overflow:hidden;}
+	#main{width: 980px;min-height:100%;height: auto !important; border: 1px solid green;margin-top:28px;margin-left: 15%;}
+	.res_content{width: 98%;min-height: 100;height: auto!important; border: 1px solid red;float: left;}
+	.user{width: 150px;height: 150px;border: 1px solid yellow;float: left;}
+	.content{width: 800px;min-height: 100;height: auto!important;border: 1px solid pink;float: left;}
+	.clr{clear: both;}

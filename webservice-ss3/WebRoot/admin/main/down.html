@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.STYLE1 {
+	font-size: 12px;
+	color: #147233;
+}
+-->
+</style>
+<script type="text/javascript">
+				
+				function time1(){
+				var d = new Date(),str = '';
+				var weekday=new Array(7)
+				weekday[0]="星期日"
+				weekday[1]="星期一"
+				weekday[2]="星期二"
+				weekday[3]="星期三"
+				weekday[4]="星期四"
+				weekday[5]="星期五"
+				weekday[6]="星期六"
+				 str += d.getFullYear()+'年';
+				 //月
+				var month = (d.getMonth() + 1);
+				 if(month+ 1 <= 10){
+				 	str  += "0" + month  +'月';
+				 }else{
+				 str  += month +'月';
+				 }
+				 //日
+				 if(d.getDate() < 10){
+				 str  += "0" + d.getDate()+'日';
+				 }else{
+				 str  += d.getDate()+'日';
+				 }
+				 //时
+				 if(d.getHours() < 10){
+				  str += "0" + d.getHours()+'时';
+				 }else{
+				  str += d.getHours()+'时';
+				 }
+				 //分
+				 if(d.getMinutes() < 10){
+				 	str+= "0" + d.getMinutes()+'分'; 
+				 }else{
+				 str+=d.getMinutes()+'分'; 
+				 }
+				 //秒
+				if(d.getSeconds() < 10){
+				 	str+= "0" + d.getSeconds()+'秒'; 
+				 }else{
+				 str+=d.getSeconds()+'秒'; 
+				 }
+				 //alert(str);
+				 var showTime = document.getElementById("showTime");
+				 showTime.innerHTML=str+"&nbsp;&nbsp;"+weekday[d.getDay()];
+				 setTimeout("time1()",1000);
+				}
+					
+				</script>
+</head>
+
+<body onload="time1();">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="23" background="images/main_25.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="181" height="23" background="images/main_24.gif">&nbsp;</td>
+        <td>
+        	<div align="right" id="showTime" class="STYLE1">
+        	
+        	
+        	</div></td>
+        <td width="25"><img src="images/main_27.gif" width="25" height="23" /></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

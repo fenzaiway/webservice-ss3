@@ -30,6 +30,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript">
   		var myusername;
   		var logId;
+
+  		//判断用户是不是已经收藏过
+		function isUserStore(username)
+		{
+			var turnToUrl = 'logstore/gotologstore.do?logInfoId=<s:property value="logInfoid"/>';
+			//alert(turnToUrl + "  " + username);
+			$.post("logstore/checkIsUserStore.do?logInfoId=<s:property value='logInfoid'/>",{},function(data)
+			{
+				///alert(data.status);
+				if(1==data.status)
+				{
+					///已经收藏过
+					alert("您已经收藏过该日志");
+				}else
+				{
+					window.location.href="${pageContext.request.contextPath}/"+turnToUrl;
+				}
+			})
+			//return false;
+		}
   		
   		$(function()
   		{
@@ -89,8 +109,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  		
 		<div style="margin: 0 auto; background: white;height: auto;width: 980px;padding:0 15;height: auto!important;height: 100%;min-height: 100%;">
-		<a href="loginfo/gotologinfo.do">日志</a><br/>
+		<a href="loginfo/gotologinfo.do?zoneuser=${zoneuser }">日志</a><br/>
     	<h3 ><s:property value="logInfo.logTitle"/></h3><br/><s:property value="logInfo.logPublishTime"/>&nbsp;&nbsp;阅读（<s:property value="logInfo.logVisits.size()"/>）<br>
     	<div style="width: 98%;border: 1 solid green;padding: 0 10 0 10;">
     	<s:property value="logInfo.logText" escape="false"/></div><br/>
@@ -104,6 +125,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</li>
 			<li><a href="javascript:void(0);" class="comment">评论（<s:property value="logCommentList.size()"/>）</a></li>
 			<li><a href="">分享（<s:property value="logInfo.logShares.size()"/>）</a></li>
+			<s:if test="zoneuser!=myusername">
+			<li><a href="javascript:isUserStore('<s:property value='myusername'/>')">收藏（<s:property value="logStoreList.size()"/>）</a></li>
+			</s:if>
+			<s:else>收藏（<s:property value="logStoreList.size()"/>）</s:else>
 		</ul><br/>
 		<s:property value="logInfo.logType.logTypeName"/>|<s:property value="logInfo.logAllowVisit"/>
 		
@@ -137,6 +162,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</textarea></pre>	
 			<input type="submit" value="发表">
 		</form>
+		<div>
+			相似文章<br/>
+			<s:iterator value="similarLogInfoList" id="similarLogInfo">
+				<a href="loginfo/viewmore.do?zoneuser=<s:property value='#similarLogInfo.zoneuser'/>&logInfoid=<s:property value='#similarLogInfo.logId'/>"><s:property value="#similarLogInfo.logTitle"/></a><br/>
+			</s:iterator>
+		</div>
 	<script type="text/javascript"> 
 		function like(islike)
 		{
