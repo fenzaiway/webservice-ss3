@@ -23,7 +23,7 @@
     <constant name="struts.convention.result.path" value="/"></constant>
     
     <!-- 定义全局Session拦截器，拦截所有的请求，判读Session是否失效，如果失效，则返回登录页面 -->
-	<package name="iterceptor" namespace="/" extends="json-default">
+	<package name="interceptor" namespace="/" extends="json-default">
   		<interceptors>
             <!-- 自定义拦截器 -->
             <interceptor name="permission" class="com.way.blog.interceptor.UserSessionInterceptor" />

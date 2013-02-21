@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 /** *//**
 
-* ���Ͳ���������
+* 泛型参数辅助类
 
 *
 
@@ -21,7 +21,7 @@ public class GenericsUtils{
 
     /** *//**
 
-     * ͨ�����䣬��ö���Classʱ�����ĸ���ĵ�һ�����Ͳ��������͡�
+     * 通过反射，获得定义Class时声明的父类的第一个范型参数的类型。
 
      */
 
@@ -35,17 +35,17 @@ public class GenericsUtils{
 
     /** *//**
 
-     * ͨ�����䣬��ö���Classʱ�����ĸ���ķ��Ͳ��������͡�
+     * 通过反射，获得定义Class时声明的父类的范型参数的类型。
 
-     * ��û���ҵ�����Ҫ��ķ��Ͳ�������ݹ�����ֱ��Object��
+     * 如没有找到符合要求的范型参数，则递归向上直到Object。
 
      *
 
-     * @param clazz Ҫ���в�ѯ����
+     * @param clazz 要进行查询的类
 
-     * @param index ���ж������������������0��ʼ
+     * @param index 如有多个范型声明该索引从0开始
 
-     * @return ��indexλ�õķ��Ͳ��������ͣ�����޷��ж��򷵻�<code>Object.class</code>
+     * @return 在index位置的范型参数的类型，如果无法判断则返回<code>Object.class</code>
 
      */
 
