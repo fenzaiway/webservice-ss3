@@ -25,18 +25,20 @@ body{
  margin:0px;
  padding:0px;
  background-color:#F0EEEF;
+ width: 100%;
 }
 ul{list-style:none;}
 li{float:left;}
 
 #top{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:50px; background:#3FA7CB;}
-#head_img{position:relative; margin-top:55px; width:100%; height:160px; border:1px solid #ccc; margin-bottom:20px; background-color:#000000; filter: alpha(opacity=20); opacity: 0.2;}
+#head_img{position:relative; margin-top:55px; width:100%; height:160px; border:1px solid #ccc; margin-bottom:20px; background-color:#000000; filter: alpha(opacity=50); opacity: 0.5;border-bottom:2px solid #3DA8CC; z-index: -1;}
+.clr{clear:both;}
 .outer{
      width:100%; padding-left:30px;
     
  }
  .inner{
-     width:950px;
+     width:980px;
      height:50px;
 	 min-height:50px;
 	 height:auto!important;
@@ -48,8 +50,9 @@ li{float:left;}
  #logo img{width:100px; height:55px;position:fixed;_position:absolute;top:0;}
  #top_text1{width:50%; height:55px; float:left;}
  #top_text1 a{color: #fff;text-decoration: none;}
- #top_text1 a:hover{display: block;background-color: silver;text-decoration: underline;}
+ #top_text1 a:hover{text-decoration: underline;}
  #top_text1 ul li{ color:#FFFFFF; margin-left:30px; font-size:18px;}
+
  #top_text2{ float:right; width:50%; height:55px;} 
  #top_text2 ul li{ color:#D0EEFA; margin-left:20px; font-size:13px;} 
  .split{ margin-left:10px;}
@@ -68,7 +71,7 @@ li{float:left;}
                   <li><a href="index/loadIndexContent.do">首页</a></li>
 				<li><a href="admin/main/gotoMainMenu.do">系统管理</a></li>
 				<li><a href="albumtype/gotoAlbumTypeList.do?zoneuser=${zoneuser }">相册</a></li>
-				<li><a href="zone/${myusername}">个人中心</a></li>
+				<li><a href="zone/${myusername}">个人中心</a></li></ul></span>
               </div>
               	 <div id="top_text2">
                    <span>
