@@ -1,5 +1,7 @@
 package com.way.blog.zone.blog.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +19,9 @@ import com.opensymphony.xwork2.Preparable;
 import com.way.blog.base.action.BaseAction;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.entity.BlogZone;
+import com.way.blog.zone.entity.LogInfo;
 
 @Controller
 @ParentPackage("struts-default")
@@ -29,12 +33,16 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	private BlogZoneServiceImpl blogZoneService;
 	@Autowired
 	private UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired
+	private LogInfoServiceImpl logInfoServiceImpl;
 	HttpServletRequest request = null;
 	HttpSession session = null;
 	private String username;
 	private String myusername;	///Session中的用户名
 	private String type;	////要访问的空间分类（日志、相册。。。）
 	private String page;	///分类分页
+	
+	private List<LogInfo> logInfoList;
 	
 	private BlogZone blogZone;
 	
@@ -78,6 +86,10 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 		session.setAttribute("zoneuser", username);
 		///System.out.println(blogZone.getBlogZoneName());
 		///System.out.println(blogZone.getZoneUrl());
+		logInfoList = logInfoServiceImpl.findByProperty("username", username);
+		if(null != logInfoList){
+			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
+		}
 		return SUCCESS;
 	}
 
@@ -115,6 +127,16 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 
 	public void setPage(String page) {
 		this.page = page;
+	}
+
+
+	public List<LogInfo> getLogInfoList() {
+		return logInfoList;
+	}
+
+
+	public void setLogInfoList(List<LogInfo> logInfoList) {
+		this.logInfoList = logInfoList;
 	}
 
 	
