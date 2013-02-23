@@ -80,7 +80,8 @@
   </head>
 
   <body>
-  	
+  	<div class="outer">
+ 		<div class="inner">
 <div id="main">
 <s:property value="loadIndexContent.size()"/>
 	<div class="res_content">
@@ -102,9 +103,9 @@
 		</s:iterator>
 		</div>
 	</div>
-	<div class="clr"></div>
+	<div style=" clear: both;"></div>
    <div id="pageToolbar"><s:property value="paginationSupport.pageToolBar" escape="false"/></div>
 </div>
-
+</div></div>
   </body>
 </html>
