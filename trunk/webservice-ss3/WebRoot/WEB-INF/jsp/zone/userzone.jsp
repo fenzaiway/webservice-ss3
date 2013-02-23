@@ -52,6 +52,7 @@
 		.info_tag ul{margin-left: -15px;}
 		.info_tag li{margin-left: 15px;}
 		.info_detail{margin: 10px;font-size:16px;font-family:新宋体;line-height:22px;color:#454545;}
+		.info_detail img{width: 120px;height: 120px; margin: 10px;}
 		.loginfo_img{width:280px;height: 200px; float: left;}
 		.loginfo_img img{width:260px;height: 200px;padding: 10px;}
 		.info_user{float: left;}
@@ -63,12 +64,15 @@
 		#head_navi div{width:115px;height:115px;margin-top:-35px;margin-left:20px;background-color:#fff;}
 		#head_navi img{margin:3px;width: 110px;height: 110px;}
 		#user_setting{margin-top: -65px;width: 230px;height: 44px;border: 1px solid silver;float:right;background-color: #3DA8CC;color:#fff;}
-		#left_navi{width: 230px;height: 355px;height:auto!important;border: 1px solid silver;float:right;margin-top: -130px;}
+		#left_navi{width: 230px;height: 355px;height:auto!important;border: 1px solid silver;float:right;margin-top: -130px;background-color: #F9F9F9;}
 		.left_navi_1{height: 60px;border-bottom: 1px dotted #ccc; }
 		.left_navi_1 span
 		{float:left;width:65px;height:60px;border-right: 1px solid #ccc;text-align:center;
 		}
-		.rec_sub li{list-style:disc;float: none; }
+		.my_rec_sub li,.rec_sub li{list-style:url("<%=basePath%>images/mytags.gif");float: none;border-bottom: 1px solid #ccc;padding-bottom: 10px;width: 100%;padding-top: 5px;padding-left: -20px;}
+		.my_rec_sub li{ background-color: #F9F9F9;}
+		#more_tags{background-color: #E1E1E1;color: #B5B5B5;padding: 10px 10px 0px 10px;}
+		#more_tags:hover{background-color: #F3F3F3;border:1px solid #ccc;padding: 10px 10px 0px 10px;}
 	</style>
  <script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script type="text/javascript">
@@ -87,6 +91,29 @@
 			{
 				"background-color":"#FFF",
 				"border-bottom":"0px solid #3DA8CC"
+			});
+		});
+
+		$(".info_detail img").parent("p").each(function()
+		{
+			var xx=$(this).html();
+			$(this).replaceWith(xx);
+						
+		});
+
+		$(".my_rec_sub li,.rec_sub li").mouseover(function()
+		{
+			$(this).css(
+			{
+				"background-color":"#F5F5F5",
+				"border-bottom":"2px solid #3DA8CC"
+			});
+		}).mouseout(function()
+		{
+			$(this).css(
+			{
+				"background-color":"#F9F9F9",
+				"border-bottom":"1px solid #ccc"
 			});
 		});
 	});
@@ -136,24 +163,24 @@
 	<hr style="width: 720px;float: left;margin-bottom: 15px;"/>
 	<div class="clr"></div>
 	<div id="loginfo_list">
+			<s:iterator value="logInfoList" id="loginfo">
 		<div class="loginfo_list_left">
 			<div class="headImg">
 				<img src="<%=basePath %>images/111.jpg" alt="头像" />
 			</div>
 			<div class="info">
 				
-				<div><span class="info_user">用户</span><span class="info_time">时间</span></div>
-				<div class="clr"></div>
+				<div><span class="info_user"><s:property value="#loginfo.username"/></span><span class="info_time"><s:property value="#loginfo.logPublishTime"/></span></div>
+				<div class="clr"><h4><s:property value="#loginfo.logTitle"/></h4></div>
 				<div>
-					<h3>Marvell 发表四核 PXA1088 芯片组，支持全球多种移动网络</h3>
+					<h3></h3>
 					<div style="margin-bottom: 10px;">
-						<div class="loginfo_img"><img src="" alt="图片"/></div>
+						<div class="loginfo_img"><img src="<%=basePath %>images/ajaxDemo/mrPip.jpg" alt="图片"/></div>
 						<div class="info_detail">
-						去年 Marvell 凭借其 802.11ac 无线芯片在市场中获得了不错的反响，而到了今年首先上来打头炮的就是这款专为手机和平板设计、型号为 PXA1088 的四核 ARM Cortex-A7 芯片组了。它最大的卖点在于支持全球范围内包括 21Mbps HSPA+、TD-HSPA+、EDGE 和 WCDMA 在内的多种移动网络，同时还配有负责 Wi-Fi、蓝牙 4.0、FM 广播功能的 Avastar 88W8777 晶片，另外还支持 GLONASS 和 GPS 卫星系统。 
-
-当然除了支持多种移动网络之外 PXA1088 也还有其它的强项，它配有 Vivante GPU，支持 OpenGL ES 2.0 / 1.1以及 OpenVG 1.1，在 1080p 硬件编码 / 解码技术的加持下在视频方面也有相当出色的表现。Marvell 在新闻稿中透露已经有数家知名 OEM 厂商计划于今年上半年推出使用 PXA1088 的装置，如果在下周的 MWC 上能见到其中的一些就好咯。
+							<s:property value="#loginfo.logText" escape="false"/>
 						</div>
 					</div>
+					<div class="clr"></div>
 					<div>
 					<span class="info_tag">
 						<ul>
@@ -174,57 +201,47 @@
 				</div>
 
 			</div>
-			<div class="info">
-						2月2日 18:00
-			寂静岭2 DVD高清版本下载
-			哈哈 自家翻译的寂静岭2 DVD版, 号称[480P]
-			绝非网上用自动引擎翻译的结果, 大部分是听译,  希望大家喜欢
-			喜欢尝鲜的同学们可以来看看 网盘下载 欢迎转载分享哦
-			http://pan.baidu.com/share/link?shareid=211716&uk=201692127
-			评论转载
-			</div>
+			
+			
 		</div>
 	
 		<div class="clr"></div>
-		<div class="loginfo_list_left">
-			<div class="headImg">
-				<img src="<%=basePath %>images/111.jpg" alt="头像" />
-			</div>
-		<div class="info">
-				2月2日 18:00
-	寂静岭2 DVD高清版本下载
-	哈哈 自家翻译的寂静岭2 DVD版, 号称[480P]
-	绝非网上用自动引擎翻译的结果, 大部分是听译,  希望大家喜欢
-	喜欢尝鲜的同学们可以来看看 网盘下载 欢迎转载分享哦
-	http://pan.baidu.com/share/link?shareid=211716&uk=201692127
-	评论转载
-			</div>
-
-		</div>
-<div class="clr"></div>
+		</s:iterator>
+		
 </div>
 	<div id="left_navi">
-		<div style="width: 100%;height: 355px;">
+		<div style="width: 100%;height: 355px;height: auto!important;">
 			<div class="left_navi_1">
 				<span>15<br/>关注</span>
 				<span>5<br/>粉丝</span>
 				<span style="border-right:0px solid #ccc;">30<br/>记录</span>
 			</div>
 			<div style="height: 60px;padding-top: 10px;padding-left:15px;border-bottom: 1px dotted #ccc;">
-				<input type="text" name="tag" style="line-height: 30px;width: 170px;border-radius:3px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #eee;  width:40px; height:30px; background-repeat:no-repeat;padding-buttom:5px;" >
+				<span style="border:1px solid red;"><input type="text" name="tag" style="line-height: 30px;width: 165px;border-radius:3px;margin-top: 10px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #ccc;  width:40px; height:30px; background-repeat:no-repeat;" ></span>
 			</div>
 			<div style="height: 40px;height: auto!important;">
-				<h4>推荐订阅的标签</h4>
-				<ul class="rec_sub">
+				<h5>我订阅的标签</h5>
+				<ul class="my_rec_sub">
 					<li>美女</li>
 					<li>明星</li>
 					<li>生活</li>
 				</ul>
 			</div>
-			<div style="height: 160px;">推荐</div>
+			<div style="height: 250px;height: auto!important;">
+			<div><span style="float:left;">推荐订阅的标签</span><span style="float:right;">换一批</span></div>
+			<div class="clr"></div>
+			<ul class="rec_sub">
+					<li>美女</li>
+					<li>明星</li>
+					<li>生活</li>
+				</ul>
+			</div>
 		</div>
-		<div style="height: 40px;">发现更多有趣内容</div>
-		<div style="height: 90px;">访问统计</div>
+		<div style="height: 40px;" id="more_tags">发现更多有趣内容</div>
+		<div style="height: 90px; border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">访问统计
+			<span style="display:block;">今日访问量：0</span>
+			<span style="display:block;">总的访问量：0</span>
+		</div>
 		<div style="height: 320px;">客户端</div>
 	</div>
 	<div class="clr"></div>
