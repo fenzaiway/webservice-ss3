@@ -81,6 +81,7 @@
 				<value>com.way.blog.zone.entity.Music</value>
 				<value>com.way.blog.zone.entity.Vedio</value>
 				<value>com.way.blog.zone.entity.LogTag</value>
+				<value>com.way.blog.zone.entity.BlogZoneVisit</value>
 				<!-- ss3 entity -->
 				<value>com.way.blog.ss3.entity.MyRoles</value>
 				<value>com.way.blog.ss3.entity.MyResources</value>
