@@ -127,21 +127,27 @@ public class BlogZone implements Serializable {
 	@OneToMany(mappedBy="blogZone",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Attention.class)
 	private Set<Attention> attentions = new HashSet<Attention>();
 	
-	
+	/**
+	 * 访问记录
+	 */
+	@OneToMany(mappedBy="blogZone",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=BlogZoneVisit.class)
+	private Set<BlogZoneVisit> blogZoneVisits = new HashSet<BlogZoneVisit>();
 	
 	public BlogZone() {}
 
 	public BlogZone(Set<AlbumType> albums, Set<Attention> attentions,
 			String blogZoneCreateTime, String blogZoneDesc,
-			String blogZoneName, int enabled, int id, Set<LogType> logTypes,
-			Set<Music> musics, String signName, UserLogin userLogin,
-			String username, Set<Vedio> vedios, String zoneUrl) {
+			String blogZoneName, Set<BlogZoneVisit> blogZoneVisits,
+			int enabled, int id, Set<LogType> logTypes, Set<Music> musics,
+			String signName, UserLogin userLogin, String username,
+			Set<Vedio> vedios, String zoneUrl) {
 		super();
 		this.albums = albums;
 		this.attentions = attentions;
 		this.blogZoneCreateTime = blogZoneCreateTime;
 		this.blogZoneDesc = blogZoneDesc;
 		this.blogZoneName = blogZoneName;
+		this.blogZoneVisits = blogZoneVisits;
 		this.enabled = enabled;
 		this.id = id;
 		this.logTypes = logTypes;
@@ -151,6 +157,14 @@ public class BlogZone implements Serializable {
 		this.username = username;
 		this.vedios = vedios;
 		this.zoneUrl = zoneUrl;
+	}
+
+	public Set<BlogZoneVisit> getBlogZoneVisits() {
+		return blogZoneVisits;
+	}
+
+	public void setBlogZoneVisits(Set<BlogZoneVisit> blogZoneVisits) {
+		this.blogZoneVisits = blogZoneVisits;
 	}
 
 	public String getZoneUrl() {
