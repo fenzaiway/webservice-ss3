@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.annotations.Expose;
+import com.way.blog.manager.admin.entity.Tag;
 
 /**
  * 日志-关键字表
@@ -66,16 +67,24 @@ public class LogTag implements Serializable {
 	@ManyToMany
 	@JoinTable(name="tb_loginfo_tag",joinColumns={@JoinColumn(name="tagid")},inverseJoinColumns={@JoinColumn(name="loginfoid")})
 	private Set<LogInfo> logInfos = new HashSet<LogInfo>();
+	
+	/**
+	 * 日志标签所属的系统标签
+	 */
+	@ManyToMany
+	@JoinTable(name="tb_tag_logtag",joinColumns={@JoinColumn(name="logtagid")},inverseJoinColumns={@JoinColumn(name="tagid")})
+	private Set<Tag> tags = new HashSet<Tag>();
 
 	public LogTag() {}
 
 	public LogTag(int id, String tagName, String tagCreateTime,
-			Set<LogInfo> logInfos) {
+			Set<LogInfo> logInfos, Set<Tag> tags) {
 		super();
 		this.id = id;
 		this.tagName = tagName;
 		this.tagCreateTime = tagCreateTime;
 		this.logInfos = logInfos;
+		this.tags = tags;
 	}
 
 	public int getId() {
@@ -108,6 +117,14 @@ public class LogTag implements Serializable {
 
 	public void setLogInfos(Set<LogInfo> logInfos) {
 		this.logInfos = logInfos;
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 	
 	

@@ -25,8 +25,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.ss3.entity.MyRoles;
 import com.way.blog.zone.entity.BlogZone;
+import com.way.blog.zone.entity.LogTag;
 
 /**
  * 
@@ -38,6 +40,8 @@ import com.way.blog.zone.entity.BlogZone;
 @Table(name="tb_user_login")
 public class UserLogin implements Serializable,UserDetails {
 	
+	private static final long serialVersionUID = 8703139935005689511L;
+
 	/**
 	 * 登录ID，跟注册的ID一致
 	 */
@@ -110,12 +114,18 @@ public class UserLogin implements Serializable,UserDetails {
 	@PrimaryKeyJoinColumn
 	private UserHeadImg userHeadImg;
 	
+	/**
+	 * 用户关注的标签
+	 */
+	@ManyToMany(mappedBy="userLogins",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=Tag.class)
+	private Set<Tag> tags = new HashSet<Tag>();
+	
 	public UserLogin() {}
 
 	public UserLogin(int id, String username, String password, String account,
 			String createTime, int enabled, UserRegister userRegister,
 			BlogZone blogZone, MyUserDetial myUserDetial, Set<MyRoles> myRoles,
-			UserHeadImg userHeadImg) {
+			UserHeadImg userHeadImg, Set<Tag> tags) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -128,6 +138,16 @@ public class UserLogin implements Serializable,UserDetails {
 		this.myUserDetial = myUserDetial;
 		this.myRoles = myRoles;
 		this.userHeadImg = userHeadImg;
+		this.tags = tags;
+	}
+
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public int getId() {
