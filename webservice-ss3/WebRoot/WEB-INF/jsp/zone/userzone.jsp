@@ -45,7 +45,7 @@
 		 }
 		 
 		h3{color:#454545;}
-		.info_like,.info_tag{margin-bottom: 25px;}
+		.info_like,.info_tag{margin-bottom: 25px;margin-top: 10px;}
 		.info_like{color:#A9A9A9;font-size:14px;float: right;margin-right: 20px;}
 		.info_like li{margin-right: 15px;}
 		.info_tag{color:#3FA7CB;font-size:14px; float: left;}
@@ -76,8 +76,26 @@
 	</style>
  <script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script type="text/javascript">
+		
+	function loadOtherTags()
+	{
+		//根据用户请求用户还没有关注的标签
+		$.post("ajax/tag/changeTag.do",{"username":"fenzaiway"},function(data)
+		{
+					//alert(data);
+			var html = "";
+			for(var i=0; i<data.length;i++)
+			{
+				html+="<li>";
+				html+=data[i].tagName;
+				html+="</li>";
+			}
+			$(".rec_sub").empty().html(html);
+		});
+	}
 	$(function()
 	{
+		///顶部导航产生下划线
 		$(".home_navi").mouseover(function()
 		{
 			$(this).css(
@@ -94,6 +112,7 @@
 			});
 		});
 
+		///将img前面的p标签去掉
 		$(".info_detail img").parent("p").each(function()
 		{
 			var xx=$(this).html();
@@ -101,6 +120,7 @@
 						
 		});
 
+		//给标签添加下划线
 		$(".my_rec_sub li,.rec_sub li").mouseover(function()
 		{
 			$(this).css(
@@ -116,6 +136,9 @@
 				"border-bottom":"1px solid #ccc"
 			});
 		});
+
+		///加载推荐订阅的标签
+		loadOtherTags();	
 	});
 </script>
   </head>
@@ -228,7 +251,7 @@
 				</ul>
 			</div>
 			<div style="height: 250px;height: auto!important;">
-			<div><span style="float:left;">推荐订阅的标签</span><span style="float:right;">换一批</span></div>
+			<div><span style="float:left;">推荐订阅的标签</span><span style="float:right;"><a href="javascript:loadOtherTags();">换一批</a></span></div>
 			<div class="clr"></div>
 			<ul class="rec_sub">
 					<li>美女</li>

@@ -86,10 +86,10 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 		session.setAttribute("zoneuser", username);
 		///System.out.println(blogZone.getBlogZoneName());
 		///System.out.println(blogZone.getZoneUrl());
-		logInfoList = logInfoServiceImpl.findByProperty("username", username);
-		if(null != logInfoList){
-			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
-		}
+//		logInfoList = logInfoServiceImpl.findByProperty("username", username);
+//		if(null != logInfoList){
+//			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
+//		}
 		return SUCCESS;
 	}
 
