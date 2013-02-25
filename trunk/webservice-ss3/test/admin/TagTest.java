@@ -37,13 +37,13 @@ public class TagTest extends BaseTest {
 		this.init();
 		Tag tag = null;
 		List<Tag> mytags = new ArrayList<Tag>();
- 		for(int i=0; i<tags.length; i++){
+ 		//for(int i=0; i<tags.length; i++){
 			tag = new Tag();
-			tag.setTagName(tags[i]);
+			tag.setTagName(tags[tags.length]);
 			tag.setCreateTime(MyFormatDate.getNowDate());
 			//tagServiceImpl
 			mytags.add(tag);
-		}
+		//}
  		
  		tagServiceImpl.saveAll(mytags);
 		
@@ -57,7 +57,7 @@ public class TagTest extends BaseTest {
 		this.init();
 		UserLogin userLogin = userLoginServiceImpl.myFindByProperty("username", username);
 		System.out.println(userLogin);
-		Tag tag = tagServiceImpl.findById(20);
+		Tag tag = tagServiceImpl.findById(10);
 		///设置双向关联
 		userLogin.getTags().add(tag);
 		tag.getUserLogins().add(userLogin);
@@ -71,7 +71,7 @@ public class TagTest extends BaseTest {
 	public void loadTagsTest(){
 		this.init();
 		List<Tag> tags;
-		UserLogin userLogin = userLoginServiceImpl.myFindByProperty("username", username);
+		/*UserLogin userLogin = userLoginServiceImpl.myFindByProperty("username", username);
 		if(null!=userLogin.getTags() && !userLogin.getTags().isEmpty()){
 			String ids = "";
 			List<Integer> idList = new ArrayList<Integer>();
@@ -85,8 +85,8 @@ public class TagTest extends BaseTest {
 			tags = tagServiceImpl.find(hql, new Object[]{});
 		}else{
 			tags = tagServiceImpl.loadAll();
-		}
-		//tags = tagServiceImpl.find("from Tag t join  t.userLogins asa u where u.username!='fenzaiway'", new String[]{});
+		}*/
+		tags = tagServiceImpl.find("from Tag t join  t.userLogins as u where u.username='fenzaiway'", new String[]{});
 		System.out.println(tags.size());
 	}
 }

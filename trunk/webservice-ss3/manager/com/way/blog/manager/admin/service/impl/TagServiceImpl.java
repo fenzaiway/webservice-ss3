@@ -23,13 +23,46 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	private UserLoginServiceImpl userLoginServiceImpl;
 	@Autowired
 	private UserLogin userLogin;
+	@Autowired
+	private Tag tag;
 	
 	private static final int SIZE = 3;///返回的的另一批tag的数量
-	
+	private List<Tag> tags;
 	@Override
 	@Resource(name="tagDao")
 	public void setDao(IHibernateGenericDao<Tag, Serializable> dao) {
 		super.setDao(dao);
+	}
+	
+	///用户取消订阅标签
+	public void deleteUserSubTag(int tagid){
+		tag = this.findById(tagid);
+		tag.setUserLogins(null);
+		this.update(tag);
+	}
+	
+	/**
+	 * 保存用户订阅的标签
+	 * @param tagid
+	 * @param username
+	 */
+	public void saveUserSubTag(int tagid, String username){
+		tag = this.findById(tagid);
+		userLogin = userLoginServiceImpl.myFindByProperty("username", username);
+		///设置双向关联
+		userLogin.getTags().add(tag);
+		tag.getUserLogins().add(userLogin);
+		this.save(tag);
+	}
+	
+	/**
+	 * 加载用户已经订阅的标签
+	 * @param username
+	 * @return
+	 */
+	public List<Tag> loadUserSubTagList(String username){
+		tags = this.find("from Tag t join  t.userLogins as u where u.username=?", new String[]{username});
+		return tags;
 	}
 	
 	/**
@@ -39,7 +72,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 * @return
 	 */
 	public List<Tag> loadOtherTag(String username){
-		List<Tag> tags;
+		
 		//userLogin = userLoginServiceImpl.myFindByProperty("username", username);
 		//tags = this.find("from Tag t left join fetch t.userLogins u where u.username!=?", new String[]{username});
 		//tags = ;

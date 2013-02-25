@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
 import com.way.blog.zone.entity.LogInfo;
 
@@ -23,6 +24,19 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		super.setDao(dao);
 	}
 
+	/**
+	 * 根据当前用户加载该用户关注的日志数据
+	 * @param username
+	 * @return
+	 */
+	public PaginationSupport loadLogInfoDate(String username, int pageSize, int startIndex,Object... values){
+		PaginationSupport paginationSupport;
+		String hql = "from LogInfo where username=?";
+		paginationSupport = this.findPageByQuery(hql, pageSize, startIndex, new String[]{username});
+		return paginationSupport;
+	}
+	
+	
 	/**
 	 * 发布新日志
 	 */

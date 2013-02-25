@@ -42,7 +42,7 @@ public class TagAction extends BaseAction {
 	private List<Tag> userTagList;
 	
 	/**
-	 * 换另一批标签（每次加载3个）
+	 * 换另一批标签（每次加载SIZE个）
 	 * 取出来的数据是用户还没有关注的
 	 * @return
 	 */
@@ -57,6 +57,19 @@ public class TagAction extends BaseAction {
 	}
 	
 	/**
+	 * 根据当前用户加载用户订阅的标签
+	 * @return
+	 */
+	@Action(value="loadUserTags",results={
+			@Result(name="success",type="json")
+	})
+	public String loadUserSubTagList(){
+		userTagList = tagServiceImpl.loadUserSubTagList(username);
+		this.returnJsonByObjectOfExpose(userTagList);
+		return null;
+	}
+	
+	/**
 	 * 保存用户订阅的标签
 	 * @return
 	 */
@@ -64,7 +77,20 @@ public class TagAction extends BaseAction {
 			@Result(name="success",type="json")
 	})
 	public String saveUserSubTag(){
-		
+		tagServiceImpl.saveUserSubTag(tagid,username);
+		//System.out.println(tagid);
+		return null;
+	}
+	
+	/**
+	 * 用户取消订阅标签
+	 * @return
+	 */
+	@Action(value="cancelUserSubTag",results={
+			@Result(name="success",type="json")
+	})
+	public String deleteUserSubTag(){
+		tagServiceImpl.deleteUserSubTag(tagid);
 		return null;
 	}
 
