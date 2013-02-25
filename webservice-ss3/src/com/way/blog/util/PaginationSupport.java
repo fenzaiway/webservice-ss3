@@ -44,6 +44,8 @@ public class PaginationSupport{
     
     private String pageToolBar; ///普通分页
     
+    private String loadMore;///加载更过分页方式
+    
     public PaginationSupport(){}; //默认构造函数
     
     public StringBuffer stringBuffer = new StringBuffer();
@@ -127,6 +129,7 @@ public class PaginationSupport{
     	stringBuffer = getStringBuffer();
         pager = getPager();
         pageToolBar = getPageToolBar();
+        loadMore = getLoadMore();
     }
     
     public String getUrl() {
@@ -137,6 +140,20 @@ public class PaginationSupport{
 		this.url = url;
 	}
 
+	/**
+	 * 判断是否还有下一页，有的话，提供加载更过按钮让用户通过加载更过按钮加载下一页的数据
+	 */
+	public String getLoadMore(){
+		StringBuffer sb = new StringBuffer();
+		if(this.hasNextPage){
+			sb.append("<button value='' id='loadmore' onclick='loadmore("+this.getNextIndex()+")'>加载更多</button>");
+		}else{
+			sb.append("精彩内容到此为止！<a href=''>发现关注更过内容</a>");
+		}
+		return sb.toString();
+	}
+	
+	
 	/**
      * ajax分页
      * @return
@@ -422,4 +439,5 @@ public class PaginationSupport{
     	return lastIndex;
     }
 
+    
 }
