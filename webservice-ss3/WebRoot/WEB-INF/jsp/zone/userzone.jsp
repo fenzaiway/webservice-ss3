@@ -14,8 +14,8 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
-	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userzone.css">
 	<link rel="stylesheet" href="<%=basePath%>css/commons.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userzone.css">
 	
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
@@ -85,7 +85,6 @@
 				<div><span class="info_user"><s:property value="#loginfo.username"/></span><span class="info_time"><s:property value="#loginfo.logPublishTime"/></span></div>
 				<div class="clr"><h4><s:property value="#loginfo.logTitle"/></h4></div>
 				<div>
-					<h3></h3>
 					<div style="margin-bottom: 10px;">
 						<div class="loginfo_img"><img src="<%=basePath %>images/ajaxDemo/mrPip.jpg" alt="图片"/></div>
 						<div class="info_detail">

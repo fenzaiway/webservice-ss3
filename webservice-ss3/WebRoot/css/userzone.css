@@ -1,4 +1,5 @@
 #menu ul li{float: left; margin-left: 20px;}
+h3,h4{margin-left: 10px;}
 a{text-decoration: none;}
 a:hover{text-decoration: underline;color: red;}
 .home_navi{width: 140px;height: 100px;float:left;border-left:1px solid #E4E4E4;background-color: #fff;vertical-align: middle;}
@@ -24,14 +25,16 @@ loginfo_list_left{height:260px;min-height: 260px;height: auto!important;width: 7
 	-moz-box-shadow:0 0 10px 0 #aaa;
  }
  
-h3{color:#454545;}
+h3,h4{color:#454545;font-size: 14px;}
+h4 a{color:#454545;}
+h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .info_like,.info_tag{margin-bottom: 25px;margin-top: 10px;}
 .info_like{color:#A9A9A9;font-size:14px;float: right;margin-right: 20px;}
 .info_like li{margin-right: 15px;}
 .info_tag{color:#3FA7CB;font-size:14px; float: left;}
 .info_tag ul{margin-left: -15px;}
 .info_tag li{margin-left: 15px;}
-.info_detail{margin: 10px;font-size:16px;font-family:新宋体;line-height:22px;color:#454545;}
+.info_detail{margin: 10px;font-size:16px;font-family:新宋体;line-height:25px;color:#454545;}
 .info_detail img{width: 120px;height: 120px; margin: 10px;}
 .loginfo_img{width:280px;height: 200px; float: left;}
 .loginfo_img img{width:260px;height: 200px;padding: 10px;}

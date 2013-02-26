@@ -12,9 +12,8 @@
 			html+="</div>";
 			html+="<div class='info'>";
 			html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].logPublishTime+"</span></div>";
-			html+="<div class='clr'><h4></h4></div>";
+			html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].id+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
 			html+="<div>";
-			html+="<h3><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].id+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h3>";
 			html+="<div style='margin-bottom: 10px;'>";
 			html+="<div class='loginfo_img'><img src='images/ajaxDemo/mrPip.jpg' alt='图片'/></div>";
 			html+="<div class='info_detail'>";
