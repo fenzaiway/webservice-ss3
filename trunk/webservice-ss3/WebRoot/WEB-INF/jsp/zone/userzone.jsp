@@ -45,7 +45,7 @@
 			<div class="home_navi">
 				<div class="sub_navi">
 					<img src="<%=basePath %>images/navi_write.gif" alt="写文字">
-					<span><a href="loginfo/newLogInfo.do">写文字</a></span>
+					<span><a href="htmlTest/new_info.html">写文字</a></span>
 				</div>
 			</div>
 			<div class="home_navi">
