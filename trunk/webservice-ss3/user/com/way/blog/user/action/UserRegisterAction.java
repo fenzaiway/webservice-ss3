@@ -15,6 +15,7 @@ import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.entity.UserRegister;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.user.service.impl.UserRegisterServiceImpl;
+import com.way.blog.util.web.SendMailService;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 
 @Controller("userRegisterAction")
@@ -32,6 +33,9 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	MyUserLoginServiceImpl myUserLoginServiceImpl;
 	@Autowired
 	private UserHeadImgAction userHeadImgAction;
+	@Autowired
+	private SendMailService sendMailService;
+	
 	private UserLogin userLogin;
 	
 	private UserRegister userRegister;
@@ -72,7 +76,17 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	}
 	
 	
-	
+	/**
+	 * 测试发送邮件
+	 * @return
+	 */
+	@Action(value="sendMail",results={
+			@Result(name="success", location="/zone/fenzaiway",type="redirect"),
+	})
+	public String sendMail(){
+		sendMailService.sendMail();
+		return SUCCESS;
+	}
 	
 	/**
 	 * 进入注册页面

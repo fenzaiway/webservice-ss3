@@ -20,6 +20,18 @@
 	<!-- 配置项不但启用了对类包进行扫描以实施注释驱动 Bean 定义的功能，同时还启用了注释驱动自动注入的功能  -->
     <context:annotation-config />
     <context:component-scan base-package="com.way.blog" />
+    
+    <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl" p:host="stmp.sina.com" p:username="
+    fenzaiway@sina.com" p:password="moway890727">
+    	<property name="javaMailProperties">
+    		<props>
+    			<prop key="mail.smtp.auth">true</prop>
+    			<prop key="mail.smtp.timeout">25000</prop>
+    		</props>
+    	</property>
+    </bean>
+    
+    
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	        <property name="locations">
 	            <list>

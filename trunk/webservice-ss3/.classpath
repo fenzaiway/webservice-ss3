@@ -79,7 +79,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.aspects-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.beans-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context-3.0.1.RELEASE-A.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context.support-3.0.1.RELEASE-A.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context.support-3.0.1.RELEASE-A.jar" sourcepath="D:/我的资料库/Downloads/spring-framework-3.1.1.RELEASE/src/org.springframework.context.support-sources-3.1.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.core-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.expression-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.instrument-3.0.1.RELEASE-A.jar"/>
@@ -133,5 +133,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/lucene-core-3.6.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xsqlbuilder.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/rapid-framework-3.5.1.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
