@@ -19,7 +19,7 @@
        http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd ">
 	<!-- 配置项不但启用了对类包进行扫描以实施注释驱动 Bean 定义的功能，同时还启用了注释驱动自动注入的功能  -->
     <context:annotation-config />
-    <context:component-scan base-package="com.way.blog" />
+    <context:component-scan base-package="com.way.blog,spring" />
     
     <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl" p:host="stmp.sina.com" p:username="
     fenzaiway@sina.com" p:password="moway890727">

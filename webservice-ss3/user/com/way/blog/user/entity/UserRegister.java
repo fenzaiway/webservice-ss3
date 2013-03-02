@@ -74,8 +74,16 @@ public class UserRegister implements Serializable {
 	private int sex;
 	
 	/**
+	 * 用户注册的时候生成的一个验证码，将该验证码发送到用户的邮箱让用户验证
+	 * 验证码的生成规则：md5.code(email{username})
+	 */
+	@Column(name="re_verifi_code",unique = false, nullable = false, insertable = true, updatable = true, length = 255)
+	private String verifiCode;
+	
+	/**
 	 * 注册账号是否可用
 	 * 通过邮箱验证的才可使用，才可以生成记录保存登录信息表
+	 * 0表示账号不可用，1表示可以正常使用
 	 */
 	@Column(name="re_enabled",unique = false, nullable = false, insertable = true, updatable = true, length = 25)
 	private int enabled;
@@ -85,19 +93,20 @@ public class UserRegister implements Serializable {
 
 	public UserRegister() {}
 
-	public UserRegister(String email, int enabled, int id, String ip,
-			String password, String registrationTime, int sex,
-			UserLogin userLogin, String username) {
+	public UserRegister(int id, String email, String password, String username,
+			String ip, String registrationTime, int sex, String verifiCode,
+			int enabled, UserLogin userLogin) {
 		super();
-		this.email = email;
-		this.enabled = enabled;
 		this.id = id;
-		this.ip = ip;
+		this.email = email;
 		this.password = password;
+		this.username = username;
+		this.ip = ip;
 		this.registrationTime = registrationTime;
 		this.sex = sex;
+		this.verifiCode = verifiCode;
+		this.enabled = enabled;
 		this.userLogin = userLogin;
-		this.username = username;
 	}
 
 	public int getId() {
@@ -170,6 +179,14 @@ public class UserRegister implements Serializable {
 
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public String getVerifiCode() {
+		return verifiCode;
+	}
+
+	public void setVerifiCode(String verifiCode) {
+		this.verifiCode = verifiCode;
 	}
 	
 }

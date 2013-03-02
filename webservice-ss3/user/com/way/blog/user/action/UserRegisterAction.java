@@ -1,5 +1,8 @@
 package com.way.blog.user.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -22,7 +25,10 @@ import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 @ParentPackage("struts-default")
 @Namespace("/register")
 public class UserRegisterAction extends BaseAction implements ModelDriven<UserRegister>,Preparable {
-
+	private String username;
+	private String code;
+	private  String SUBJECT = "感谢使用轻轻一点博客系统，请完成邮件验证";
+	private  String VERIFIHTML = "<html><head><title>请完成邮件验证</title></head><body>"+username+"，您好！<br/></br/><br/>点击以下链接完成邮箱验证并激活在轻轻一点的帐号：<br/><a href='http://192.168.32.1:8090/ss3/register/userverify.do?code="+code+"'>http://192.168.32.1:8090/ss3/register/userverify.do?code=%{code}</a><br/>如无法点击，请将链接拷贝到浏览器地址栏中直接访问。</body></html>";
 	@Autowired
 	private UserRegisterServiceImpl userRegisterServiceImpl;
 	@Autowired
@@ -67,14 +73,31 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 			return INPUT;
 		}
 		///注册的时候同时为用户开通空间
-		blogZoneServiceImpl.createBlog(userRegister);
+		//blogZoneServiceImpl.createBlog(userRegister);
 		////注册成功后，将用户名保存到Session中
-		session.setAttribute("myusername",userRegister.getUsername());
+		//session.setAttribute("myusername",userRegister.getUsername());
 		//为用户设置一个默认的头像
-		userHeadImgAction.save();
+		//userHeadImgAction.save();
+		
+		//用户注册成功后，向用户的邮箱发送验证地址
+		UserRegister ur = userRegisterServiceImpl.myFindByProperty("username", userRegister.getUsername());
+		List<String> emailList = new ArrayList<String>();
+		emailList.add(ur.getEmail());
+//		this.setUsername(ur.getUsername());
+//		this.setCode(ur.getVerifiCode());
+		String html = "<html><head><title>请完成邮件验证</title></head><body>"+ur.getUsername()+"，您好！<br/></br/><br/>点击以下链接完成邮箱验证并激活在轻轻一点的帐号：<br/><a href='http://192.168.32.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"'>http://192.168.32.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"</a><br/>如无法点击，请将链接拷贝到浏览器地址栏中直接访问。</body></html>";
+		sendMailService.sendMailByHtml(emailList, SUBJECT, html, null);
 		return SUCCESS;
 	}
 	
+	//userverify
+	@Action(value="userverify",results={
+			@Result(name="success", location="/zone/fenzaiway",type="redirect"),
+	})
+	public String userverify(){
+		System.out.println("++++++++++++++==" +code);
+		return SUCCESS;
+	}
 	
 	/**
 	 * 测试发送邮件
@@ -84,7 +107,11 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 			@Result(name="success", location="/zone/fenzaiway",type="redirect"),
 	})
 	public String sendMail(){
-		sendMailService.sendMail();
+		//sendMailService.sendMailByText("fenzaiway@qq.com", "测试邮件发送", "这是一封测试发送邮件的邮件");
+		List<String> userEmailList = new ArrayList<String>();
+		userEmailList.add("fenzaiway@qq.com");
+		String htmlText="<html><head><title>测试封装的发送html</title></head><body>这是一篇使用封装的HTML邮件，<a href='http://www.baidu.com'>百度</a></body></html>";
+		sendMailService.sendMailByHtml(userEmailList, "测试发送html邮件", htmlText, null);
 		return SUCCESS;
 	}
 	
@@ -186,4 +213,25 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		this.userLogin = userLogin;
 	}
 
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	
 }
