@@ -1,7 +1,11 @@
 package mail;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.internet.InternetAddress;
@@ -17,6 +21,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper; 
 import org.springframework.stereotype.Service;
 
+import com.way.blog.util.web.SendMailService;
+
 import base.BaseTest;
 
 @Service
@@ -24,8 +30,27 @@ public class MailServiceTest extends BaseTest{
 	
 	private JavaMailSenderImpl sender;
 	
+	private SendMailService sendMailService;
+	
 	public void init(){
 	sender = (JavaMailSenderImpl) this.context.getBean("sender");
+	sendMailService = (SendMailService) this.context.getBean("sendMailService");
+	}
+	
+	@Test
+	public void sendHtmlTest(){
+		this.init();
+		List<Map<String, String>> maps = new ArrayList<Map<String,String>>();
+		Map map1 = new HashMap<String, String>();
+		map1.put("抄送人001", "fenzaiway@sina.com");
+		Map map2 = new HashMap<String, String>();
+		map2.put("抄送人001", "fenzaiway@foxmail.com");
+		maps.add(map1);
+		maps.add(map2);
+		List<String> userEmailList = new ArrayList<String>();
+		userEmailList.add("fenzaiway@qq.com");
+		String htmlText="<html><head><title>测试封装的发送html</title></head><body>111这是一篇使用封装的HTML邮件，<a href='http://www.baidu.com'>百度</a></body></html>";
+		sendMailService.sendMailByHtml(userEmailList, "测试发送html邮件", htmlText, maps);
 	}
 	
 	@Test
@@ -84,46 +109,45 @@ public class MailServiceTest extends BaseTest{
 	    System.out.println( " 邮件发送成功.. " ); 
 	     } */
 	
-	/*public static void main(String[] args) throws Exception{ //测试html邮件
-			JavaMailSenderImpl senderImpl = new JavaMailSenderImpl(); 
-			 senderImpl.setHost( "smtp.qq.com" );
-	      //  JavaMailSender mailSender = MailSenderFactory.getJavaMailSender();  
-	        MimeMessage mimeMessage = senderImpl.createMimeMessage();  
-	        try {  
-	            System.out.println("HTML脚本形式邮件正在发送...");  
-	            //设置utf-8或GBK编码，否则邮件会有乱码  
-	            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,"utf-8"); 
-	           // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");  
-	            //设置发送人名片  
-	            
-	            helper.setFrom("fenzaiway@qq.com");  
-	            //设置收件人名片和地址  
-	            helper.setTo(new InternetAddress("\"" + MimeUtility.encodeText("qq邮箱") + "\" <fenzaiway@qq.com>"));// 发送者  
-	            // 邮件发送时间  
-	            helper.setSentDate(new Date());  
-	            //设置回复地址  
-	            helper.setReplyTo(new InternetAddress("fenzaiway@sina.com"));  
-	            //设置抄送的名片和地址  
-	            helper.setCc(InternetAddress.parse(MimeUtility.encodeText("抄送人001") + " <fenzaiway@sina.com>," + MimeUtility.encodeText("抄送人002") + " <fenzaiway@foxmail.com>"));  
-	            //主题  
-	            helper.setSubject("HTML邮件");  
-	            // 邮件内容，注意加参数true，表示启用html格式  
-	            helper.setText("<html><head></head><body><h1>hello!!我是乔布斯</h1><a href=\"http://172.16.13.98:8080/ss3/zone/fenzaiway\">验证</a></body></html>",true);  
-	            senderImpl.setUsername( "fenzaiway@qq.com" ) ;  //  根据自己的情况,设置username 
-	    	    senderImpl.setPassword( "Ajavaway890905" ) ;  //  根据自己的情况, 设置password 
-	    	    
-	    	 Properties prop  =   new  Properties() ;
-	    	 prop.put( "mail.smtp.auth" ,  "true" ) ;  //  将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
-	    	 prop.put( "mail.smtp.timeout" ,  "25000" ) ; 
-	    	 senderImpl.setJavaMailProperties(prop);  
-	            //发送  
-	            senderImpl.send(mimeMessage);  
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        }  
+	public static void main(String[] args) throws Exception{ //测试html邮件
+//			JavaMailSenderImpl senderImpl = new JavaMailSenderImpl(); 
+//			 senderImpl.setHost( "smtp.qq.com" );
+//	      //  JavaMailSender mailSender = MailSenderFactory.getJavaMailSender();  
+//	        MimeMessage mimeMessage = senderImpl.createMimeMessage();  
+//	        try {  
+//	            System.out.println("HTML脚本形式邮件正在发送...");  
+//	            //设置utf-8或GBK编码，否则邮件会有乱码  
+//	            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,"utf-8"); 
+//	           // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");  
+//	            //设置发送人名片  
+//	            helper.setFrom("fenzaiway@qq.com");  
+//	            //设置收件人名片和地址  
+//	            helper.setTo(new InternetAddress("\"" + MimeUtility.encodeText("qq邮箱") + "\" <fenzaiway@qq.com>"));// 发送者  
+//	            // 邮件发送时间  
+//	            helper.setSentDate(new Date());  
+//	            //设置回复地址  
+//	            helper.setReplyTo(new InternetAddress("fenzaiway@sina.com"));  
+//	            //设置抄送的名片和地址  
+//	            helper.setCc(InternetAddress.parse(MimeUtility.encodeText("抄送人001") + " <fenzaiway@sina.com>," + MimeUtility.encodeText("抄送人002") + " <fenzaiway@foxmail.com>"));  
+//	            //主题  
+//	            helper.setSubject("HTML邮件");  
+//	            // 邮件内容，注意加参数true，表示启用html格式  
+//	            helper.setText("<html><head></head><body><h1>hello!!我是乔布斯111</h1><a href=\"http://172.16.13.98:8080/ss3/zone/fenzaiway\">验证</a></body></html>",true);  
+//	            senderImpl.setUsername( "fenzaiway@qq.com" ) ;  //  根据自己的情况,设置username 
+//	    	    senderImpl.setPassword( "Ajavaway890905" ) ;  //  根据自己的情况, 设置password 
+//	    	    
+//	    	 Properties prop  =   new  Properties() ;
+//	    	 prop.put( "mail.smtp.auth" ,  "true" ) ;  //  将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
+//	    	 prop.put( "mail.smtp.timeout" ,  "25000" ) ; 
+//	    	 senderImpl.setJavaMailProperties(prop);  
+//	            //发送  
+//	            senderImpl.send(mimeMessage);  
+//	        } catch (Exception e) {  
+//	            e.printStackTrace();  
+//	        }  
 	        System.out.println("HTML脚本形式邮件发送成功！！！");  
 	     
-	} */
+	} 
 	/*public static void main(String[] args) throws Exception{ 
 	    JavaMailSenderImpl senderImpl = new JavaMailSenderImpl(); 
 	    
@@ -160,7 +184,7 @@ public class MailServiceTest extends BaseTest{
 	    
 	    System.out.println("邮件发送成功.."); 
 	} */
-	public static void main(String[] args) throws Exception{ 
+	/*public static void main(String[] args) throws Exception{ 
 	    JavaMailSenderImpl senderImpl = new JavaMailSenderImpl(); 
 	    
 	    //设定mail server 
@@ -212,5 +236,5 @@ public class MailServiceTest extends BaseTest{
 //		  } catch (Exception e) {    
 //		   e.printStackTrace();    
 //		  }  
-	} 
+	} */
 }
