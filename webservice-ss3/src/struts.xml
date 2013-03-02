@@ -29,7 +29,7 @@
             <interceptor name="permission" class="com.way.blog.interceptor.UserSessionInterceptor" />
             <!-- 配制默许的拦截器到拦截器栈 -->
             <interceptor-stack name="permissionStack">
-                <!-- 此处先后顺序没影响-->
+                 <!-- 此处先后顺序没影响-->
                 <interceptor-ref name="permission" />
                 <interceptor-ref name="defaultStack" />
             </interceptor-stack>
