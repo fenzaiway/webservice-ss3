@@ -1,14 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<script type="text/javascript" src="../js/jquery.js"></script>
-	<script type="text/javascript" charset="utf-8" src="ueditor/editor_config.js"></script>
-    <script type="text/javascript" charset="utf-8"  src="ueditor/editor_all.js"></script>
-    <link href="../css/feedTags.css" rel="stylesheet" type="text/css" />
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 
-<script src="../js/jquery.feedTags.min.js" type="text/javascript"></script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    
+    <title>发表文字</title>
+    <script type="text/javascript" src="<%=basePath%>/js/jquery.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>htmlTest/ueditor/editor_config.js"></script>
+    <script type="text/javascript" charset="utf-8"  src="<%=basePath%>htmlTest/ueditor/editor_all.js"></script>
+    <link href="<%=basePath%>css/feedTags.css" rel="stylesheet" type="text/css" />
+
+<script src="<%=basePath%>js/jquery.feedTags.min.js" type="text/javascript"></script>
     <script type="text/javascript">
 	function GetCharLength(str)
 	{
@@ -71,7 +79,7 @@ $(function()
 	#content{ height:33px;min-height:300px; height:auto!important;}
 	#new_info_content{ width:610px; height:290px; margin-left:33px;min-height:290px; height:auto!important;}
 	#new_info_button{ height:90px; margin-left:33px; margin-top:30px; height:auto!important; margin-bottom:15px;}
-	.add_tags{ width:200px; background-color:#FFF; height:80px; margin:30px 10px 20px 20px;height:auto!important;}
+	.add_tags{ width:200px; background-color:#FFF; height:100px; margin:30px 10px 20px 20px;height:auto!important;}
 	.add_tags span{ background-color:#F3F3F3; font-size:12px; color:#999999; padding:10px; margin-top:5px;}
 	.user_tags,.all_tags{ width:200px; margin-left:20px; border:1px solid #79A9B1; margin-bottom:20px; min-height:100px; height:auto!important;}
 	.button{ width:104px; height:40px; background-color:#E2E2E4; border:0px solid #EDEDEF; font-size:16px; font-family:微软雅黑;}
@@ -82,11 +90,13 @@ $(function()
 	.visiable,.visiable select{ width:200px; height:35px; line-height:35px; color:#333; }
 	.visiable select{border:1px solid #79A9B1; }
 	.visiable select option{ margin-bottom:15px;}
+	.left_detail{ width: 200px; margin-left: 20px; color: #999999; margin-bottom: 5px; display: block;}
 	.clr{ clear:both;}
 </style>
 </head>
 
 <body>
+	<form action="loginfo/save.do" method="post">
 	<div id="new_info_main">
     	<div id="new_info_left">
         	<div id="detail">
@@ -94,7 +104,7 @@ $(function()
             </div>
 			<div id="new_info_title">
             	<h3>标题</h3>
-                <input type="text" style="border:1px solid #CECECF; width:610px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
+                <input type="text" name="logInfo.logTitle" style="border:1px solid #CECECF; width:610px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
             </div>
             <div id="content">
             	 <h3>内容</h3>
@@ -115,24 +125,24 @@ $(function()
         	<div class="add_tags">
             	<div id="feedTags"></div>
                
-                <input type="hidden" value=""  style="width:200px;" id="tags" />
+                <input type="hidden" value="" name="myLogTags" style="width:200px;" id="tags" />
                  <span>添加标签，用逗号或者回车号分隔</span>
             </div>
            <div class="user_tags">用户常用标签</div>
-           <div class="all_tags">全部标签</div>
             
             <div class="visiable">
-              <select name="select" id="select">
-              	<option>可见性</option>
-                <option>仅自己可见</option>
-                <option>所有人可见</option>
+              <select  name="logInfo.logAllowVisit" id="select">
+                <option value="1">仅自己可见</option>
+                <option value="2">所有人可见</option>
               </select>
             </div>
+			<span class="left_detail">日志分类</span>
             <div class="visiable">
+					
             	 <select name="select" id="select">
-              	<option>日志分类</option>
-                <option>软件开发</option>
-                <option>测试分类</option>
+              	<s:iterator value="logTypeList" id="logType">
+								<option value="<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></option>
+				</s:iterator>
               </select>
             </div>
              <div class="visiable">
@@ -146,7 +156,8 @@ $(function()
         </div>
         <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
     </div>
-
+</form>
+	<s:debug></s:debug>
 </body>
 <script type="text/javascript">
     //实例化编辑器

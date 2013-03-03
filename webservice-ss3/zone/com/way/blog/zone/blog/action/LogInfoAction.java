@@ -95,12 +95,13 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 保存
 	 */
 	@Action(value="save",results={
-			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+		//	@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+			@Result(name="success",location="/loginfo/newLogInfo.do",type="redirect"),
 			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})
 	public String save(){
 		//根据分类ID取得分类记录
-		logType = logTypeServiceImpl.findById(logTypeId);
+		/*logType = logTypeServiceImpl.findById(logTypeId);
 		///设置双向关联
 		logInfo.setLogType(logType);
 		Set<LogInfo> logInfos = new HashSet<LogInfo>();
@@ -112,7 +113,12 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		int myid = logInfoServiceImpl.save(logInfo);
 		
 		logInfo = logInfoServiceImpl.findById(myid);
-		this.saveTag(logInfo);
+		this.saveTag(logInfo);*/
+		
+		System.out.println("title" + logInfo.getLogTitle());
+		System.out.println(content);
+		System.out.println("visitalble:" + logInfo.getLogAllowVisit());
+		System.out.println(myLogTags);
 		
 		return SUCCESS;
 	}
@@ -346,7 +352,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	
 	//进入日志管理页面
 	@Action(value="newLogInfo",results={
-			@Result(name="success",location="/WEB-INF/jsp/loginfo/newLogInfo.jsp"),
+			@Result(name="success",location="/WEB-INF/jsp/loginfo/newLogInfo2.jsp"),
 	})
 	public String gotoNewLogInfo(){
 		/**

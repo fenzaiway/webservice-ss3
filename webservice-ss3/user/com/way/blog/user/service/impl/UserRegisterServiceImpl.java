@@ -28,6 +28,10 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		super.setDao(dao);
 	}
 
+	public String getEncrypt(UserRegister userRegister){
+		String encrypt = userRegister.getEmail()+"{"+userRegister.getUsername()+"}";
+		return MD5.code(encrypt);
+	}
 	
 	/**
 	 * 保存用户注册资料
@@ -37,6 +41,7 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 	 */
 	//@Override
 	public int mySave(UserRegister userRegister) throws Exception{
+		String date = MyFormatDate.getNowDate();
 		/**
 		 * 步骤：
 		 * 1、判断要注册的用户的邮箱是否已经存在
@@ -50,14 +55,14 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 			throw new RuntimeException("用户名已经存在");
 		}
 		//判断用户邮箱是否已经存在
-		/*if(this.isEmailExits(userRegister.getEmail())){
+		if(this.isEmailExits(userRegister.getEmail())){
 			throw new RuntimeException("要注册的邮箱已经存在");
-		}*/
+		}
 		//生成验证码
-		String encrypt = userRegister.getEmail()+"{"+userRegister.getUsername()+"}";
-		userRegister.setVerifiCode(MD5.code(encrypt));
+		
+		userRegister.setVerifiCode(MD5.code(getEncrypt(userRegister)));
 		userRegister.setEnabled(0);	//0表示账号不可用
-		userRegister.setRegistrationTime(MyFormatDate.getNowDate());
+		userRegister.setRegistrationTime(date);
 		
 		
 //		///为了跟SpringSecurity中的密码校验一致，这里采用password+{username}的方式加密
@@ -71,15 +76,15 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 //		userRegister.setRegistrationTime(date);///默认注册时间为系统时间
 //		
 //		////////////////////////////////////////////////////
-//		/**
-//		 * 在保存用户注册信息的时候同时记录到用户登录表
-//		 */
-//		UserLogin userLogin = new UserLogin();
-//		userLogin.setAccount(userRegister.getEmail());
-//		userLogin.setUsername(username);
-//		userLogin.setPassword(password);
-//		userLogin.setCreateTime(date);
-//		userLogin.setEnabled(1);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1
+		/**
+		 * 在保存用户注册信息的时候同时记录到用户登录表
+		 */
+		UserLogin userLogin = new UserLogin();
+		userLogin.setAccount(userRegister.getEmail());
+		userLogin.setUsername(username);
+		userLogin.setPassword(password);
+		userLogin.setCreateTime(date);
+		userLogin.setEnabled(0);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1
 //		
 //		/**
 //		 * 同时创建用户详细信息记录
@@ -92,8 +97,8 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 //		userLogin.setMyUserDetial(myUserDetial);
 //		
 //		///设置登录表与注册表双向关联
-//		userLogin.setUserRegister(userRegister);
-//		userRegister.setUserLogin(userLogin);
+		userLogin.setUserRegister(userRegister);
+		userRegister.setUserLogin(userLogin);
 		
 		return super.save(userRegister);
 	}

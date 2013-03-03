@@ -21,7 +21,7 @@ public class UserSessionInterceptor extends AbstractInterceptor {
 	 */
 	private static final long serialVersionUID = 1713218771996200247L;
 	
-	private static final String[] allowTogoUrls = new String[]{"/register/gotoLogin","/register/loginout.do",
+	private static final String[] allowTogoUrls = new String[]{"/userlogin/gotoLogin","/userlogin/login.do","/register/loginout.do",
 		"/loginfo/goto","/loginfo/view","/loginfo/isUserLike","/loginfo/pageTest"};
 	
 	@Override
