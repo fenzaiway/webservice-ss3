@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<s:fielderror fieldName="loginFail"></s:fielderror>
 		<div id="normal">
 			正常登录
-	   		<form action="register/login.do" method="post">
+	   		<form action="userlogin/login.do" method="post">
 				<table>
 					<tr>
 		    			<td align="right">用户名：</td><td align="left"><input type="text" name="account" id="account" /></td>

@@ -37,6 +37,23 @@ public class SendMailService {
 	private static final String CC = "fenzaiway@sina.com";	//抄送地址
 	private static final String ENCODE = "UTF-8";
 	
+	private static final String[] EMAILS = {
+										"163.com",
+										"qq.com",
+										"126.com",
+										"hotmail.com",
+										"souhu.com",
+										"yahoo.com",
+										"139.com",
+										"wo.com.cn",
+										"wo.com",
+										"sina.com.cn",
+										"sina.com",
+										"189.com",
+										"live.cn",
+										"live.com.cn"
+										};
+	
 	private String username;
 	private String code;
 	private static final String SUBJECT = "感谢使用轻轻一点博客系统，请完成邮件验证";
@@ -160,6 +177,51 @@ public class SendMailService {
        //System.out.println("HTML脚本形式邮件发送成功！！！");  
 	}
 
+	/**
+	 * 截取email地址@后面的数字
+	 * @param email
+	 * @return
+	 */
+	public static String splitEmail(String email){
+		int length = email.lastIndexOf("@");
+		return email.substring(length+1,email.length());
+	}
+	
+	
+	/**
+	 * 验证是不是常用的邮箱地址
+	 * @param email
+	 * @return
+	 */
+	public static boolean checkIsNormalEmail(String email){
+		int length = EMAILS.length;
+		for(int i=0;i<length;i++){
+			if(EMAILS[i].equals(splitEmail(email))){	///如果是常用的邮箱地址
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * 根据用户传递的email，取得email的地址
+	 * @param email
+	 * @return
+	 */
+	public static String getEmailAddress(String email){
+		String emailUrl = "http://";
+		if(checkIsNormalEmail(email)){
+			emailUrl += "mail.";
+			emailUrl+= splitEmail(email);
+		}else{
+			String mail = splitEmail(email);
+			emailUrl += "www.";
+			emailUrl+= splitEmail(email);
+		}
+		return emailUrl;
+	}
+	
 	public String getUsername() {
 		return username;
 	}

@@ -79,7 +79,7 @@ li{float:left;}
                    <ul>
                      <li>消息<span class="split">|</span></li>
                             <li>私信<span class="split">|</span></li>
-                            <li><a href="register/gotoLogin.do">登录</a><span class="split">|</span></li>
+                            <li><a href="userlogin/gotoLogin.do">登录</a><span class="split">|</span></li>
                             <li><a href="register/gotoRegister.do">注册</a><span class="split">|</span></li>
                             <li><a href="register/sendMail.do">邮件</a><span class="split">|</span></li>
                             <li>退出</li>

@@ -50,15 +50,25 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	
 	private String mypassword;
 	
-	
+	private String mailurl;
 
+//	@Override
+//	public void prepare() throws Exception {
+//		// TODO Auto-generated method stub
+//		super.prepare();
+//		if(null!=userRegister.getEmail() ){
+//			this.setAccount(userRegister.getEmail());
+//			this.setMailurl(sendMailService.getEmailAddress(userRegister.getEmail()));
+//		}
+//	}
+	
 	/**
 	 * 用户注册
 	 * 注册成功的用户跳转到用户详细信息页面
 	 * 可以在这里修改注册成功后跳转的路径
 	 */
 	@Action(value="save",results={
-			@Result(name="success", location="/myUserDetial/gotoUserdetial.do",type="redirect"),
+			@Result(name="success", type = "redirectAction",location="mailActivity.do",params={"account","${username}"}),
 			@Result(name="input", location="/register/register.jsp")
 	})
 	public String save(){
@@ -67,6 +77,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		userRegister.setIp(IP);
 		try {
 			userRegisterServiceImpl.mySave(userRegister);
+			///this.setUsername(userRegister.getUsername());
 		} catch (Exception e) {
 			e.printStackTrace();
 			addFieldError("saveError", e.getMessage());
@@ -79,24 +90,59 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		//为用户设置一个默认的头像
 		//userHeadImgAction.save();
 		
-		//用户注册成功后，向用户的邮箱发送验证地址
-		UserRegister ur = userRegisterServiceImpl.myFindByProperty("username", userRegister.getUsername());
-		List<String> emailList = new ArrayList<String>();
-		emailList.add(ur.getEmail());
-//		this.setUsername(ur.getUsername());
-//		this.setCode(ur.getVerifiCode());
-		String html = "<html><head><title>请完成邮件验证</title></head><body>"+ur.getUsername()+"，您好！<br/></br/><br/>点击以下链接完成邮箱验证并激活在轻轻一点的帐号：<br/><a href='http://192.168.32.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"'>http://192.168.32.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"</a><br/>如无法点击，请将链接拷贝到浏览器地址栏中直接访问。</body></html>";
-		sendMailService.sendMailByHtml(emailList, SUBJECT, html, null);
+		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 进入验证邮箱页面
+	 * @return
+	 */
+	@Action(value="mailActivity",results={
+			@Result(name="success", location="/register/register.jsp"),
+	})
+	public String gotoMailActivity(){
+		System.out.println("account============" + account);
+		//用户注册成功后，向用户的邮箱发送验证地址
+		UserRegister ur = userRegisterServiceImpl.myFindByProperty("username", account);
+		List<String> emailList = new ArrayList<String>();
+		emailList.add(ur.getEmail());
+		
+		//this.setCode(ur.getVerifiCode());
+		
+		String html = "<html><head><title>请完成邮件验证</title></head><body>"+ur.getUsername()+"，您好！<br/></br/><br/>点击以下链接完成邮箱验证并激活在轻轻一点的帐号：<br/><a href='http://127.0.0.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"'>http://192.168.32.1:8090/ss3/register/userverify.do?code="+ur.getVerifiCode()+"</a><br/>如无法点击，请将链接拷贝到浏览器地址栏中直接访问。</body></html>";
+		sendMailService.sendMailByHtml(emailList, SUBJECT, html, null);
+		//session.setAttribute("username", ur.getEmail());
+		//session.setAttribute("mailurl",sendMailService.getEmailAddress(ur.getEmail()) );
+		this.setUsername(ur.getEmail());
+		this.setMailurl(sendMailService.getEmailAddress(ur.getEmail()));
+		return SUCCESS;
+	}
+	
+	/**
+	 * 将用户的注册、登录状态设置为可用状态
+	 * @return
+	 */
 	//userverify
 	@Action(value="userverify",results={
 			@Result(name="success", location="/zone/fenzaiway",type="redirect"),
 	})
 	public String userverify(){
 		System.out.println("++++++++++++++==" +code);
+		/**
+		 * 根据验证码取出用户的注册记录，将用户的注册账号设置为可用状态
+		 * 
+		 */
+		userRegister = userRegisterServiceImpl.myFindByProperty("verifiCode", code);
+		userRegister.setEnabled(1);
+		userRegister.getUserLogin().setEnabled(1);
+		userRegisterServiceImpl.update(userRegister);
 		return SUCCESS;
+	}
+	
+	
+	public String reSend(){
+		return null;
 	}
 	
 	/**
@@ -124,6 +170,8 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	public String gotoRegister(){
 		return SUCCESS;
 	}
+	
+	
 	
 	
 	/**
@@ -231,6 +279,14 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getMailurl() {
+		return mailurl;
+	}
+
+	public void setMailurl(String mailurl) {
+		this.mailurl = mailurl;
 	}
 	
 	
