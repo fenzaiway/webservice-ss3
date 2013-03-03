@@ -22,6 +22,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.manager.admin.entity.Tag;
+import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
@@ -67,6 +69,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private LogCommentServiceImpl logCommentServiceImpl;
 	@Autowired
 	private LogTagServiceImpl logTagServiceImpl;
+	@Autowired
+	private TagServiceImpl tagServiceImpl;
 	
 	
 	private List<LogInfo> logInfoList = new ArrayList<LogInfo>();
@@ -77,6 +81,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private List<LogTag> logTagList = new ArrayList<LogTag>();
 	private List<SimilarLogInfo> similarLogInfoList = new ArrayList<SimilarLogInfo>();
 	private List<LogStore> logStoreList = new ArrayList<LogStore>();
+	private List<Tag> tagList = new ArrayList<Tag>();
 	
 	private LogInfo logInfo;
 	private LogType logType;
@@ -95,13 +100,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 保存
 	 */
 	@Action(value="save",results={
-		//	@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
-			@Result(name="success",location="/loginfo/newLogInfo.do",type="redirect"),
+			@Result(name="success",location="/loginfo/gotologinfo.do?zoneuser=%{zoneuser}",type="redirect"),
+			//@Result(name="success",location="/loginfo/newLogInfo.do",type="redirect"),
 			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})
 	public String save(){
 		//根据分类ID取得分类记录
-		/*logType = logTypeServiceImpl.findById(logTypeId);
+		System.out.println("logtype==" + logTypeId);
+		logType = logTypeServiceImpl.findById(logTypeId);
 		///设置双向关联
 		logInfo.setLogType(logType);
 		Set<LogInfo> logInfos = new HashSet<LogInfo>();
@@ -109,16 +115,11 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		logType.setLogInfos(logInfos);
 		logInfo.setLogText(content);
 		logInfo.setUsername(myusername);
-		logInfo.setSourceLogInfoId(0);
+		logInfo.setSourceLogInfoId(0); //默认日志为原创日志
 		int myid = logInfoServiceImpl.save(logInfo);
 		
 		logInfo = logInfoServiceImpl.findById(myid);
-		this.saveTag(logInfo);*/
-		
-		System.out.println("title" + logInfo.getLogTitle());
-		System.out.println(content);
-		System.out.println("visitalble:" + logInfo.getLogAllowVisit());
-		System.out.println(myLogTags);
+		this.saveTag(logInfo);///保存日志的标签
 		
 		return SUCCESS;
 	}
@@ -128,7 +129,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 */
 	public String saveTag(LogInfo logInfo){
 	////保存关键字
-		String[] tags = myLogTags.split("，");////根据，分隔
+		String[] tags = myLogTags.split(",");////根据，分隔
 		for(int i=0; i<tags.length; i++){
 			////先根据关键字判断该关键字是否在tag表中,
 			//后期为了扩充关键字，改为like的方式，然后在判断全出来的关键字是不是相等，
@@ -350,7 +351,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	}
 
 	
-	//进入日志管理页面
+	//进入发表文字
 	@Action(value="newLogInfo",results={
 			@Result(name="success",location="/WEB-INF/jsp/loginfo/newLogInfo2.jsp"),
 	})
@@ -359,6 +360,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		 * 根据登录用户，取得相应的用户数据
 		 */
 		logTypeList = logTypeServiceImpl.findByProperty("username", myusername);
+		tagList = tagServiceImpl.loadAll();///加载系统标签分类
+		logTagList = logInfoServiceImpl.getUserLogInfoTagList(myusername);
 		return SUCCESS;
 	}
 	
@@ -648,5 +651,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	public void setSimilarLogInfoList(List<SimilarLogInfo> similarLogInfoList) {
 		this.similarLogInfoList = similarLogInfoList;
 	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
+	
 	
 }

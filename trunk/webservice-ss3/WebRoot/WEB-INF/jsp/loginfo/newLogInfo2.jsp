@@ -58,9 +58,14 @@ $(function()
 		isview:false,
 		tags:$('#tags')
 	});
-	$("#tags").keyup(function()
+	
+	$(".user_tags_li").click(function()
 	{
-		alert('aaaa');
+		//feedTags.inputTags($('#tags'),$(".inputTag"),$(this).text());
+		//$('#tags').append($(this).text());
+		//alert($(this).text());
+		//addTags($('#tags'),$(this).text());
+		$(".user_tags_li").addTag();
 	});
 });
 
@@ -82,6 +87,8 @@ $(function()
 	.add_tags{ width:200px; background-color:#FFF; height:100px; margin:30px 10px 20px 20px;height:auto!important;}
 	.add_tags span{ background-color:#F3F3F3; font-size:12px; color:#999999; padding:10px; margin-top:5px;}
 	.user_tags,.all_tags{ width:200px; margin-left:20px; border:1px solid #79A9B1; margin-bottom:20px; min-height:100px; height:auto!important;}
+	.user_tags ul{list-style: none;}
+	.user_tags_li{ float: left; background-color:#01A2D8;margin-left: 5px; margin-top: 5px;color:#fff; padding: 3px;font-family:微软雅黑;}
 	.button{ width:104px; height:40px; background-color:#E2E2E4; border:0px solid #EDEDEF; font-size:16px; font-family:微软雅黑;}
 	.button:hover{ background-color:#EEEEEE;}
 	.publish{ background-color:#94B600; color:#FFFFFF; float:right; margin-right:30px;}
@@ -128,30 +135,38 @@ $(function()
                 <input type="hidden" value="" name="myLogTags" style="width:200px;" id="tags" />
                  <span>添加标签，用逗号或者回车号分隔</span>
             </div>
-           <div class="user_tags">用户常用标签</div>
-            
+           <div class="user_tags">
+           <ul>
+           	<s:iterator value="logTagList" id="logtag">
+           		<li class="user_tags_li"><s:property value="#logtag.tagName"/></li>
+           	</s:iterator>
+           	</ul>
+           </div>
+            <span class="left_detail">给标签分分类</span>
+             <div class="visiable">
+            	  <select name="select" id="tagid">
+              	<s:iterator value="tagList" id="tag">
+								<option value="<s:property value="#tag.id"/>"><s:property value="#tag.tagName"/></option>
+				</s:iterator>
+              </select>
+            </div>
+            <span class="left_detail">访问权限</span>
             <div class="visiable">
               <select  name="logInfo.logAllowVisit" id="select">
                 <option value="1">仅自己可见</option>
                 <option value="2">所有人可见</option>
               </select>
             </div>
-			<span class="left_detail">日志分类</span>
+			<span class="left_detail">个人分类</span>
             <div class="visiable">
 					
-            	 <select name="select" id="select">
+            	 <select name="logTypeId" id="select">
               	<s:iterator value="logTypeList" id="logType">
 								<option value="<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></option>
 				</s:iterator>
               </select>
             </div>
-             <div class="visiable">
-            	 <select name="select" id="select">
-              	<option>系统标签</option>
-                <option>云</option>
-                <option>开发</option>
-              </select>
-            </div>
+            
              <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
         </div>
         <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 

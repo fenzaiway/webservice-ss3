@@ -18,7 +18,12 @@
 		tags:null,//值域对象
 		isview:false//模式，true-view模式、false-eidt模式
 	};
-
+	
+	$.fn.addTag() = function()
+	{
+		alert('aaa');
+	}
+	
 	$.fn.feedTags = function(opt){
 		var options = $.extend({},defaults, opt||{});
 		var tagmain = $(this);
@@ -150,4 +155,5 @@
 		tags_v = tags_v.join(',');
 		tags.val(tags_v);
 	}
+	
 })(jQuery);

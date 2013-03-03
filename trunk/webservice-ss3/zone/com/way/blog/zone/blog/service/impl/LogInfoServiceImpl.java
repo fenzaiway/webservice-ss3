@@ -2,7 +2,9 @@ package com.way.blog.zone.blog.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -14,6 +16,7 @@ import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
 import com.way.blog.zone.entity.LogInfo;
+import com.way.blog.zone.entity.LogTag;
 
 @Service("logInfoServiceImpl")
 public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
@@ -44,7 +47,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public int save(LogInfo logInfo) {
 		
 		logInfo.setLogPublishTime(MyFormatDate.getNowDate());
-		logInfo.setLogToTop(0);
+		logInfo.setLogToTop(0); //设置置顶
+		logInfo.setLogIsOriginal(0); ///日志发表类型
 		logInfo.setLogContentStatus(1);
 		logInfo.setDeleteStatue(0);
 		return super.save(logInfo);
@@ -98,5 +102,30 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		super.update(logInfo);
 	}
 	
-	
+	/**
+	 * 根据用户名取得用户发表过的标签
+	 * @param username
+	 * @return
+	 */
+	public List<LogTag> getUserLogInfoTagList(String username){
+		/**
+		 * 步骤
+		 * 1、
+		 */
+		//List<LogTag> logTagList = new ArrayList<LogTag>();
+		Set<LogTag> logTagSet = new HashSet<LogTag>();
+		List<LogInfo> logInfoList = this.findByProperty("username", username);
+		for (LogInfo logInfo : logInfoList) {
+			if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){
+				//如果该篇日志的有关键字
+				//logTagList.
+				//logTagSet.add(e)
+				for (LogTag logTag : logInfo.getLogTags()) {
+					logTagSet.add(logTag);
+				}
+			}
+		}
+		
+		return new ArrayList<LogTag>(logTagSet);
+	}
 }
