@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" charset="utf-8"  src="<%=basePath%>htmlTest/ueditor/editor_all.js"></script>
     <link href="<%=basePath%>css/feedTags.css" rel="stylesheet" type="text/css" />
 
-<script src="<%=basePath%>js/jquery.feedTags.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>js/jquery.feedTags.js" type="text/javascript"></script>
     <script type="text/javascript">
 	function GetCharLength(str)
 	{
@@ -51,7 +51,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 	}
-
 $(function()
 {
 	$('#feedTags').feedTags({
@@ -59,13 +58,26 @@ $(function()
 		tags:$('#tags')
 	});
 	
-	$(".user_tags_li").click(function()
-	{
-		//feedTags.inputTags($('#tags'),$(".inputTag"),$(this).text());
-		//$('#tags').append($(this).text());
-		//alert($(this).text());
-		//addTags($('#tags'),$(this).text());
-		$(".user_tags_li").addTag();
+	$(".user_tags_li").click(function()///通过鼠标点击添加标签	{
+		var flag = false;
+		var tagText = $(this).text();
+		$(".tag").each(function()//判断标签是否已经存在		
+		{
+			if(tagText==$(this).text())
+			{
+				flag = true;
+				return false;
+			}
+		});
+		if(flag)
+		{
+			alert('标签已经存在');
+		}else
+		{
+			$(".inputTag").val($(this).text());
+			$(".user_tags_li").addTag($('#feedTags'),$(this));
+		}
+		
 	});
 });
 

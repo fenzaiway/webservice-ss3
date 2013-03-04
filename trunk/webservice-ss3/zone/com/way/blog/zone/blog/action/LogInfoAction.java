@@ -106,7 +106,6 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	})
 	public String save(){
 		//根据分类ID取得分类记录
-		System.out.println("logtype==" + logTypeId);
 		logType = logTypeServiceImpl.findById(logTypeId);
 		///设置双向关联
 		logInfo.setLogType(logType);
@@ -128,12 +127,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 保存关键字
 	 */
 	public String saveTag(LogInfo logInfo){
+		System.out.println("==============" + myLogTags);
 	////保存关键字
 		String[] tags = myLogTags.split(",");////根据，分隔
 		for(int i=0; i<tags.length; i++){
 			////先根据关键字判断该关键字是否在tag表中,
 			//后期为了扩充关键字，改为like的方式，然后在判断全出来的关键字是不是相等，
 			//如果相等的话，就更新，否则将该关键字添加保存，同时相似的关键字也保存文章信息
+			System.out.println(tags[i]+"---------------------");
 			logTag = logTagServiceImpl.myFindByProperty("tagName", tags[i]);
 			if(null!=logTag && null != logTag.getTagName()){	////tag表中已经存在该关键字
 				

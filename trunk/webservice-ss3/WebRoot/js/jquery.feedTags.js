@@ -19,10 +19,14 @@
 		isview:false//模式，true-view模式、false-eidt模式
 	};
 	
-	$.fn.addTag() = function()
+	$.fn.addTag = function(tagmain,tags)
 	{
-		alert('aaa');
-	}
+		//var options = $.extend({},defaults, aaa||{});
+		//alert('aaa');
+		//setNewTags(tagmain,tags);
+		
+		inputTags(tagmain,$(".inputTag"),tags);
+	};
 	
 	$.fn.feedTags = function(opt){
 		var options = $.extend({},defaults, opt||{});
@@ -146,6 +150,8 @@
 		setNewTags(tagmain,tags);
 	}
 
+	
+	
 	//生成标签隐藏值
 	function setNewTags(tagmain,tags) {
 		var tags_v = [];
