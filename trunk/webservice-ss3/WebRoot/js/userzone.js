@@ -1,5 +1,11 @@
 //var username;
 	var position = 0;
+	var commentHtml = "<div class='comment_info'><div class='comment_info_input'>";
+	commentHtml+="<div class='comment_text_div'><div id='comment_text' contenteditable='true'></div>";
+	commentHtml+="</div>";
+	commentHtml+="<div><input type='button' id='comment_button' value='发表'/></div> <div class='clr'></div></div>";
+	commentHtml+="<div class='back_comment'>收起按钮</div>"
+	
 	function showListData(data)
 	{
 		var html = "";
@@ -40,7 +46,7 @@
 			html+="</span></div>";
 			html+="</div>";
 			html+="<div class='clr'></div>";
-			html+="<div class='comment_info'>评论<span class='back_comment'>收起^</span></div>";
+			html+=commentHtml;
 			html+="</div>";
 			
 			

@@ -6,22 +6,54 @@
 
 <style type="text/css">
 	*{ margin:0px; padding:0px;}
-	.comment_info{ background-color: #FAFAFA;width: 630px; margin:0px auto; margin-top:100px;}
-	#comment_text{ width:390px; height:35px; line-height:35px; border:0px solid #FFFFFF; margin-left:15px;}
-	#comment_buttom{ width:70px; height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;}
+	.comment_info{ background-color: #F1F1F1;width: 630px; margin:0px auto; margin-top:100px;height:auto!important; min-height:150px; margin-bottom:100px;}
+	.comment_info_input{ margin-top:10px; padding-top:0px;border:1px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
+	#comment_text{ border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}
+	.comment_text_div{ margin:25px;height:auto!important; min-height:50px;}
+	#comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑; float:right; margin-right:40px; margin-top:-10px;}
+	
+	.head_img, .head_img img{ width:20px; height:20px;float:left; margin:20px;}
+	.replay_text span{ float:left; display:block; margin-top:20px;}
+	.replay_text{ width:365px; margin:15px; margin-top:0px;  border:1px solid #D4BFFF; min-height:30px; height:auto!important; word-break: break-all;}
+	.comment_info_list{ border:1px solid #00FF55;  min-height:45px; height:auto!important;}
+	.back_comment{ height:25px; background-color:#FFFBF0; padding:10px;}
+	.comment_info_list div{ float:left;}
+	.replay{ float:right; border:1px solid #FF3FAA; height:auto!important;}
+	.test_box {
+    width: 400px; 
+    min-height: 120px; 
+    
+    _height: 120px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 3px; 
+    outline: 0; 
+    border: 1px solid #a0b3d6; 
+    font-size: 12px; 
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.test_box:focus,#comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
+	.clr{ clear:both;}
 </style>
 
 </head>
 
 <body>
-
+<div class="test_box" contenteditable="true"><br /></div>
 <div class="comment_info">
-	<div class="comment_info_input">
-    	<input type="text" value="" name="commentText" id="comment_text" /><input type="button" id="comment_buttom" value="发表"/>
-     </div>
-    <div class="comment_info_list">
-    	回复列表
-    </div>
+        <div class="comment_info_input">
+            <div class="comment_text_div">
+                <div id="comment_text" contenteditable="true"></div>
+            </div>
+            <div>
+                <input type="button" id="comment_button" value="发表"/>
+            </div>
+             <div class="clr"></div>
+         </div>
+
+    
     <div class="back_comment">
     	收起按钮
     </div>
