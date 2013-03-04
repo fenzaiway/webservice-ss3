@@ -1,5 +1,5 @@
 //var username;
-
+	var position = 0;
 	function showListData(data)
 	{
 		var html = "";
@@ -34,21 +34,43 @@
 			html+="<ul>";
 			html+="<li>热度</li>";
 			html+="<li>转载 </li>";
-			html+="<li>评论(5)</li>";
+			html+="<li><a href='javascript:void(0)' class='my_info_comment' position="+position+">评论(5)</a></li>";
 			html+="<li>喜欢(2)</li>";
 			html+="</ul>";
 			html+="</span></div>";
 			html+="</div>";
-	
+			html+="<div class='clr'></div>";
+			html+="<div class='comment_info'>评论<span class='back_comment'>收起^</span></div>";
 			html+="</div>";
 			
 			
 			html+="</div>";	
+			position++;
 		}
 		html+="<div class='clr'></div>";
 		html+="<div id='pagebar'></div>";
 		$("#loginfo_list").append(html);
 		
+	}
+	
+	$(".my_info_comment").live("click",function()
+	{
+		$(".comment_info:eq("+$(this).attr("position")+")").slideToggle('fast');
+		
+	});
+	
+	$(".back_comment").live("click",function()
+	{
+		//alert('aa');
+		//$(".comment_info:eq("+$(this).attr("position")+")").css("display","none");
+		$(".comment_info").css("display","none");
+		
+	});
+	
+	function comment()
+	{
+		alert('添加评论');
+		alert($(this).text());
 	}
 
 	function loadmore(id)
