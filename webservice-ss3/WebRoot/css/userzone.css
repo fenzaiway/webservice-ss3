@@ -56,3 +56,12 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .my_rec_sub li{ background-color: #F9F9F9;}
 #more_tags{background-color: #E1E1E1;color: #B5B5B5;padding: 10px 10px 0px 10px;}
 #more_tags:hover{background-color: #F3F3F3;border:1px solid #ccc;padding: 10px 10px 0px 10px;}
+/*∆¿¬€¡–±ÌCSS*/
+.comment_info{ background-color: #F1F1F1;width: 630px; margin:0px auto;height:auto!important; min-height:150px; margin-bottom:10px;}
+.comment_info_input{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
+#comment_text{ border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}
+.comment_text_div{ margin:25px;height:auto!important; min-height:50px;}
+#comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:Œ¢»Ì—≈∫⁄; float:right; margin-right:40px; margin-top:-10px;}
+.back_comment{ height:25px; background-color:#FFFBF0; padding:10px;}
+#comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
+
