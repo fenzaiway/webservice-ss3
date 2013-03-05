@@ -8,10 +8,16 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
+import com.way.blog.base.entity.LogInfoData;
+import com.way.blog.base.entity.LogInfoJson;
 import com.way.blog.base.service.BaseGenericService;
+import com.way.blog.user.entity.UserHeadImg;
+import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
+import com.way.blog.util.JsonUtil;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
@@ -20,7 +26,12 @@ import com.way.blog.zone.entity.LogTag;
 
 @Service("logInfoServiceImpl")
 public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
-
+	@Autowired
+	private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	
+	PaginationSupport paginationSupport;
+	
+	
 	@Override
 	@Resource(name="logInfoDao")
 	public void setDao(IHibernateGenericDao<LogInfo, Serializable> dao) {
@@ -33,7 +44,6 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * @return
 	 */
 	public PaginationSupport loadLogInfoDate(String username, int pageSize, int startIndex,Object... values){
-		PaginationSupport paginationSupport;
 		String hql = "from LogInfo where username=?";
 		paginationSupport = this.findPageByQuery(hql, pageSize, startIndex, new String[]{username});
 		return paginationSupport;
@@ -127,5 +137,46 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		}
 		
 		return new ArrayList<LogTag>(logTagSet);
+	}
+	
+	/**
+	 * 通过json返回用户请求数据
+	 * @param username 哪个用户
+	 * @param pageSize 每页请求多少条数据
+	 * @param startIndex //数据开始点
+	 * @param values //分页参数
+	 * @return
+	 */
+	public String getUserAttentionData(String username, int pageSize, int startIndex,Object... values){
+		paginationSupport = this.loadLogInfoDate(username, pageSize, startIndex, values);
+		//List<LogInfoJson> logInfoJsonList = new ArrayList<LogInfoJson>();
+		LogInfoJson logInfoJson = null;
+		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
+		LogInfoData logInfoData = null;
+		LogInfo originalLogInfo = null;
+		List<LogInfo> loginfoList  = paginationSupport.getItems();
+		if(null!=loginfoList && !loginfoList.isEmpty()){
+			loginfoList = this.changeLogInfoText(loginfoList);//转换字符长度
+			logInfoJson = new LogInfoJson();
+			logInfoJson.setLoadMore(paginationSupport.getLoadMore());
+			for (LogInfo logInfo : loginfoList) {
+				logInfoData = new LogInfoData();
+				originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
+				logInfoData.setLogid(logInfo.getId());
+				logInfoData.setUsername(logInfo.getUsername());
+				logInfoData.setLogTitle(logInfo.getLogTitle());
+				logInfoData.setLogContent(logInfo.getLogText());
+				logInfoData.setPublishTime(logInfo.getLogPublishTime());
+				logInfoData.setCommentNum(logInfo.getLogComments().size());
+				logInfoData.setLikeNum(originalLogInfo.getLogLikes().size());
+				logInfoData.setReprintNum(originalLogInfo.getLogReprints().size());
+				logInfoData.setHeadImgUrl(userHeadImgServiceImpl.getHeadImgUrl(logInfo.getUsername()));
+				logInfoDataList.add(logInfoData);
+			}
+			logInfoJson.setData(logInfoDataList);
+		}
+		
+		
+		return JsonUtil.toJson(logInfoJson);
 	}
 }

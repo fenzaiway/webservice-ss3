@@ -10,41 +10,50 @@
 	{
 		var html = "";
 		$("#pagebar").remove();
+		var headImg = "";
 		for(var i=0;i<data.length;i++)
 		{
+			if(""==data[i].headImgUrl)
+			{
+				headImg = "images/111.jpg";
+			}else
+			{
+				headImg = data[i].headImgUrl;
+			}
+			
 			html+="<div class='loginfo_list_left'>";
-			html+="<div class='headImg'>";
-			html+="<img src='images/111.jpg' alt='头像' />";
-			html+="</div>";
-			html+="<div class='info'>";
-			html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].logPublishTime+"</span></div>";
-			html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].id+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
-			html+="<div>";
-			html+="<div style='margin-bottom: 10px;'>";
-			html+="<div class='loginfo_img'><img src='images/ajaxDemo/mrPip.jpg' alt='图片'/></div>";
-			html+="<div class='info_detail'>";
-			html+=data[i].logText;		
-			html+="</div>";
-			html+="</div>";
-			html+="<div class='clr'></div>";
-			html+="<div>";
-			html+="<span class='info_tag'>";
-			html+="<ul>";
-			html+="<li>#科学</li>";
-			html+="<li>#数码 </li>";
-			html+="<li>#科技</li>";
-			html+="<li>#硬件</li>";
-			html+="</ul>";
-			html+="</span>";
-			html+="<span class='info_like'>";
-			html+="<ul>";
-			html+="<li>热度</li>";
-			html+="<li>转载 </li>";
-			html+="<li><a href='javascript:void(0)' class='my_info_comment' position="+position+">评论(5)</a></li>";
-			html+="<li>喜欢(2)</li>";
-			html+="</ul>";
-			html+="</span></div>";
-			html+="</div>";
+				html+="<div class='headImg'>";
+				html+="<img src='"+headImg+"' alt='头像' />";
+				html+="</div>";
+					html+="<div class='info'>";
+					html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].publishTime+"</span></div>";
+					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
+					html+="<div>";
+					html+="<div style='margin-bottom: 10px;'>";
+					html+="<div class='loginfo_img'><img src='images/ajaxDemo/mrPip.jpg' alt='图片'/></div>";
+					html+="<div class='info_detail'>";
+					html+=data[i].logContent;		
+					html+="</div>";
+					html+="</div>";
+					html+="<div class='clr'></div>";
+					html+="<div>";
+					html+="<span class='info_tag'>";
+					html+="<ul>";
+					html+="<li>#科学</li>";
+					html+="<li>#数码 </li>";
+					html+="<li>#科技</li>";
+					html+="<li>#硬件</li>";
+					html+="</ul>";
+					html+="</span>";
+					html+="<span class='info_like'>";
+					html+="<ul>";
+					html+="<li>热度("+data[i].hotNum+")</li>";
+					html+="<li>转载("+data[i].reprintNum+") </li>";
+					html+="<li><a href='javascript:void(0)' class='my_info_comment' position="+position+">评论("+data[i].commentNum+")</a></li>";
+					html+="<li>喜欢("+data[i].likeNum+")</li>";
+					html+="</ul>";
+					html+="</span></div>";
+					html+="</div></div>";
 			html+="<div class='clr'></div>";
 			html+=commentHtml;
 			html+="</div>";
@@ -94,7 +103,8 @@
 				var loadmore = data.loadMore;
 				//showComment(data.items);
 				//showLogInfo(data.items);
-				showListData(data.items);
+				//alert(data.data);
+				showListData(data.data);
 			//	$("#pagebar").empty().html(pager);
 				$("#pagebar").empty().html(loadmore);
 				//$("#page").html(pager);

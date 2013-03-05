@@ -16,6 +16,7 @@ import org.hibernate.criterion.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -45,14 +46,20 @@ public class HibernateGenericDao<T, ID extends Serializable> extends HibernateDa
 
     private Class<T> pojoClass;
 
-   
+    
 
     /** *//**
 
      * 初始化DAO，获取POJO类型
 
      */
-
+    /**
+     * 获取HibernateTemplate
+     */
+    public HibernateTemplate myGetHibernateTemplate(){
+    	return this.getHibernateTemplate();
+    }
+    
     public HibernateGenericDao(){
 
 //        this.pojoClass = (Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];

@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.util.PaginationSupport;
@@ -23,6 +24,10 @@ public class BaseGenericService<T, ID extends Serializable> implements IGenericS
 		return dao;
 	}
 
+	public HibernateTemplate myGetHibernateTemplate(){
+		return dao.myGetHibernateTemplate();
+	}
+	
 	@Autowired
 	public void setDao(IHibernateGenericDao<T, Serializable> dao) {
 		this.dao = dao;
