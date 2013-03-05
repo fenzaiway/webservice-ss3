@@ -4,4 +4,8 @@
 	<endpoint name="MyUserLoginServiceImplPort"
 		implementation="com.way.blog.service.MyUserLoginServiceImpl"
 		url-pattern="/MyUserLoginServiceImplPort">
+	</endpoint>
+	<endpoint name="LogInfoServicePort"
+		implementation="com.way.blog.loginfo.service.LogInfoService"
+		url-pattern="/LogInfoServicePort">
 	</endpoint></endpoints>

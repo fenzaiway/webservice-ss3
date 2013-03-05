@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class ReturnStatus implements Serializable {
 	
 	private static final long serialVersionUID = -5438530138978202482L;
-	private int status; //通过json返回状态，状态为1表示已经存在，0表示还没存在
+	private int status; //通过json返回状态，状态为1表示已经存在，0表示还没存在，或者是1表示成功，-1表示失败
 	public int getStatus() {
 		return status;
 	}

@@ -139,10 +139,22 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<servlet>
+		<description>
+			JAX-WS endpoint - LogInfoServiceService
+		</description>
+		<display-name>LogInfoServiceService</display-name>
+		<servlet-name>LogInfoServiceService</servlet-name>
+		<servlet-class>
+			com.sun.xml.ws.transport.http.servlet.WSServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	<servlet-mapping>
-		<servlet-name>springmvc</servlet-name>
-		<url-pattern>*.upload</url-pattern>
+		<servlet-name>LogInfoServiceService</servlet-name>
+		<url-pattern>/LogInfoServicePort</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<description>
 			JAX-WS endpoint - MyUserLoginServiceImplService
@@ -158,6 +170,12 @@
 		<servlet-name>MyUserLoginServiceImplService</servlet-name>
 		<url-pattern>/MyUserLoginServiceImplPort</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>*.upload</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

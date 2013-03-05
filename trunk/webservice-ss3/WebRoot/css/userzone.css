@@ -31,11 +31,13 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .info_like,.info_tag{margin-bottom: 25px;margin-top: 10px;}
 .info_like{color:#A9A9A9;font-size:14px;float: right;margin-right: 20px;}
 .info_like li{margin-right: 15px;}
+.info_like li img{width:14px;height:14px;}
 .info_tag{color:#3FA7CB;font-size:14px; float: left;}
 .info_tag ul{margin-left: -15px;}
 .info_tag li{margin-left: 15px;}
 .info_detail{margin: 10px;font-size:16px;font-family:ÐÂËÎÌå;line-height:25px;color:#454545;}
 .info_detail img{width: 120px;height: 120px; margin: 10px;}
+.info_detail img:hover{background:url(images/like2.gif);}
 .loginfo_img{width:280px;height: 200px; float: left;}
 .loginfo_img img{width:260px;height: 200px;padding: 10px;}
 .info_user{float: left;}
