@@ -105,72 +105,27 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})
 	public String save(){
-		//根据分类ID取得分类记录
-		logType = logTypeServiceImpl.findById(logTypeId);
-		///设置双向关联
-		logInfo.setLogType(logType);
-		Set<LogInfo> logInfos = new HashSet<LogInfo>();
-		logInfos.add(logInfo);
-		logType.setLogInfos(logInfos);
-		logInfo.setLogText(content);
-		logInfo.setUsername(myusername);
-		logInfo.setSourceLogInfoId(0); //默认日志为原创日志
-		int myid = logInfoServiceImpl.save(logInfo);
+//		//根据分类ID取得分类记录
+//		logType = logTypeServiceImpl.findById(logTypeId);
+//		///设置双向关联
+//		logInfo.setLogType(logType);
+//		Set<LogInfo> logInfos = new HashSet<LogInfo>();
+//		logInfos.add(logInfo);
+//		logType.setLogInfos(logInfos);
+//		logInfo.setLogText(content);
+//		logInfo.setUsername(myusername);
+//		logInfo.setSourceLogInfoId(0); //默认日志为原创日志
+//		int myid = logInfoServiceImpl.save(logInfo);
+//		
+//		logInfo = logInfoServiceImpl.findById(myid);
+		//this.saveTag(logInfo);///保存日志的标签
 		
-		logInfo = logInfoServiceImpl.findById(myid);
-		this.saveTag(logInfo);///保存日志的标签
+		logInfoServiceImpl.save(logInfo.getLogTitle(), content, myLogTags, myusername, logInfo.getLogAllowVisit(), logTypeId);
 		
 		return SUCCESS;
 	}
 	
-	/**
-	 * 保存关键字
-	 */
-	public String saveTag(LogInfo logInfo){
-		System.out.println("==============" + myLogTags);
-	////保存关键字
-		String[] tags = myLogTags.split(",");////根据，分隔
-		for(int i=0; i<tags.length; i++){
-			////先根据关键字判断该关键字是否在tag表中,
-			//后期为了扩充关键字，改为like的方式，然后在判断全出来的关键字是不是相等，
-			//如果相等的话，就更新，否则将该关键字添加保存，同时相似的关键字也保存文章信息
-			System.out.println(tags[i]+"---------------------");
-			logTag = logTagServiceImpl.myFindByProperty("tagName", tags[i]);
-			if(null!=logTag && null != logTag.getTagName()){	////tag表中已经存在该关键字
-				
-				if(null !=logTag.getLogInfos() && !logTag.getLogInfos().isEmpty()){
-					logTag.getLogInfos().add(logInfo);
-					Set<LogTag> tagset = new HashSet<LogTag>();
-					tagset.add(logTag);
-					logInfo.setLogTags(tagset);
-					logTagServiceImpl.save(logTag);
-				}else{
-					Set<LogInfo> logInfoSet = new HashSet<LogInfo>();
-					logInfoSet.add(logInfo);
-					logTag.setLogInfos(logInfoSet);
-					Set<LogTag> tagset = new HashSet<LogTag>();
-					tagset.add(logTag);
-					logInfo.setLogTags(tagset);
-					logTagServiceImpl.save(logTag);
-				}
-				
-			}else{
-				logTag = new LogTag();
-				logTag.setTagCreateTime(MyFormatDate.getNowDate());
-				logTag.setTagName(tags[i]);
-				///设置双向关联
-				Set<LogInfo> logInfoSet = new HashSet<LogInfo>();
-				logInfoSet.add(logInfo);
-				logTag.setLogInfos(logInfoSet);
-				Set<LogTag> tagset = new HashSet<LogTag>();
-				tagset.add(logTag);
-				logInfo.setLogTags(tagset);
-				logTagServiceImpl.save(logTag);
-			}
-			
-		}
-		return null;
-	}
+	
 	
 	////进入转载页面
 	//进入日志管理页面

@@ -2,6 +2,7 @@ package com.way.blog.zone.blog.service.impl;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -26,6 +27,8 @@ public class LogTypeServiceImpl extends BaseGenericService<LogType, Integer> {
 	private UserLoginServiceImpl userLoginServiceImpl;
 	private BlogZone blogZone;
 	private UserLogin userLogin;
+	
+	@Autowired LogType logType;
 	
 	@Override
 	@Resource(name="logTypeDao")
@@ -64,4 +67,18 @@ public class LogTypeServiceImpl extends BaseGenericService<LogType, Integer> {
 		return super.save(logType);
 	}
 	
+	
+	/**
+	 * 根据用户取出用户日志的默认分类
+	 * @param username
+	 * @return
+	 */
+	public LogType getDefault(String username){
+		String hql = "from LogType where username=? and isDefaultLogType=1";
+		List<LogType> logTypeList = this.find(hql, new String[]{username});
+		if(!isListTEmpty(logTypeList)){
+			logType = logTypeList.get(0);
+		}
+		return logType;
+	}
 }

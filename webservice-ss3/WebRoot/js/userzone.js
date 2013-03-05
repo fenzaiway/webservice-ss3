@@ -50,7 +50,7 @@
 					html+="<li>热度("+data[i].hotNum+")</li>";
 					html+="<li>转载("+data[i].reprintNum+") </li>";
 					html+="<li><a href='javascript:void(0)' class='my_info_comment' position="+position+">评论("+data[i].commentNum+")</a></li>";
-					html+="<li>喜欢("+data[i].likeNum+")</li>";
+					html+="<li><img src='images/like1.gif' class='likeimg' alt='like'/>喜欢("+data[i].likeNum+")</li>";
 					html+="</ul>";
 					html+="</span></div>";
 					html+="</div></div>";
@@ -67,6 +67,15 @@
 		$("#loginfo_list").append(html);
 		
 	}
+	
+	//改变喜欢图标样式
+	$(".likeimg").live("mouseover",function()
+	{
+		$(this).attr("src","images/like2.gif");
+	}).live("mouseout",function()
+	{
+		$(this).attr("src","images/like1.gif");
+	});
 	
 	$(".my_info_comment").live("click",function()
 	{

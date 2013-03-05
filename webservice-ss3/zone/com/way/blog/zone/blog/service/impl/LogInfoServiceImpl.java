@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.entity.LogInfoData;
 import com.way.blog.base.entity.LogInfoJson;
+import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.user.entity.UserHeadImg;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
@@ -21,15 +22,27 @@ import com.way.blog.util.JsonUtil;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
+import com.way.blog.util.json.JSONUtil;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
+import com.way.blog.zone.entity.LogType;
 
 @Service("logInfoServiceImpl")
 public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	@Autowired
 	private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired
+	private LogTagServiceImpl logTagServiceImpl;
+	@Autowired
+	private LogTypeServiceImpl logTypeServiceImpl;
+	
 	
 	PaginationSupport paginationSupport;
+	
+	
+	@Autowired private LogTag logTag;
+	@Autowired private LogInfo logInfo;
+	@Autowired private LogType logType;
 	
 	
 	@Override
@@ -178,5 +191,44 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		
 		
 		return JsonUtil.toJson(logInfoJson);
+	}
+	
+	
+	
+	/**
+	 * 保存文章
+	 * @param title 标题
+	 * @param content 内容
+	 * @param tags 标签
+	 * @param username 用户名 
+	 * @param visible 可见性
+	 * @logTypeId 分类日志的Id,客户端调用的时候，使用0，表示发表到用户的个人日志分类目录下
+	 * @return json格式数据，1表示成功，-1表示失败
+	 */
+	public String save(String title, String content, String tags, String username, int visible, int logTypeId){
+		
+		///判断logTypeId==0，如果是，则将用户发表的日志保存到用户的默认分类目录下
+		if(0==logTypeId){
+			logType = logTypeServiceImpl.getDefault(username);
+		}else{
+			logType = logTypeServiceImpl.findById(logTypeId);
+		}
+		
+		///设置双向关联
+		logInfo.setLogType(logType);
+		Set<LogInfo> logInfos = new HashSet<LogInfo>();
+		logInfos.add(logInfo);
+		logType.setLogInfos(logInfos);
+		
+		logInfo.setLogTitle(title);
+		logInfo.setLogText(content);
+		logInfo.setUsername(username);
+		logInfo.setLogAllowVisit(visible);
+		int myid = this.save(logInfo);
+		logInfo = this.findById(myid);
+		logTagServiceImpl.saveTag(logInfo, tags);
+		returnStatus = new ReturnStatus();
+		returnStatus.setStatus(1); ///表示成功
+		return JsonUtil.toJson(returnStatus);
 	}
 }

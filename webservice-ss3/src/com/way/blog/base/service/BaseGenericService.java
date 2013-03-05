@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
+import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.util.PaginationSupport;
 
 public class BaseGenericService<T, ID extends Serializable> implements IGenericService<T, Integer> {
+	
+	protected ReturnStatus returnStatus = null;
 	
 	////泛型，通过注解注入调用的实现类
 	private IHibernateGenericDao<T, Serializable> dao;
