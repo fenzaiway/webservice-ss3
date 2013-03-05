@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.way.blog.util.PaginationSupport;
 
@@ -16,16 +17,18 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * »ñµÃ¸ÃDAO¶ÔÓ¦µÄPOJOÀàĞÍ
+	 * ï¿½ï¿½Ã¸ï¿½DAOï¿½ï¿½Ó¦ï¿½ï¿½POJOï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
+	public HibernateTemplate myGetHibernateTemplate();
+	
 	public abstract Class<T> getPojoClass();
 
 	/** */
 	/**
 		
-	 * »ñµÃ¸ÃDAO¶ÔÓ¦µÄPOJOÀàĞÍÃû
+	 * ï¿½ï¿½Ã¸ï¿½DAOï¿½ï¿½Ó¦ï¿½ï¿½POJOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -34,7 +37,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¼ÓÔØËùÓĞµÄ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ĞµÄ¶ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -43,11 +46,11 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İhql²éÑ¯
+	 * ï¿½ï¿½ï¿½hqlï¿½ï¿½Ñ¯
 		
 	 *
 		
-	 * @param values ¿É±ä²ÎÊı
+	 * @param values ï¿½É±ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -56,11 +59,11 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İÌõ¼ş¼ÓÔØ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 		
 	 *
 		
-	 * @param criteria CriteriaÊµÀı
+	 * @param criteria CriteriaÊµï¿½ï¿½
 		
 	 */
 
@@ -69,9 +72,9 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İÌõ¼ş¼ÓÔØ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 		
-	 * @param detachedCriteria DetachedCriteriaÊµÀı
+	 * @param detachedCriteria DetachedCriteriaÊµï¿½ï¿½
 		
 	 */
 	public abstract List<T> findByCriteria(
@@ -80,7 +83,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İ¸ø¶¨µÄÊµÀı²éÕÒ¶ÔÏó
+	 * ï¿½ï¿½İ¸ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -89,7 +92,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İID²éÕÒ¶ÔÏó
+	 * ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -98,7 +101,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İÄ³¸ö¾ßÌåÊôĞÔ½øĞĞ²éÕÒ
+	 * ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -107,7 +110,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ĞÂ½¨¶ÔÏóÊµÀı»¯
+	 * ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 		
 	 */
 
@@ -116,7 +119,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸üĞÂÒÑ´æÔÚµÄ¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ÚµÄ¶ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -125,7 +128,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * É¾³ıÖ¸¶¨IDµÄ¶ÔÏó
+	 * É¾ï¿½ï¿½Ö¸ï¿½ï¿½IDï¿½Ä¶ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -134,7 +137,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * É¾³ıÖ¸¶¨¶ÔÏó
+	 * É¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -143,7 +146,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İCriteria¼ÓÔØ·ÖÒ³£¬Ö¸¶¨Ò³´óĞ¡ºÍÆğÊ¼Î»ÖÃ
+	 * ï¿½ï¿½ï¿½Criteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ö¸ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½
 		
 	 */
 
@@ -153,7 +156,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İCriteria¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚ0Ìõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½Criteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½0ï¿½ï¿½Ê¼
 		
 	 */
 
@@ -162,7 +165,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İCriteria¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚstartIndexÌõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½Criteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½startIndexï¿½ï¿½Ê¼
 		
 	 */
 
@@ -172,7 +175,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İCriteriaÍ³¼Æ×ÜÊı
+	 * ï¿½ï¿½ï¿½CriteriaÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -181,7 +184,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İDetachedCriteria¼ÓÔØ·ÖÒ³£¬Ö¸¶¨Ò³´óĞ¡ºÍÆğÊ¼Î»ÖÃ
+	 * ï¿½ï¿½ï¿½DetachedCriteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ö¸ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½
 		
 	 */
 
@@ -192,7 +195,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İDetachedCriteria¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚ0Ìõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½DetachedCriteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½0ï¿½ï¿½Ê¼
 		
 	 */
 
@@ -202,7 +205,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İDetachedCriteria¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚstartIndexÌõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½DetachedCriteriaï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½startIndexï¿½ï¿½Ê¼
 		
 	 */
 
@@ -212,7 +215,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İDetachedCriteriaÍ³¼Æ×ÜÊı
+	 * ï¿½ï¿½ï¿½DetachedCriteriaÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -222,7 +225,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İhql¼ÓÔØ·ÖÒ³£¬Ö¸¶¨Ò³´óĞ¡ºÍÆğÊ¼Î»ÖÃ
+	 * ï¿½ï¿½ï¿½hqlï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ö¸ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½
 		
 	 */
 
@@ -232,7 +235,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İhql¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚ0Ìõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½hqlï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½0ï¿½ï¿½Ê¼
 		
 	 */
 
@@ -242,7 +245,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İhql¼ÓÔØ·ÖÒ³£¬Ä¬ÈÏÒ³´óĞ¡£¬´ÓµÚstartIndexÌõ¿ªÊ¼
+	 * ï¿½ï¿½ï¿½hqlï¿½ï¿½ï¿½Ø·ï¿½Ò³ï¿½ï¿½Ä¬ï¿½ï¿½Ò³ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Óµï¿½startIndexï¿½ï¿½Ê¼
 		
 	 */
 
@@ -252,7 +255,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ¸ù¾İhqlÍ³¼Æ×ÜÊı
+	 * ï¿½ï¿½ï¿½hqlÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 	 */
 
@@ -261,11 +264,11 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ´´½¨Criteria¶ÔÏó
+	 * ï¿½ï¿½ï¿½ï¿½Criteriaï¿½ï¿½ï¿½ï¿½
 		
 	 *
 		
-	 * @param criterions ¿É±äµÄRestrictionsÌõ¼şÁĞ±í
+	 * @param criterions ï¿½É±ï¿½ï¿½Restrictionsï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
 		
 	 */
 
@@ -274,7 +277,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ´´½¨Criteria¶ÔÏó£¬´øÅÅĞò×Ö¶ÎÓëÉı½µĞò×Ö¶Î
+	 * ï¿½ï¿½ï¿½ï¿½Criteriaï¿½ï¿½ï¿½ó£¬´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 		
 	 */
 
@@ -284,11 +287,11 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 	/** */
 	/**
 		
-	 * ·½·¨È¡×ÔSpringSide.
+	 * ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½SpringSide.
 		
-	 * ´´½¨Query¶ÔÏó. ¶ÔÓÚĞèÒªfirst,max,fetchsize,cache,cacheRegionµÈÖî¶àÉèÖÃµÄº¯Êı,¿ÉÒÔÔÚ·µ»ØQueryºó×ÔĞĞÉèÖÃ.
+	 * ï¿½ï¿½ï¿½ï¿½Queryï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªfirst,max,fetchsize,cache,cacheRegionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄºï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½Queryï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		
-	 * ÁôÒâ¿ÉÒÔÁ¬ĞøÉèÖÃ,ÈçÏÂ£º
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Â£ï¿½
 		
 	 * <pre>
 		
@@ -296,7 +299,7 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 		
 	 * </pre>
 		
-	 * µ÷ÓÃ·½Ê½ÈçÏÂ£º
+	 * ï¿½ï¿½ï¿½Ã·ï¿½Ê½ï¿½ï¿½ï¿½Â£ï¿½
 		
 	 * <pre>
 		
@@ -312,28 +315,28 @@ public interface IHibernateGenericDao<T, ID extends Serializable> {
 		
 	 *
 		
-	 * @param values ¿É±ä²ÎÊı.
+	 * @param values ï¿½É±ï¿½ï¿½ï¿½ï¿½.
 		
 	 */
 
 	public abstract Query createQuery(String hql, Object... values);
 	
 	/**
-	 * ±£´æËùÓĞ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	 public void saveAll(Collection<T> entities);
 	
 	 /**
-	  * ±£´æ»òÕß¸üĞÂ
+	  * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½
 	  */
 	 public void saveOrUpdate(T object);
 	 
 	 /**
-	  * ÉèÖÃlistÖĞ¶ÔÏóµÄÄ³Ğ©×Ö¶ÎÎªnull
-	  * @param list ÒªÉèÖÃµÄlist
-	  * @param value ÒªÉèÖÃµÄÖµ
-	  * @param values ÒªÉèÖÃµÄ×Ö¶Î
-	  * @return ¾­¹ıÉèÖÃnullºóµÄlist
+	  * ï¿½ï¿½ï¿½ï¿½listï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½Ä³Ğ©ï¿½Ö¶ï¿½Îªnull
+	  * @param list Òªï¿½ï¿½ï¿½Ãµï¿½list
+	  * @param value Òªï¿½ï¿½ï¿½Ãµï¿½Öµ
+	  * @param values Òªï¿½ï¿½ï¿½Ãµï¿½ï¿½Ö¶ï¿½
+	  * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nullï¿½ï¿½ï¿½list
 	  */
 	 public  List<T> setNull(List<T> list, Object value, String...values);
 }

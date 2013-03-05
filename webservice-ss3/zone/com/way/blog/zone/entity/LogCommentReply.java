@@ -72,6 +72,7 @@ public class LogCommentReply implements Serializable {
 	@JoinTable(name="tb_comment_reply",joinColumns={@JoinColumn(name="lcrid")},inverseJoinColumns={@JoinColumn(name="lcid")})
 	private Set<LogComment> logComments;
 
+	
 
 	public LogCommentReply() {}
 

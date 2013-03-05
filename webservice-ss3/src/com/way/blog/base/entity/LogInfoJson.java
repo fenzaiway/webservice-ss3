@@ -18,26 +18,26 @@ import java.util.List;
  */
 public class LogInfoJson {
 	
-	private int logid;
-	
-	private String logTitle;
-	
-	private String publishTime;
-	
-	private String headImgUrl;
-	
-	private List<String> tags;
-	
-	private int hotNum;
-	
-	private int commentNum;
-	
-	private int likeNum;
+	private String loadMore; ///分页字段
 
-	private int reprintNum;
+	private List<LogInfoData> data;
+
+	public String getLoadMore() {
+		return loadMore;
+	}
+
+	public void setLoadMore(String loadMore) {
+		this.loadMore = loadMore;
+	}
+
+	public List<LogInfoData> getData() {
+		return data;
+	}
+
+	public void setData(List<LogInfoData> data) {
+		this.data = data;
+	}
 	
-	private String logContent;
 	
-	private String[] imgs; ///日志图像列表
 	
 }

@@ -30,9 +30,14 @@ public class AjaxLogInfoAction extends BaseAction {
 			@Result(name="success",type="json")
 	})
 	public String loadLogInfoDate(){
-		paginationSupport = logInfoServiceImpl.loadLogInfoDate(zoneuser, PaginationSupport.PAGESIZE, startIndex, null);
-		paginationSupport.setItems(logInfoServiceImpl.changeLogInfoText(paginationSupport.getItems()));
-		this.pageClass2Json(paginationSupport);
+		//paginationSupport = logInfoServiceImpl.loadLogInfoDate(zoneuser, PaginationSupport.PAGESIZE, startIndex, null);
+		//paginationSupport.setItems(logInfoServiceImpl.changeLogInfoText(paginationSupport.getItems()));
+		//this.pageClass2Json(paginationSupport);
+		this.returnJson(logInfoServiceImpl.getUserAttentionData(zoneuser, PaginationSupport.PAGESIZE, startIndex, null));
 		return  null;
 	}
+	
+	/**
+	 * 通过接口的方式重新加载数据
+	 */
 }
