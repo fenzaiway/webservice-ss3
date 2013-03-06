@@ -119,12 +119,27 @@ public class BaseAction extends ActionSupport implements Preparable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(str);
+		///System.out.println(str);
 		pw.print(str);          
 		pw.flush();          
 		pw.close();  
 	}
 
+	public void returnJS(String str){
+		response = ServletActionContext.getResponse();     
+		response.setContentType("text/javascript;charset=utf-8");          
+		response.setHeader("Cache-Control","no-cache");                    
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(str);
+		//pw.print(str);     
+		pw.println("document.write('"+str+"')");
+		pw.flush();          
+		pw.close();  
+	}
 	
 	public String getMyusername() {
 		return myusername;

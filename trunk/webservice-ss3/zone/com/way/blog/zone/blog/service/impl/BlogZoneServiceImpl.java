@@ -23,11 +23,9 @@ import com.way.blog.zone.entity.LogType;
 @Service("blogZoneServiceImpl")
 public class BlogZoneServiceImpl extends BaseGenericService<BlogZone, Integer> {
 
-	@Autowired
-	private UserLoginServiceImpl userLoginServiceImpl;
-	@Autowired
-	private LogTypeServiceImpl logTypeServiceImpl;
-	
+	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired private LogTypeServiceImpl logTypeServiceImpl;
+	@Autowired private BlogZone blogZone;
 	
 	@Override
 	@Resource(name="blogZoneDao")
@@ -71,5 +69,21 @@ public class BlogZoneServiceImpl extends BaseGenericService<BlogZone, Integer> {
 		super.save(blogZone);
 	}
 
+	/**
+	 * 获取用户的空间记录（日志记录+音乐记录+图片记录+视频记录）
+	 * @param username
+	 * @return
+	 */
+	public int getUserZoneRecord(String username){
+		blogZone = this.myFindByProperty("username", username);
+		//int record = blogZone.get
+		int logInfoRecord = 0;
+		///获取日志记录
+		for(LogType logType : blogZone.getLogTypes()){
+			logInfoRecord += logType.getLogInfos().size();
+		}
+		return logInfoRecord;
+	}
+	
 	
 }

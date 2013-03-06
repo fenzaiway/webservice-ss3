@@ -4,13 +4,14 @@
 	commentHtml+="<div class='comment_text_div'><div id='comment_text' contenteditable='true'></div>";
 	commentHtml+="</div>";
 	commentHtml+="<div><input type='button' id='comment_button' value='发表'/></div> <div class='clr'></div></div>";
-	commentHtml+="<div class='back_comment'>收起按钮</div>"
+	commentHtml+="<div class='back_comment'>收起按钮</div></div>"
 	
 	function showListData(data)
 	{
 		var html = "";
 		$("#pagebar").remove();
 		var headImg = "";
+		var tagHtml;
 		for(var i=0;i<data.length;i++)
 		{
 			if(""==data[i].headImgUrl)
@@ -19,6 +20,19 @@
 			}else
 			{
 				headImg = data[i].headImgUrl;
+			}
+			
+			//判断是否文章包含Tag
+			tagHtml = "";
+			if(typeof(data[i].tags)=="undefined")
+			{
+				tagHtml+="<li><div class='addtags'>加标签</div></li>";
+			}else
+			{
+				for(var j=0; j<data[i].tags.length; j++)
+				{
+					tagHtml+="<li><a href='tag/"+data[i].tags[j]+"'>#"+data[i].tags[j]+"</a></li>";
+				}
 			}
 			
 			html+="<div class='loginfo_list_left'>";
@@ -39,10 +53,7 @@
 					html+="<div>";
 					html+="<span class='info_tag'>";
 					html+="<ul>";
-					html+="<li>#科学</li>";
-					html+="<li>#数码 </li>";
-					html+="<li>#科技</li>";
-					html+="<li>#硬件</li>";
+					html+=tagHtml;
 					html+="</ul>";
 					html+="</span>";
 					html+="<span class='info_like'>";
@@ -56,6 +67,7 @@
 					html+="</div></div>";
 			html+="<div class='clr'></div>";
 			html+=commentHtml;
+			html+="<div class='clr'></div>";
 			html+="</div>";
 			
 			
@@ -67,6 +79,14 @@
 		$("#loginfo_list").append(html);
 		
 	}
+
+	/**
+	 * 加标签事件
+	 */
+	$(".addtags").live("click",function()
+	{
+		////alert($(this).text());
+	});
 	
 	//改变喜欢图标样式
 	$(".likeimg").live("mouseover",function()
