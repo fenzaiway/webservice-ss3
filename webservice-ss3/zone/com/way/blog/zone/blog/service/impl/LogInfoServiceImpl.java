@@ -163,37 +163,86 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public String getUserAttentionData(String username, int pageSize, int startIndex,Object... values){
 		paginationSupport = this.loadLogInfoDate(username, pageSize, startIndex, values);
 		//List<LogInfoJson> logInfoJsonList = new ArrayList<LogInfoJson>();
+		LogInfoJson logInfoJson = getLogInfoJson(paginationSupport);
+		
+		return JsonUtil.toJson(logInfoJson);
+	}
+	
+	/**
+	 * 通过分页组件获取LogInfoJson
+	 * @param paginationSupport
+	 * @return
+	 */
+	public LogInfoJson getLogInfoJson(PaginationSupport paginationSupport){
 		LogInfoJson logInfoJson = null;
 		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
-		LogInfoData logInfoData = null;
-		LogInfo originalLogInfo = null;
 		List<LogInfo> loginfoList  = paginationSupport.getItems();
 		if(null!=loginfoList && !loginfoList.isEmpty()){
 			loginfoList = this.changeLogInfoText(loginfoList);//转换字符长度
 			logInfoJson = new LogInfoJson();
 			logInfoJson.setLoadMore(paginationSupport.getLoadMore());
-			for (LogInfo logInfo : loginfoList) {
-				logInfoData = new LogInfoData();
-				originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
-				logInfoData.setLogid(logInfo.getId());
-				logInfoData.setUsername(logInfo.getUsername());
-				logInfoData.setLogTitle(logInfo.getLogTitle());
-				logInfoData.setLogContent(logInfo.getLogText());
-				logInfoData.setPublishTime(logInfo.getLogPublishTime());
-				logInfoData.setCommentNum(logInfo.getLogComments().size());
-				logInfoData.setLikeNum(originalLogInfo.getLogLikes().size());
-				logInfoData.setReprintNum(originalLogInfo.getLogReprints().size());
-				logInfoData.setHeadImgUrl(userHeadImgServiceImpl.getHeadImgUrl(logInfo.getUsername()));
-				logInfoDataList.add(logInfoData);
+			if(paginationSupport.hasNextPage()){  ///如果还有下一页，
+				logInfoJson.setHasNext(1);
+				logInfoJson.setStartIndex(paginationSupport.getNextIndex());
+			}else{
+				logInfoJson.setHasNext(-1);
+				logInfoJson.setStartIndex(0);
 			}
+			logInfoDataList = getLogInfoDataList(loginfoList);
 			logInfoJson.setData(logInfoDataList);
 		}
-		
-		
-		return JsonUtil.toJson(logInfoJson);
+		return logInfoJson;
 	}
 	
+	/**
+	 * 获取LogInfoData列表
+	 * @return
+	 */
+	public List<LogInfoData> getLogInfoDataList(List<LogInfo> loginfoList){
+		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
+		
+		
+		for (LogInfo logInfo : loginfoList) {
+			logInfoDataList.add(getLogInfoData(logInfo));
+		}
+		return logInfoDataList;
+	}
 	
+	/**
+	 * 通过LogInfo获取LogInfoData
+	 * @param logInfo
+	 * @return
+	 */
+	public LogInfoData getLogInfoData(LogInfo logInfo){
+		LogInfoData logInfoData = null;
+		LogInfo originalLogInfo = null;
+		logInfoData = new LogInfoData();
+		if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){ ///如果这篇日志有标签的话，就设置标签
+			logInfoData.setTags(this.getTags(logInfo));
+		}
+		originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
+		logInfoData.setLogid(logInfo.getId());
+		logInfoData.setUsername(logInfo.getUsername());
+		logInfoData.setLogTitle(logInfo.getLogTitle());
+		logInfoData.setLogContent(logInfo.getLogText());
+		logInfoData.setPublishTime(logInfo.getLogPublishTime());
+		logInfoData.setCommentNum(logInfo.getLogComments().size());
+		logInfoData.setLikeNum(originalLogInfo.getLogLikes().size());
+		logInfoData.setReprintNum(originalLogInfo.getLogReprints().size());
+		logInfoData.setHeadImgUrl(userHeadImgServiceImpl.getHeadImgUrl(logInfo.getUsername()));
+		return logInfoData;
+	}
+	
+	/**
+	 * 
+	 */
+	public List<String> getTags(LogInfo logInfo){
+		List<String> tags = new ArrayList<String>();
+		for(LogTag tag : logInfo.getLogTags()){
+			tags.add(tag.getTagName());
+		}
+		return tags;
+	}
 	
 	/**
 	 * 保存文章
@@ -230,5 +279,14 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		returnStatus = new ReturnStatus();
 		returnStatus.setStatus(1); ///表示成功
 		return JsonUtil.toJson(returnStatus);
+	}
+	
+	/**
+	 * 根据用户名获取用户的记录
+	 * @param username
+	 * @return
+	 */
+	public int getRecoreCount(String username){
+		return this.findByProperty("username", username).size();
 	}
 }

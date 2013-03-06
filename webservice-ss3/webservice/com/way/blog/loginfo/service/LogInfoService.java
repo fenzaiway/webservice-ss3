@@ -35,4 +35,27 @@ public class LogInfoService extends SpringBeanAutowiringSupport implements ILogI
 		return logInfoServiceImpl.save(title, content, tags, username, visible, logTypeId);
 	}
 	
+	/**
+	 * 通过json返回用户请求数据
+	 * @param username 哪个用户
+	 * @param pageSize 每页请求多少条数据
+	 * @param startIndex //数据开始点
+	 * @param values //分页参数
+	 * @return
+	 */
+	@WebMethod
+	public String getUserAttentionData(@WebParam(name="username")String username, @WebParam(name="pageSize")int pageSize, @WebParam(name="startIndex")int startIndex,@WebParam(name="values")Object... values){
+		return logInfoServiceImpl.getUserAttentionData(username, pageSize, startIndex, values);
+	}
+	
+	/**
+	 * 根据用户名获取用户的记录
+	 * @param username
+	 * @return
+	 */
+	@WebMethod
+	public int getRecoreCount(@WebParam(name="username")String username){
+		return logInfoServiceImpl.getRecoreCount(username);
+	}
+	
 }

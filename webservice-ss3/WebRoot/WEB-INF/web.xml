@@ -62,7 +62,8 @@
 	</filter>
 	<filter-mapping>
 	    <filter-name>UrlRewriteFilter</filter-name>
-	    <url-pattern>/zone/*</url-pattern>  
+	    <url-pattern>/zone/*</url-pattern>
+	    <url-pattern>/tag/*</url-pattern>
 	</filter-mapping> 
 	<!-- Hibernate Session lazy缓存,实现每次请求保存Session，直到请求完毕 -->
 	<filter>

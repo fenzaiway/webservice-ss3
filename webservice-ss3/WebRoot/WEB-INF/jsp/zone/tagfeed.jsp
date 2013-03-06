@@ -6,7 +6,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'MyJsp.jsp' starting page</title>
+    <title>最新关注内容</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -29,7 +29,6 @@
 		});
 	</SCRIPT>
 	
-	<script type="text/javascript" src="<%=basePath%>js/userzone.js"></script>
   </head>
   
   <body>
@@ -37,35 +36,7 @@
  		<div class="inner">
 		<div id="center_content">
 		<div id="top_navi">
-			<div id="head_navi">
-				<div>
-				 <img src="<%=basePath %>images/111.jpg" alt="头像" />
-				</div>
-			</div>
-			<div class="home_navi">
-				<div class="sub_navi">
-					<img src="<%=basePath %>images/navi_write.gif" alt="写文字">
-					<span><a href="loginfo/newLogInfo.do">写文字</a></span>
-				</div>
-			</div>
-			<div class="home_navi">
-				<div class="sub_navi">
-					<img src="<%=basePath %>images/navi_photo.gif"  alt="传图片">
-					<span>传图片</span>
-				</div>
-			</div>
-			<div class="home_navi">
-				<div class="sub_navi">
-					<img src="<%=basePath %>images/navi_vedio.gif"  alt="转视频">
-					<span>转视频</span>
-				</div>
-			</div>
-			<div class="home_navi">
-				<div class="sub_navi">
-					<img src="<%=basePath %>images/navi_music.gif" alt="发音乐">
-					<span>发音乐</span>
-				</div>
-			</div>
+			
 		</div>
 		<div id="user_setting"><s:property value="username"/></div>
 		</div>

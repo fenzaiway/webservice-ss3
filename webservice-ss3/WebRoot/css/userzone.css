@@ -32,7 +32,7 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .info_like{color:#A9A9A9;font-size:14px;float: right;margin-right: 20px;}
 .info_like li{margin-right: 15px;}
 .info_like li img{width:14px;height:14px;}
-.info_tag{color:#3FA7CB;font-size:14px; float: left;}
+.info_tag,.info_tag a{color:#3FA7CB;font-size:14px; float: left;}
 .info_tag ul{margin-left: -15px;}
 .info_tag li{margin-left: 15px;}
 .info_detail{margin: 10px;font-size:16px;font-family:新宋体;line-height:25px;color:#454545;}
@@ -58,6 +58,7 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .my_rec_sub li{ background-color: #F9F9F9;}
 #more_tags{background-color: #E1E1E1;color: #B5B5B5;padding: 10px 10px 0px 10px;}
 #more_tags:hover{background-color: #F3F3F3;border:1px solid #ccc;padding: 10px 10px 0px 10px;}
+/*加标签样式*/.addtags{width: 60px; height: 20px; border: 1px solid #3FA7CB; text-align: center;}
 /*评论列表CSS*/
 .comment_info{ background-color: #F1F1F1;width: 630px; margin:0px auto;height:auto!important; min-height:150px; margin-bottom:10px;}
 .comment_info_input{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
@@ -66,4 +67,5 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 #comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑; float:right; margin-right:40px; margin-top:-10px;}
 .back_comment{ height:25px; background-color:#FFFBF0; padding:10px;}
 #comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
+
 

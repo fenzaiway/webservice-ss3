@@ -14,7 +14,10 @@
         <from>/zone/(.*)</from>
         <to type="forward">/zone/userzone.do?username=$1</to>
     </rule>
-    
+    <rule>
+    	<from>/tag/(.*)</from>
+    	<to type="forward">/logtag/findLogInfoByTagName.do?tagName=$1</to>
+    </rule>
     <!--
 
     INSTALLATION
