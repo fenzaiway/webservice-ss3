@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.blog.service.impl.LogCommentServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.entity.LogComment;
@@ -64,10 +65,19 @@ public class LogCommentTest extends BaseTest {
 		this.init();
 		LogInfo li = new LogInfo();
 		li.setId(1);
-		List<LogComment> lcList = logCommentService.find("from LogComment where logInfo=?", li);
+		//List<LogComment> lcList = logCommentService.find("from LogComment where logInfo=?", new Object[]{li});
+		List<LogComment> lcList = logCommentService.findPageByQuery("from LogComment where logInfo=?", PaginationSupport.PAGESIZE, 0, new Object[]{li}).getItems();
 		//System.out.println(lcList.size());
 		lcList = nullDemo.setNull(lcList, null, new String[]{"logInfo","logCommentReplys"});
-		System.out.println(lcList);
+		System.out.println(lcList.get(0).getCommentContent());
 		System.out.println(lcList.get(0).getLogCommentReplys());
+	}
+	
+	@Test
+	public void getLogCommentCountTest(){
+		this.init();
+		LogInfo li = new LogInfo();
+		li.setId(1);
+		System.out.println(logCommentService.getCountByQuery("from LogComment where logInfo=?", new Object[]{li}));
 	}
 }

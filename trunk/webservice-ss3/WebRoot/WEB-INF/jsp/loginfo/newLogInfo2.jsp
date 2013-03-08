@@ -5,7 +5,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -14,10 +14,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<%=basePath%>/js/jquery.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>htmlTest/ueditor/editor_config.js"></script>
     <script type="text/javascript" charset="utf-8"  src="<%=basePath%>htmlTest/ueditor/editor_all.js"></script>
+	<script src="//mat1.gtimg.com/app/openjs/openjs.js"></script>
     <link href="<%=basePath%>css/feedTags.css" rel="stylesheet" type="text/css" />
 
 <script src="<%=basePath%>js/jquery.feedTags.js" type="text/javascript"></script>
     <script type="text/javascript">
+   
+    ////、初始化微博数据同步	
+    T.init({
+        appkey:801321945
+    });
+    
+    ////微博授权登录
+    function wbLogin()
+    {
+    	T.login(function (loginStatus) {
+        ///alert(loginStatus.nick);
+    	},function (loginError) {
+        alert(loginError.message);
+    	});
+    }
+    
+    ///同步微博
+    function addWB(content)
+    {
+    	//alert(content);
+    	T.api("t/add", {"content":content,"clientip":"222.217.220.226"},"json","post")
+		 .success(function (response){
+          //alert(response);
+      })
+     .error(function (code, message) {
+          alert(message);
+      });
+    }
+    
+    //、获取文本长度
 	function GetCharLength(str)
 	{
 		var iLength = 0;  //记录字符的字节数
@@ -35,22 +66,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		return iLength;   //返回字符所占字节数
 	}
 	//若字符串长度超过要求，截掉多余部分
-	function CutStr(elementID,len)   //elementID表示要进行处理的对象ID,len表示设置的限制字节数
+	function CutStr(str,len)   //elementID表示要进行处理的对象ID,len表示设置的限制字节数
 	{
-		alert('aaa')
-		var str = document.getElementById(elementID).value;  //获取要处理的字符串
+		//alert('aaa')
+		//var str = document.getElementById(elementID).value;  //获取要处理的字符串
 		var curStr = "";  //用于实时存储字符串
-		for(var i = 0;i<str.length;i++)   //遍历整个字符串
+		/*for(var i = 0;i<str.length;i++)   //遍历整个字符串
 		{
 			curStr += str.charAt(i);  //记录当前遍历过的所有字符
 			if(GetCharLength(curStr )>len)  //如果当前字符串超过限制长度
 			{
-				alert('a');
-				document.getElementById(elementID).value = str.substring(0,i);  //截取多余的字符,并把剩余字符串赋给要进行处理的对象
-				return;  //结束函数
+				//alert('a');
+				curStr = document.getElementById(elementID).value = str.substring(0,i);  //截取多余的字符,并把剩余字符串赋给要进行处理的对象
+				return curStr;  //结束函数
 			}
-		}
+		}*/
+		curStr = str.substring(0,len);
+		return curStr;  //结束函数
 	}
+	
 $(function()
 {
 	$('#feedTags').feedTags({
@@ -58,7 +92,51 @@ $(function()
 		tags:$('#tags')
 	});
 	
-	$(".user_tags_li").click(function()///通过鼠标点击添加标签	{
+	////判断用户是否选择同步到微博
+	$("#syswb").click(function()
+	{
+		///alert("aa");
+		///if()
+		//alert($("#syswb:checked").val());
+		if("on" == $("#syswb:checked").val())
+		{
+			
+			wbLogin();
+		}
+	});
+	
+	////获取用户发布的内容，然后同步到微博
+	$("#subBut").click(function()
+	{
+		if("on" == $("#syswb:checked").val())
+		{
+			var title = $("#logtitle").val();
+			var content = $("#editor").text();
+			var content = UE.getEditor('editor').getPlainTxt();
+			//alert("title=" + title);
+			///alert("editor=" + content);
+			//addWB(title,"aa");/
+			title = "【"+title+"】"; //////140长度
+			var titleLen = GetCharLength(title);
+			var contentLen = GetCharLength(content);
+			var length = 140;
+			if(contentLen < (length-titleLen))
+			{
+				content = title+ content;
+			}else
+			{
+				content = CutStr(content,(length-titleLen-3));
+				content = title+ content + "...";
+			}
+			////alert(GetCharLength(content));
+			//alert(content);
+			addWB(content);
+			///$("#wordform").submit();
+		}
+	});
+	
+	$(".user_tags_li").click(function()///通过鼠标点击添加标签
+	{
 		var flag = false;
 		var tagText = $(this).text();
 		$(".tag").each(function()//判断标签是否已经存在		
@@ -115,7 +193,7 @@ $(function()
 </head>
 
 <body>
-	<form action="loginfo/save.do" method="post">
+	<form action="loginfo/save.do" name="wordform" id="wordform" method="post">
 	<div id="new_info_main">
     	<div id="new_info_left">
         	<div id="detail">
@@ -123,7 +201,7 @@ $(function()
             </div>
 			<div id="new_info_title">
             	<h3>标题</h3>
-                <input type="text" name="logInfo.logTitle" style="border:1px solid #CECECF; width:610px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
+                <input type="text" id="logtitle" name="logInfo.logTitle" style="border:1px solid #CECECF; width:610px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
             </div>
             <div id="content">
             	 <h3>内容</h3>
@@ -136,7 +214,7 @@ $(function()
             	<input type="button" class="button" value="取　消"/>
               <input style="display:none" type="button" class="button" value="保存草稿"/>
               <input type="button" class="button" value="预　览"/>
-              <input type="submit" class="button publish" value="发　布"/>
+              <input type="submit" id="subBut" class="button publish" value="发　布"/>
             </div>
         </div>
       
@@ -153,7 +231,9 @@ $(function()
            		<li class="user_tags_li"><s:property value="#logtag.tagName"/></li>
            	</s:iterator>
            	</ul>
+			<div class="clr"></div>
            </div>
+			<div class="clr"></div>
             <span class="left_detail">给标签分分类</span>
              <div class="visiable">
             	  <select name="select" id="tagid">
@@ -178,7 +258,7 @@ $(function()
 				</s:iterator>
               </select>
             </div>
-            
+            <div style="width:200px; height:35px; line-height:35px; color:#333;margin-left:20px; margin-bottom:15px;">同步到腾讯微博<input type="checkbox" id="syswb"/></div>
              <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
         </div>
         <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
