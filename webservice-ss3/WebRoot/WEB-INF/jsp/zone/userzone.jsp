@@ -18,13 +18,16 @@
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userzone.css">
 	
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery.XYTipsWindow.2.8.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
 	<SCRIPT type="text/javascript">
 		var username;
+		var myusername;
 		$(function()
 		{
 			backToTop();
 			username = '<s:property value="username"/>';
+			myusername = '<s:property value="myusername"/>';
 			//alert(username);
 		});
 	</SCRIPT>
@@ -68,7 +71,6 @@
 			</div>
 		</div>
 		<div id="user_setting"><s:property value="username"/></div>
-		</div>
 	<div class="clr"></div>
   	<span style="color:#999999;font-size:16px;font-family:Verdana, Arial, Helv, Helvetica, sans-serif;">我关注的空间动态</span>
 	<div class="clr"></div>
@@ -155,10 +157,12 @@
 			<span style="display:block;">今日访问量：0</span>
 			<span style="display:block;">总的访问量：0</span>
 		</div>
+		
 		<div style="height: 320px;">客户端</div>
 	</div>
 	<div class="clr"></div>
 	<s:debug></s:debug>
 </div></div>
   </body>
+
 </html>

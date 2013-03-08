@@ -139,6 +139,16 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 		this.logInfoList = logInfoList;
 	}
 
+
+	public String getMyusername() {
+		return myusername;
+	}
+
+
+	public void setMyusername(String myusername) {
+		this.myusername = myusername;
+	}
+
 	
 	
 }

@@ -67,6 +67,16 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 		return returnString;
 	}
 	
+	
+	@Action(value="sessionInvalidate",results={
+			@Result(name="success", location="/login.jsp"),
+	})
+	public String session(){
+		//session.removeAttribute("myusername");
+		session.invalidate();
+		return SUCCESS;
+	}
+	
 	/**
 	 * 进入登录页面
 	 */

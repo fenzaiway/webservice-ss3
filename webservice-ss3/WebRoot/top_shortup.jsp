@@ -57,10 +57,14 @@ li{float:left;}
  #top_text2{ float:right; width:50%; height:55px;} 
  #top_text2 ul li{ color:#D0EEFA; margin-left:20px; font-size:13px;} 
  .split{ margin-left:10px;}
+ 
 </style>
+<script src="http://mat1.gtimg.com/app/openjs/openjs.js"></script>
+<script src="http://mat1.gtimg.com/app/openjs/widget/connect.js"></script>
 </head>
   
   <body>
+	
     <div id="top">
 	<div class="outer">
  		<div class="inner">
@@ -72,17 +76,22 @@ li{float:left;}
                   <li><a href="index/loadIndexContent.do">首页</a></li>
 				<li><a href="admin/main/gotoMainMenu.do">系统管理</a></li>
 				<li><a href="albumtype/gotoAlbumTypeList.do?zoneuser=${zoneuser }">相册</a></li>
+				<li>
+					
+				</li>
 				<li><a href="zone/${myusername}">个人中心</a></li></ul></span>
               </div>
               	 <div id="top_text2">
                    <span>
                    <ul>
                      <li>消息<span class="split">|</span></li>
-                            <li>私信<span class="split">|</span></li>
+                            <li>
+							私信
+						<span class="split">|</span></li>
                             <li><a href="userlogin/gotoLogin.do">登录</a><span class="split">|</span></li>
                             <li><a href="register/gotoRegister.do">注册</a><span class="split">|</span></li>
                             <li><a href="register/sendMail.do">邮件</a><span class="split">|</span></li>
-                            <li>退出</li>
+                            <li><a href="userlogin/sessionInvalidate.do">退出</a></li>
                         </ul>
                     </span>
               	 </div>

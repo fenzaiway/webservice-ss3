@@ -20,7 +20,7 @@ public class UserHeadImgServiceImpl extends BaseGenericService<UserHeadImg, Inte
 	}
 	
 	/**
-	 * 根据用户头像取出用户的头像地址
+	 * 根据用户取出用户的头像地址
 	 * @param username
 	 * @return
 	 */

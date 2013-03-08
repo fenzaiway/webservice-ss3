@@ -49,6 +49,7 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 #head_navi div{width:115px;height:115px;margin-top:-35px;margin-left:20px;background-color:#fff;}
 #head_navi img{margin:3px;width: 110px;height: 110px;}
 #user_setting{margin-top: -65px;width: 230px;height: 44px;border: 1px solid silver;float:right;background-color: #3DA8CC;color:#fff;}
+#qq_account_log{width:80px;height: 44px; float: right; border: 0px solid red;}
 #left_navi{width: 230px;height: 355px;height:auto!important;border: 1px solid silver;float:right;margin-top: -130px;background-color: #F9F9F9;}
 .left_navi_1{height: 60px;border-bottom: 1px dotted #ccc; }
 .left_navi_1 span
@@ -62,10 +63,37 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 /*∆¿¬€¡–±ÌCSS*/
 .comment_info{ background-color: #F1F1F1;width: 630px; margin:0px auto;height:auto!important; min-height:150px; margin-bottom:10px;}
 .comment_info_input{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
-#comment_text{ border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}
+.comment_text{ border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}
 .comment_text_div{ margin:25px;height:auto!important; min-height:50px;}
-#comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:Œ¢»Ì—≈∫⁄; float:right; margin-right:40px; margin-top:-10px;}
+.comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:Œ¢»Ì—≈∫⁄; float:right; margin-right:40px; margin-top:-10px;}
+.comment_position{width: 630px; height: 200px;min-height:45px;height:auto!important; margin-top: 13px;}
 .back_comment{ height:25px; background-color:#FFFBF0; padding:10px;}
-#comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
+.comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
+.comment_list{width:600px; min-height:45px; border-bottom:1px solid #D4BFFF; height:auto!important; padding:15px;}
+.comment_list_headimg{float:left;}
+.comment_list_headimg,.comment_list_headimg img{width:20px; height:20px;}
+.comment_list_comment_info{width:400px; float:left; margin-left:10px;word-break:break-all;font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; min-height:50px; color:#444444;}
+.comment_list_reply{float:right; margin-right:25px;}
 
+
+
+
+
+
+.XYTipsWindow .boxLoading { position: absolute; display: block; width: 90px; height: 30px; line-height: 30px; margin-left: -45px; margin-top: -15px; left: 50%; top: 50%; color: #f00; }
+.XYTipsWindow .boxLoading { width:28px; margin-left: -14px; background:url("../images/loading.gif") no-repeat; text-indent: -999em; text-align: center; }
+.XYTipsWindow .boxTitle, .XYTipsWindow .boxTitle span, .XYTipsWindow .boxTitle span.hover, .XYTipsWindow .loadinglayer, .XYTipsWindow .tipslayer, .XYTipsWindow .arrowLeft, .XYTipsWindow .colseBtn, .XYTipsWindow .boxError em, .XYTipsWindow .dialogBtn, .XYTipsWindow .dialogBtn.hover { background-image: url("../images/ico.png"); background-repeat: no-repeat; }
+.XYTipsWindow .boxTitle { position: relative; border: 1px solid #A6C9E1; border-bottom: none; background-position: 0 0; background-repeat: repeat-x; height: 30px; line-height: 30px; }
+.XYTipsWindow .boxTitle h3 { float: left; font-weight: normal; color: #666; font-size: 14px; margin: 0; text-indent: 10px; }
+.XYTipsWindow .boxTitle span { position: absolute; width: 10px; background-position: -80px -40px; text-indent: -10em; right: 10px; top: 10px; height: 16px; overflow: hidden; cursor: pointer; }
+.XYTipsWindow .boxTitle span.hover { background-position: -90px -40px; }
+.XYTipsWindow .loadinglayer { line-height: 40px; background-position: 0 -100px!important; }
+.XYTipsWindow .tipslayer { line-height: 20px; text-align: left; }
+.XYTipsWindow .arrowLeft { position: absolute; width: 8px; height: 16px; background-position: -20px -170px; text-indent: -9999em; z-index: 20591; overflow: hidden; }
+.XYTipsWindow .colseBtn { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background-position: -55px -170px; text-indent: -9999em; cursor: pointer; z-index: 20591; overflow: hidden; }
+.XYTipsWindow .boxError { position: absolute; left: 50%; top: 50%; margin-left: -60px; margin-top: -15px; width: 120px; height: 30px; line-height: 30px; color: #f00; }
+.XYTipsWindow .boxError em { float: left; width:30px; height: 30px; background-position: -35px -140px; }
+.XYTipsWindow .dialogBtn { margin: 5px 5px 0 0; width:80px; height:35px; background-position: 0 -30px; border:none; color:#333; }
+.XYTipsWindow .dialogBtn.hover { background-position: 0 -65px; }
+.XYTipsWindow.shadow { box-shadow:2px 2px 5px #C0BBB5; -moz-box-shadow: 2px 2px 5px #C0BBB5; -webkit-box-shadow:2px 2px 5px 
 

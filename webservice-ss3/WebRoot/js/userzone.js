@@ -1,10 +1,12 @@
 //var username;
 	var position = 0;
 	var commentHtml = "<div class='comment_info'><div class='comment_info_input'>";
-	commentHtml+="<div class='comment_text_div'><div id='comment_text' contenteditable='true'></div>";
+	commentHtml+="<div class='comment_text_div'><div class='comment_text' contenteditable='true'></div>";
 	commentHtml+="</div>";
-	commentHtml+="<div><input type='button' id='comment_button' value='发表'/></div> <div class='clr'></div></div>";
-	commentHtml+="<div class='back_comment'>收起按钮</div></div>"
+	commentHtml+="<div><input type='button' class='comment_button' value='发表'/></div> <div class='clr'>";
+	commentHtml+="<div class='comment_position'></div>"		
+	commentHtml+="</div></div>";
+	commentHtml+="<div class='back_comment' position='' >收起按钮</div></div>"
 	
 	function showListData(data)
 	{
@@ -39,7 +41,7 @@
 				html+="<div class='headImg'>";
 				html+="<img src='"+headImg+"' alt='头像' />";
 				html+="</div>";
-					html+="<div class='info'>";
+					html+="<div class='info' logid="+data[i].logid+">";
 					html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].publishTime+"</span></div>";
 					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
 					html+="<div>";
@@ -60,7 +62,7 @@
 					html+="<ul>";
 					html+="<li>热度("+data[i].hotNum+")</li>";
 					html+="<li>转载("+data[i].reprintNum+") </li>";
-					html+="<li><a href='javascript:void(0)' class='my_info_comment' position="+position+">评论("+data[i].commentNum+")</a></li>";
+					html+="<li><a href='javascript:void(0)' class='my_info_comment'  position="+position+">评论(<span class='commentNum'>"+data[i].commentNum+"</span>)</a></li>";
 					html+="<li><img src='images/like1.gif' class='likeimg' alt='like'/>喜欢("+data[i].likeNum+")</li>";
 					html+="</ul>";
 					html+="</span></div>";
@@ -80,12 +82,80 @@
 		
 	}
 
+	////根据日志id加载日志的评论
+	function loadCommentList(logid,index)
+	{
+		///alert(logid + "=--" + index);
+		///alert($(".commentNum:eq("+index+")").text());
+		var commentNum = $(".commentNum:eq("+index+")").text();
+		var commentListHtml = "";
+		
+		
+		
+		
+		////评论的数量不为0的时候才发起请求获取评论数据
+		if(0!=commentNum)
+		{
+			$.post("ajax/comment/loadCommentList.do",{"logid":logid},function(data)
+			{
+				var length = data.length;
+				for(var i=0; i<length; i++)
+				{
+					commentListHtml+= "<div class='comment_list'>";
+					commentListHtml+= "<div class='comment_list_headimg'>";
+					commentListHtml+= "<img src='images/111.jpg'/>";
+					commentListHtml+= "</div>";
+					commentListHtml+= "<div class='comment_list_comment_info'>";
+					commentListHtml+= "<a href='zone/"+data[i].commentUsername+"'>"+data[i].commentUsername+"</a>&nbsp;&nbsp;"+data[i].conten+"";
+					commentListHtml+= " <div class='clr'></div>";
+					commentListHtml+= " </div>";
+					commentListHtml+= " <div class='comment_list_reply'>回复</div>";
+					commentListHtml+= " <div class='clr'></div>";
+					commentListHtml+= " </div>";
+				}
+				
+				$(".comment_position:eq("+index+")").empty().append(commentListHtml);
+			});
+		}
+		
+		
+	}
+	
+	/////弹出登录框
+	function showLogin()
+	{
+		$.XYTipsWindow({
+			___title:"登录",
+			___content:"iframe:login.html",
+			___width:"460",
+			___height:"150",
+			___showbg:true,
+			___drag:"___boxTitle"
+
+		});
+	}
+	
+	
+	////点击发布按钮
+	$(".comment_button").live("click",function()
+	{
+		///alert("发表");
+		//alert(username + " " + myusername);
+		if("" == myusername)
+		{
+			//showLogin();
+			window.location.href="register/gotoLogin.do";
+		}
+	});
+	
+	
 	/**
 	 * 加标签事件
 	 */
 	$(".addtags").live("click",function()
 	{
 		////alert($(this).text());
+		
 	});
 	
 	//改变喜欢图标样式
@@ -99,15 +169,44 @@
 	
 	$(".my_info_comment").live("click",function()
 	{
-		$(".comment_info:eq("+$(this).attr("position")+")").slideToggle('fast');
+		var index = $(this).attr("position");
+		var logid = $(".info:eq("+index+")").attr("logid");
+		//alert($(".comment_list:eq("+index+")").text());
+		////为了避免多次请求，如果列表为空，就异步请求评论数据
+		
+		$(".comment_info:eq("+index+")").slideToggle('fast',function()
+		{
+			///如果评论框是显示的，像素就变为0，否则恢复
+			if($(".comment_info:eq("+index+")").is(":visible"))
+			{
+				if($(".comment_position:eq("+index+")").html() == "")  ////如果评论数据为空的时候，才去请求数据
+				{
+					loadCommentList(logid,index); /////加载用户评论数据
+				}
+				
+				$(".info:eq("+index+")").css("margin-bottom","0px");
+				$(".comment_info:eq("+index+")").children(".back_comment").attr("position",index);
+			}else
+			{
+				$(".info:eq("+index+")").css("margin-bottom","15px");
+			}
+		});
 		
 	});
 	
 	$(".back_comment").live("click",function()
 	{
-		//alert('aa');
+		//alert($(this).attr("position"));
 		//$(".comment_info:eq("+$(this).attr("position")+")").css("display","none");
-		$(".comment_info").css("display","none");
+		var index = $(this).attr("position");
+		$(".comment_info:eq("+index+")").css(
+		{
+			"display":"none",
+		});
+		$(".info:eq("+index+")").css(
+		{
+			"margin-bottom":"15px"
+		});
 		
 	});
 	
