@@ -52,6 +52,7 @@ public class UserSessionInterceptor extends AbstractInterceptor {
 //         if(isAllowtogo(invocation,allowTogoUrls,uri)){
 //        	 invocation.invoke();
 //         }
+        
          for(int i=0; i<allowTogoUrls.length; i++){
         	 String url = reqPath+allowTogoUrls[i];
         	 if(uri.startsWith(url)){
@@ -74,7 +75,7 @@ public class UserSessionInterceptor extends AbstractInterceptor {
              String realPath = path + "?" + queryString;
              System.out.println("realPath==" + realPath);
              // 存入session，方便调用
-             session.put("prePage", realPath); 
+             session.put("prePage", realPath.substring(reqPath.length())); 
              
              //如果超时，返回提示页面
              return "loginPage";

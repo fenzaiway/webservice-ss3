@@ -3,7 +3,11 @@ package com.way.blog.zone.blog.service.impl;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -44,6 +48,19 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 	}
 
 	
+	public int save(int logId, String username, String commentContent){
+		LogInfo logInfo = logInfoServiceImpl.findById(logId);
+		logComment.setCommentContent(commentContent);
+		
+		logComment.setUsername(username);
+		///设置双向关联
+		logComment.setLogInfo(logInfo);
+		Set<LogComment> logComments = new HashSet<LogComment>();
+		logComments.add(logComment);
+		logInfo.setLogComments(logComments);
+		return this.save(logComment);
+	}
+	
 	/**
 	 * 根据日志id取出这篇日志对应的日志评论内容
 	 * @param logId
@@ -53,29 +70,51 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 		//List<CommentListJson> commentListJsonList = new ArrayList<CommentListJson>();
 		List<CommentListData> commentListJsonList = new ArrayList<CommentListData>();
 		//CommentListJson commentListJson = null;
-		CommentListData commentListData = null;
+		
 		List<LogComment> logCommList = null;
-		String username;
+		
 		logInfo = logInfoServiceImpl.findById(logId);
 		//System.out.println(logInfo);
 		logInfo.setId(logId);
 		//String hql = "from LogComment where LogInfo=?";
 		//paginationSupport = this.findPageByQuery(hql, PaginationSupport.PAGESIZE, 0, new Object[]{logInfo});
-		logCommList = new ArrayList<LogComment>(logInfo.getLogComments());
+		//logCommList = new ArrayList<LogComment>(logInfo.getLogComments());
+		logCommList = this.sort(logInfo.getLogComments());
 		if(null != logCommList && !logCommList.isEmpty()){
 			for(LogComment comment : logCommList){
 				//commentListJson = new CommentListJson();\
-				commentListData = new CommentListData();
-				username = comment.getUsername();
-				commentListData.setCommentUsername(username);
-				commentListData.setHeadimgUrl(userHeadImgServiceImpl.getHeadImgUrl(username));
-				commentListData.setId(comment.getId());
-				commentListData.setConten(comment.getCommentContent());
-				commentListJsonList.add(commentListData);
+				
+				commentListJsonList.add(getCommentListData(comment));
 			}
 			
 		}
 		
 		return JsonUtil.toJson(commentListJsonList);
+	}
+	
+	public CommentListData getCommentListData(LogComment comment){
+		String username;
+		CommentListData commentListData = null;
+		commentListData = new CommentListData();
+		username = comment.getUsername();
+		commentListData.setCommentUsername(username);
+		commentListData.setHeadimgUrl(userHeadImgServiceImpl.getHeadImgUrl(username));
+		commentListData.setId(comment.getId());
+		commentListData.setConten(comment.getCommentContent());
+		return commentListData;
+	}
+	
+	/**
+	 * 对HashSet中的内容排序,按照最后评论的时间进行排序
+	 */
+	public List<LogComment> sort(Set<LogComment> logCommentSet){
+		List<LogComment> logCommentList = new ArrayList<LogComment>(logCommentSet);
+		Collections.sort(logCommentList, new Comparator(){
+
+			public int compare(Object o1, Object o2) {
+				
+				return -((LogComment)o1).getCommentTime().compareTo(((LogComment)o2).getCommentTime());
+			}});
+ 		return logCommentList;
 	}
 }

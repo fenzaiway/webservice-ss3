@@ -32,10 +32,10 @@ ul{list-style:none;}
 li{float:left;}
 
 #top{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:50px; background:#3FA7CB;}
-#head_img{position:relative; margin-top:55px; width:100%; height:160px; border:1px solid #ccc; margin-bottom:20px; background-color:#000000; filter: alpha(opacity=50); opacity: 0.5;border-bottom:2px solid #3DA8CC; z-index: -1;}
+#head_img{position:relative; margin-top:55px;  height:160px; border:1px solid #ccc; margin-bottom:20px; background-color:#000000; filter: alpha(opacity=50); opacity: 0.5;border-bottom:2px solid #3DA8CC; z-index: -1;margin-right: 0px; margin-left: 0px;}
 .clr{clear:both;}
 .outer{
-     width:100%; padding-left:30px;
+     width:100%; 
     
  }
  .inner{
@@ -44,8 +44,8 @@ li{float:left;}
 	 min-height:50px;
 	 height:auto!important;
 	 padding-bottom:5px;
-     
      margin:0 auto;
+     padding-left: 30px;
  }
  #logo{float:left;}
  #logo img{width:100px; height:55px;position:fixed;_position:absolute;top:0;}
@@ -79,7 +79,8 @@ li{float:left;}
 				<li>
 					
 				</li>
-				<li><a href="zone/${myusername}">个人中心</a></li></ul></span>
+				<li><a href="zone/${myusername}">个人中心</a></li>
+				</ul></span>
               </div>
               	 <div id="top_text2">
                    <span>
@@ -103,7 +104,7 @@ li{float:left;}
 	</div>
 </div>
 	<div id="head_img">
-		<img src="images/top_banner.gif" style="width: 100%;height: 160px;">
+		<img src="images/top_banner.gif" style="width: 100%;height: 160px;"/>
 	</div>
   </body>
 </html>

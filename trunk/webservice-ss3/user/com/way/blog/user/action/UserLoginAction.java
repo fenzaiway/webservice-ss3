@@ -34,7 +34,8 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 	 * @return
 	 */
 	@Action(value="login",results={
-			@Result(name="success", location="/zone/%{myusername}",type="redirect"),
+			//@Result(name="success", location="/zone/%{myusername}",type="redirect"),
+			@Result(name="success", location="%{prePage}",type="redirect"),
 			@Result(name="input",location="/login.jsp"),
 			@Result(name="mailActivity",location="/register/mailActivity.jsp"),
 	})
@@ -57,6 +58,9 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 			}else{
 				myusername = userLogin.getUsername();
 				session.setAttribute("myusername", myusername);
+				if(null == prePage){
+					prePage = "/zone/"+myusername+"";
+				}
 				returnString = SUCCESS;
 			}
 			
