@@ -51,6 +51,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 		myusername = (String) session.getAttribute("myusername");
 		zoneuser = (String) session.getAttribute("zoneuser");
 		prePage = (String) session.getAttribute("prePage");
+		
 		this.init();
 	}
 	

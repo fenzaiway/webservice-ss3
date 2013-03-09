@@ -53,17 +53,9 @@ public class LogCommentAction extends BaseAction implements ModelDriven<LogComme
 			@Result(name="login",location="/register/gotoLogin.do",type="redirect")
 	})
 	public String save(){
-		LogInfo logInfo = logInfoServiceImpl.findById(logId);
-		logComment.setCommentContent(commentText);
 		
-		logComment.setUsername(myusername);
-		///设置双向关联
-		logComment.setLogInfo(logInfo);
-		Set<LogComment> logComments = new HashSet<LogComment>();
-		logComments.add(logComment);
-		logInfo.setLogComments(logComments);
-		logCommentServiceImpl.save(logComment);
-		System.out.println("in logComent-------" + zoneuser);
+		//logCommentServiceImpl.save(logComment);
+		logCommentServiceImpl.save(logId, myusername, commentText);
 		return SUCCESS;
 	}
 	

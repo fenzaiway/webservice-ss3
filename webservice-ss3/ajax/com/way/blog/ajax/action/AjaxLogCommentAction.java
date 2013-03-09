@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
 import com.way.blog.zone.blog.service.impl.LogCommentServiceImpl;
+import com.way.blog.zone.entity.LogComment;
 
 /**
  * 评论ajax控制器
@@ -21,7 +22,10 @@ import com.way.blog.zone.blog.service.impl.LogCommentServiceImpl;
 public class AjaxLogCommentAction extends BaseAction {
 
 	@Autowired private LogCommentServiceImpl logCommentServiceImpl;
+	@Autowired private LogComment logComment;
 	private int logid;
+	private String commentText; ///评论的内容
+	
 	
 	@Action(value="loadCommentList",results={
 			@Result(name="success",type="json")
@@ -31,12 +35,30 @@ public class AjaxLogCommentAction extends BaseAction {
 		return null;
 	}
 
+	@Action(value="save",results={
+			@Result(name="success",type="json")
+	})
+	public String save(){
+		int commentid = logCommentServiceImpl.save(logid, myusername, commentText);
+		logComment = logCommentServiceImpl.findById(commentid);
+		this.returnJsonByObject(logCommentServiceImpl.getCommentListData(logComment));
+		return null;
+	}
+	
 	public int getLogid() {
 		return logid;
 	}
 
 	public void setLogid(int logid) {
 		this.logid = logid;
+	}
+
+	public String getCommentText() {
+		return commentText;
+	}
+
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
 	}
 	
 }
