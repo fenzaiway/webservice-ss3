@@ -74,8 +74,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td height="20"><input type="checkbox" class="delid" delId="<s:property value="#userLogin.id"/>" name="delid"/></td>
                     <td ><s:property value="#logtag.tagName"/></td>
 					<td><s:property value="#logtag.tagCreateTime"/></td>
-                    <td><a href="editrenwu.htm">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
-					<a href="admin/tag/deleteById.do?userLogin.id=<s:property value='#tag.id'/>">删除</a></td>
+                    <td><a href="editrenwu.htm">编辑|</a><a href="admin/tag/logTagDetail.do?tagId=<s:property value='#logtag.id'/>">查看|</a>
+					<a href="admin/tag/deleteByLogTagId.do?tagId=<s:property value='#logtag.id'/>" onclick="return myConfirm()">删除</a></td>
                   </tr>
 				  </s:iterator>
             </table></td>

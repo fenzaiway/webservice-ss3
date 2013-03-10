@@ -77,8 +77,8 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .comment_list_reply{float:right; margin-right:25px;}
 
 
-
-
+/*ÃÌº”±Í«©*/
+.addTagss{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
 
 
 .XYTipsWindow .boxLoading { position: absolute; display: block; width: 90px; height: 30px; line-height: 30px; margin-left: -45px; margin-top: -15px; left: 50%; top: 50%; color: #f00; }

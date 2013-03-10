@@ -7,7 +7,7 @@
 	commentHtml+="<div class='comment_position'></div>"		
 	commentHtml+="</div></div>";
 	commentHtml+="<div class='back_comment' position='' >收起按钮</div></div>"
-	
+	var addTagHtml = "<div class='addTagss'></div>";
 	function showListData(data)
 	{
 		var html = "";
@@ -28,7 +28,7 @@
 			tagHtml = "";
 			if(typeof(data[i].tags)=="undefined")
 			{
-				tagHtml+="<li><div class='addtags'>加标签</div></li>";
+				tagHtml+="<li><div class='addtags' position='"+position+"'>加标签</div></li>";
 			}else
 			{
 				for(var j=0; j<data[i].tags.length; j++)
@@ -192,7 +192,8 @@
 	 */
 	$(".addtags").live("click",function()
 	{
-		////alert($(this).text());
+		var index = $(this).attr("position");
+		alert($(this).text() + "--");
 		
 	});
 	
@@ -313,7 +314,7 @@
 				{
 		            stop=false;
 		            startIndex = $("#pagebar").text();
-		            $("#pagebar").empty().text("正在加载，请稍候....").css("display","block");
+		            $("#pagebar").empty().text("数据在加载中，请稍候....").css("display","block");
 		            $.post("ajax/loginfo/loadLogInfo.do",{"startIndex":startIndex},function(data)
 	        		{
 	        			
