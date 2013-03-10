@@ -17,6 +17,7 @@ import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.entity.UserRegister;
 import com.way.blog.util.MD5;
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.entity.BlogZone;
 
 
@@ -27,6 +28,8 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 	public void setDao(IHibernateGenericDao<UserRegister, Serializable> dao) {
 		super.setDao(dao);
 	}
+	
+	
 
 	public String getEncrypt(UserRegister userRegister){
 		String encrypt = userRegister.getEmail()+"{"+userRegister.getUsername()+"}";
@@ -129,4 +132,6 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		}
 		return flag;
 	}
+	
+
 }

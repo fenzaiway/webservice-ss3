@@ -31,42 +31,33 @@ public class UserAction extends BaseAction {
 	private UserLogin userLogin;
 	private UserRegister userRegister;
 	private String hql;
-	private static final String HQL = "from UserLogin where 1=1";
+	
 	
 	private String deleteIds;
 	
-	@Override
-	public void init() {
-		hql = (String) session.getAttribute("hql");
-		if(null == hql){
-			hql=HQL;
-		}
-		super.init();
-	}
 
 	@Action(value="userLoginList",results={
 			@Result(name="success",location="/admin/user/userLoginList.jsp")
 	})
 	public String getUserList(){
 		//userLoginList = userLoginServiceImpl.loadAll();
-		if(1 == isValSession){
-			session.removeAttribute("hql");
-			hql = HQL;
-		}
-		paginationSupport = userLoginServiceImpl.findPageByQuery(HQL, PaginationSupport.PAGESIZE, startIndex, new String[]{});
+		
+		paginationSupport = userLoginServiceImpl.findPageByQuery(UserLoginServiceImpl.HQL, PaginationSupport.PAGESIZE, startIndex, new String[]{});
 		userLoginList = paginationSupport.getItems();
 		paginationSupport.setUrl("admin/user/userLoginList.do");
 		return SUCCESS;
 	}
 	
 	@Action(value="search",results={
-			@Result(name="success",location="/admin/user/userLoginList.do",type="redirect")
+			//@Result(name="success",location="/admin/user/userLoginList.do",type="redirect")
+			@Result(name="success",location="/admin/user/userLoginList.jsp")
 	})
 	public String search(){
-		System.out.println(userLogin.getUsername());
-		hql = HQL + " and username like '%"+ userLogin.getUsername() +"%'";
-		System.out.println(hql);
-		session.setAttribute("hql", hql);
+		
+		paginationSupport = userLoginServiceImpl.search(PaginationSupport.PAGESIZE,startIndex,userLogin);
+		userLoginList = paginationSupport.getItems();
+		//System.out.println(hql);
+		//session.setAttribute("hql", hql);
 		return SUCCESS;
 	}
 	@Action(value="deleteAll",results={

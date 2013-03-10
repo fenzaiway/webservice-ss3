@@ -41,7 +41,6 @@ public class BaseAction extends ActionSupport implements Preparable{
 	protected String myusername;  ////登录用户的session
 	protected String zoneuser;	  //////空间用户的session
 	protected String prePage;	  ////登录前的页面
-	protected int isValSession;		////是否删除session 1为删除hql
 	
 	protected int startIndex = 0;
 	
@@ -52,7 +51,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 		zoneuser = (String) session.getAttribute("zoneuser");
 		prePage = (String) session.getAttribute("prePage");
 		
-		this.init();
+		//this.init();
 	}
 	
 	///定义一个初始化函数，用于Action初始化一值
@@ -182,12 +181,4 @@ public class BaseAction extends ActionSupport implements Preparable{
 		this.paginationSupport = paginationSupport;
 	}
 
-	public int getIsValSession() {
-		return isValSession;
-	}
-
-	public void setIsValSession(int isValSession) {
-		this.isValSession = isValSession;
-	}
-	
 }
