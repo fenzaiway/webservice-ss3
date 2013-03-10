@@ -24,6 +24,7 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		super.setDao(dao);
 	}
 	
+	public static final String HQL = "from LogTag where 1=1 ";
 	
 	/**
 	 * 保存关键字

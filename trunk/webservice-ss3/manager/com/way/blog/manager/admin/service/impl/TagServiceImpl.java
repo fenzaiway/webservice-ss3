@@ -26,6 +26,8 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	@Autowired
 	private Tag tag;
 	
+	public static final String HQL = "from Tag where 1=1 ";
+	
 	private static final int SIZE = 3;///返回的的另一批tag的数量
 	private List<Tag> tags;
 	@Override

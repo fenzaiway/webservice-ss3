@@ -13,6 +13,7 @@ import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.util.MD5;
+import com.way.blog.util.PaginationSupport;
 
 
 
@@ -25,6 +26,7 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 		super.setDao(dao);
 	}
 	
+	public static final String HQL = "from UserLogin where 1=1";
 	
 	/**
 	 * 根据用户名取出该用户的登录记录
@@ -80,5 +82,24 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 		}
 		
 		return flag;
+	}
+	
+	/**
+	 * 分页查询
+	 * @param pageSize 每页显示查询行数
+	 * @param startIndex 从哪个下标开始查询
+	 * @param userLogin 对登录用户列表进行查询
+	 * @return
+	 */
+	public PaginationSupport search(int pageSize, int startIndex, UserLogin userLogin){
+		PaginationSupport paginationSupport = null;
+		String hql = HQL;
+		StringBuffer sb = new StringBuffer();
+		sb.append(hql);
+		if(null != userLogin.getUsername()){
+			sb.append(" and username like '%"+userLogin.getUsername()+"%'");
+		}
+		paginationSupport = this.findPageByQuery(sb.toString(), pageSize, startIndex, new Object[]{});
+		return paginationSupport;
 	}
 }
