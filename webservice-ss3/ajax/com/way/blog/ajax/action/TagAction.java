@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.loginfo.service.LogInfoService;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
+import com.way.blog.zone.entity.LogInfo;
 
 /**
  * 系统标签控制器
@@ -33,13 +37,27 @@ import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 public class TagAction extends BaseAction {
 	@Autowired
 	private TagServiceImpl tagServiceImpl;
+	@Autowired private LogTagServiceImpl logTagServiceImpl;
+	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired LogInfo logInfo;
 	
 	private String username;
 	
 	private int tagid;
+	private String tags;  ////用户传递过来的标签
+	private int logid;    ////日志Id
 	
 	private List<Tag> otherTagList; ///换一批标签
 	private List<Tag> userTagList;
+	
+	@Action(value="saveLogTag",results={
+			@Result(name="success",type="json")
+	})
+	public String saveLogTag(){
+		logInfo = logInfoServiceImpl.findById(logid);
+		logTagServiceImpl.saveTag(logInfo, tags);
+		return null;
+	}
 	
 	/**
 	 * 换另一批标签（每次加载SIZE个）
@@ -108,6 +126,22 @@ public class TagAction extends BaseAction {
 
 	public void setTagid(int tagid) {
 		this.tagid = tagid;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public int getLogid() {
+		return logid;
+	}
+
+	public void setLogid(int logid) {
+		this.logid = logid;
 	}
 	
 	

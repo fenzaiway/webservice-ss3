@@ -66,7 +66,7 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 /*ÎÄ±¾»»ÐÐ{word-wrap:break-word;word-break:break-all;*/
 .comment_text{word-wrap:break-word;word-break:break-all;border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}
 .comment_text_div{ margin:25px;height:auto!important; min-height:50px;}
-.comment_button{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:Î¢ÈíÑÅºÚ; float:right; margin-right:40px; margin-top:-10px;}
+.comment_button,.addTagBut{ width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:Î¢ÈíÑÅºÚ; float:right; margin-right:40px; margin-top:-10px;}
 .comment_position{width: 630px; height: 200px;min-height:45px;height:auto!important; margin-top: 13px;}
 .back_comment{ height:25px; background-color:#FFFBF0; padding:10px;}
 .comment_text:focus{-moz-box-shadow:0 0 6px rgba(0, 100, 255, .45); -webkit-box-shadow:0 0 6px rgba(0, 100, 255, .45); box-shadow:0 0 6px rgba(0, 100, 255, .45); border-color:#34538b;}
@@ -78,9 +78,9 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 
 
 /*Ìí¼Ó±êÇ©*/
-.addTagss{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
-
-
+.addTagss{ width: 630px;z-index: -1;;background-color: #FAFAFA;float: right;margin-top:-15px; padding-top:10px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px; margin-bottom: 15px;}
+.addTagInput{margin-left: 15px;width: 490px; height: 35px;}
+.addTagBut{margin-top: 5px;}
 .XYTipsWindow .boxLoading { position: absolute; display: block; width: 90px; height: 30px; line-height: 30px; margin-left: -45px; margin-top: -15px; left: 50%; top: 50%; color: #f00; }
 .XYTipsWindow .boxLoading { width:28px; margin-left: -14px; background:url("../images/loading.gif") no-repeat; text-indent: -999em; text-align: center; }
 .XYTipsWindow .boxTitle, .XYTipsWindow .boxTitle span, .XYTipsWindow .boxTitle span.hover, .XYTipsWindow .loadinglayer, .XYTipsWindow .tipslayer, .XYTipsWindow .arrowLeft, .XYTipsWindow .colseBtn, .XYTipsWindow .boxError em, .XYTipsWindow .dialogBtn, .XYTipsWindow .dialogBtn.hover { background-image: url("../images/ico.png"); background-repeat: no-repeat; }
