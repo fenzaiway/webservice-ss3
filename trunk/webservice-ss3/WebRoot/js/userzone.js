@@ -1,19 +1,21 @@
 //var username;
 	var position = 0;
+	var tagHtml;
 	var commentHtml = "<div class='comment_info'><div class='comment_info_input'>";
 	commentHtml+="<div class='comment_text_div'><div class='comment_text' contenteditable='true'></div>";
 	commentHtml+="</div>";
 	commentHtml+="<div><input type='button' class='comment_button' logid='' position='' value='发表'/></div> <div class='clr'>";
 	commentHtml+="<div class='comment_position'></div>"		
 	commentHtml+="</div></div>";
-	commentHtml+="<div class='back_comment' position='' >收起按钮</div></div>"
-	var addTagHtml = "<div class='addTagss'></div>";
+	commentHtml+="<div class='back_comment' position='' >收起按钮</div></div>";
+	////加标签html	
+	var addTagHtml = "<div class='addTagss'><input type='text' value='' class='addTagInput' name='tagName' /><input type='button' position='' logid='' class='addTagBut' value='添加'/></div><div class='clr'></div>";
 	function showListData(data)
 	{
 		var html = "";
 		$("#pagebar").remove();
 		var headImg = "";
-		var tagHtml;
+		
 		for(var i=0;i<data.length;i++)
 		{
 			if(""==data[i].headImgUrl)
@@ -136,7 +138,25 @@
 		
 	}
 	
+	////隐藏评论框
+	function hideComment(index)
+	{
+		$(".comment_info:eq("+index+")").css(
+		{
+			"display":"none",
+		});
+		$(".info:eq("+index+")").css(
+		{
+			"margin-bottom":"15px"
+		});
+		
+	}
 	
+	////移除加标签输入框
+	function removeAddTag(index)
+	{
+		$(".loginfo_list_left:eq("+index+")").find(".addTagss").remove();
+	}
 	
 	/////弹出登录框
 	function showLogin()
@@ -152,6 +172,40 @@
 		});
 	}
 	
+	////拆分用户输入的标签
+	function splitTag(tags)
+	{
+		tagHtml = "";
+		var tagArray = tags.split(',');
+		//alert();
+		for(var i=0; i<tagArray.length; i++)
+		{
+			tagHtml+="<li><a href='tag/"+tagArray[i]+"'>#"+tagArray[i]+"</a></li>";
+		}
+		return tagHtml;
+	}
+	
+	/////给添加标签按钮添加事件
+	$(".addTagBut").live("click",function()
+	{
+		var inputTag = $(this).siblings("input");
+		var tag = inputTag.val();
+		var index = $(this).attr("position");
+		var logid = $(this).attr("logid");
+		//inputTag.val("").focus();/////情况表单，并设置焦点
+		$.post("ajax/tag/saveLogTag.do",{"tags":tag,"logid":logid},function(data,status)
+		{
+			if("success" == status) ////如果添加成功
+			{
+				//、$(".addtags:eq("+index+")").remove();
+				var liTag = $(".loginfo_list_left:eq("+index+")").find(".addtags").parent("li");
+				$(".loginfo_list_left:eq("+index+")").find(".addtags").remove();
+				liTag.empty().html(splitTag(tag)); ////将用户添加的标签拆分后显示在用户的界面上
+				$(".loginfo_list_left:eq("+index+")").find(".addTagss").remove();////添加成功后，将文本框移除
+			}
+		});
+		
+	});
 	
 	
 	///绑定回复点击事件
@@ -186,15 +240,31 @@
 		}
 	});
 	
+	function showAddTag(index)
+	{
+		hideComment(index);
+		$(".loginfo_list_left:eq("+index+")").append(addTagHtml); ////添加标签文本框
+		var logid = $(".info:eq("+index+")").attr('logid');
+		$(".loginfo_list_left:eq("+index+")").find(".addTagBut").attr("position",index).attr("logid",logid); ////给添加标签按钮设置属性
+	}
 	
 	/**
 	 * 加标签事件
+	 * 由于先注册事件，所以第一次点击添加标签的时候是没有反应的
 	 */
 	$(".addtags").live("click",function()
 	{
 		var index = $(this).attr("position");
-		alert($(this).text() + "--");
 		
+		showAddTag(index);
+		$(this).toggle(function()
+		{
+			removeAddTag(index); ////移除标签文本框
+		},
+		function()
+		{
+			showAddTag(index);
+		});
 	});
 	
 	//改变喜欢图标样式
@@ -217,9 +287,11 @@
 		
 		$(".comment_info:eq("+index+")").slideToggle('fast',function()
 		{
+			removeAddTag(index);////将评论框移除
 			///如果评论框是显示的，像素就变为0，否则恢复
 			if($(".comment_info:eq("+index+")").is(":visible"))
 			{
+				
 				if($(".comment_position:eq("+index+")").html() == "")  ////如果评论数据为空的时候，才去请求数据
 				{
 					loadCommentList(logid,index); /////加载用户评论数据
@@ -243,14 +315,15 @@
 		//alert($(this).attr("position"));
 		//$(".comment_info:eq("+$(this).attr("position")+")").css("display","none");
 		var index = $(this).attr("position");
-		$(".comment_info:eq("+index+")").css(
+		hideComment(index);
+		/*$(".comment_info:eq("+index+")").css(
 		{
 			"display":"none",
 		});
 		$(".info:eq("+index+")").css(
 		{
 			"margin-bottom":"15px"
-		});
+		});*/
 		
 	});
 	
@@ -292,7 +365,7 @@
 		
 	}
 		
-	
+	////自动加载下一页
 	function autoLoadMore()
 	{
 		var range = 20;             //距下边界长度/单位px
@@ -533,8 +606,6 @@
 			$(this).replaceWith(xx);
 						
 		});
-
-		
 
 		
 	});

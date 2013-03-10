@@ -24,6 +24,8 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 	@Autowired TagClickCount tagClickCount;
 	
 	
+	
+	
 	/**
 	 * 根据用户传递的tagName来查询出与这个tag相关的文章
 	 * @return
@@ -49,6 +51,8 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 		}
 		tagClickCountServiceImpl.save(tagClickCount);
 	}
+	
+	
 	
 	public LogTag getModel() {
 		// TODO Auto-generated method stub
