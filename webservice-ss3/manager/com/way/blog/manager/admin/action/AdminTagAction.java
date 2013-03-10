@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.entity.LogTagDetail;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.PaginationSupport;
@@ -25,9 +26,13 @@ public class AdminTagAction extends BaseAction {
 	@Autowired private TagServiceImpl tagServiceImpl;
 	@Autowired private LogTagServiceImpl logTagServiceImpl;
 	
-	private List<Tag> tagList = new ArrayList<Tag>();
+	private List<Tag> tagList = new ArrayList<Tag>(); ///系统标签列表
+	private List<LogTag> logTagList = new ArrayList<LogTag>();  ///日志标签列表
 	
-	private List<LogTag> logTagList = new ArrayList<LogTag>();
+	private LogTagDetail logTagDetail; ///日志标签详细资料
+	
+	private int tagId;  ////标签Id
+	
 	
 	@Action(value="tagList",results={
 			@Result(name="success",location="/admin/tag/systagList.jsp")
@@ -49,6 +54,24 @@ public class AdminTagAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	@Action(value="logTagDetail",results={
+			@Result(name="success",location="/admin/tag/logtagDetail.jsp")
+	})
+	public String showLogTagDetail(){
+		logTagDetail = logTagServiceImpl.getLogTagDetailByTagId(tagId);
+		return SUCCESS;
+	}
+	
+	@Action(value="deleteByLogTagId",results={
+			@Result(name="success",location="/admin/tag/logtagList.do", type="redirect")
+	})
+	public String deleteByLogTagId(){
+		logTagServiceImpl.delete(tagId);
+		return SUCCESS;
+	}
+	
+	
+	
 	
 	
 
@@ -66,6 +89,22 @@ public class AdminTagAction extends BaseAction {
 
 	public void setLogTagList(List<LogTag> logTagList) {
 		this.logTagList = logTagList;
+	}
+	
+	public LogTagDetail getLogTagDetail() {
+		return logTagDetail;
+	}
+
+	public void setLogTagDetail(LogTagDetail logTagDetail) {
+		this.logTagDetail = logTagDetail;
+	}
+
+	public int getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(int tagId) {
+		this.tagId = tagId;
 	}
 	
 	

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.manager.admin.entity.TagClickCount;
+import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
+import com.way.blog.util.MyFormatDate;
 import com.way.blog.zone.entity.LogTag;
 
 @Controller("logTagAction")
@@ -16,7 +19,9 @@ import com.way.blog.zone.entity.LogTag;
 @Namespace("/logtag")
 public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 
+	@Autowired TagClickCountServiceImpl tagClickCountServiceImpl;
 	@Autowired LogTag logTag;
+	@Autowired TagClickCount tagClickCount;
 	
 	
 	/**
@@ -28,9 +33,23 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 	})
 	public String findLogInfoByTagName(){
 		
+		saveTagClick(logTag); ///保存每次用户通过点击标签进行查询的记录
+		
 		return SUCCESS;
 	}
 
+	public void saveTagClick(LogTag myLogTag){
+		tagClickCount.setIp(request.getRemoteAddr());
+		tagClickCount.setTagName(myLogTag.getTagName());
+		tagClickCount.setClickTime(MyFormatDate.getNowDate());
+		if(null == myusername){
+			tagClickCount.setUsername("游客");
+		}else{
+			tagClickCount.setUsername(myusername);
+		}
+		tagClickCountServiceImpl.save(tagClickCount);
+	}
+	
 	public LogTag getModel() {
 		// TODO Auto-generated method stub
 		return logTag;

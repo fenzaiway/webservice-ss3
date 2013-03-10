@@ -67,6 +67,7 @@
 				<value>com.way.blog.manager.admin.entity.Job</value>
 				<value>com.way.blog.manager.admin.entity.Interest</value>
 				<value>com.way.blog.manager.admin.entity.Tag</value>
+				<value>com.way.blog.manager.admin.entity.TagClickCount</value>
 				 <!-- user entity  -->
 				<value>com.way.blog.user.entity.Address</value>
 				<value>com.way.blog.user.entity.MyUserDetial</value>

@@ -17,14 +17,20 @@ function unselectAll(){
 	}
 }
 
+function myConfirm()
+{
+	if(window.confirm("你确定要删除吗？"))
+	{
+		//return true;
+	}else{
+		return false;
+	}
+}
+
 //////根据用户选择的条目数进行批量删除
 function deleteById()
 {
-	if(!window.confirm("你确定要删除吗？"))
-	{
-		return true;
-	}
-	
+	myConfirm(); ////给用户确认时候要删除
 	var deleteIds = "";///1,2,3形式传递到后台通过split解析
 	var length = $(".delid:checked").length;
 	for(var i=0; i<length; i++){

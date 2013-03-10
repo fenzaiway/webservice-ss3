@@ -6,17 +6,22 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
+import com.way.blog.base.entity.LogTagDetail;
 import com.way.blog.base.service.BaseGenericService;
+import com.way.blog.manager.admin.entity.Tag;
+import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
 
 @Service("logTagServiceImpl")
 public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
-
+	
+	public static final String HQL = "from LogTag where 1=1 ";
 	@Override
 	@Resource(name="logTagDao")
 	public void setDao(IHibernateGenericDao<LogTag, Serializable> dao) {
@@ -24,8 +29,8 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		super.setDao(dao);
 	}
 	
-	public static final String HQL = "from LogTag where 1=1 ";
-	
+	@Autowired private LogTag logTag;
+	@Autowired private TagClickCountServiceImpl  tagClickCountServiceImpl;
 	/**
 	 * 保存关键字
 	 */
@@ -73,6 +78,36 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		return null;
 	}
 	
+	/**
+	 * 根据标签的名称获取标签的详细信息
+	 * @param tagName
+	 * @return
+	 */
+	public LogTagDetail getLogTagDetailByTagId(int tagId){
+		LogTagDetail logTagDetail = new LogTagDetail();
+		
+		//、logTag = this.myFindByProperty("tagName", tagName);
+		String tagName = logTag.getTagName();
+		logTag = findById(tagId);
+		logTagDetail.setTagName(tagName);
+		logTagDetail.setTagCreateTime(logTag.getTagCreateTime());
+		logTagDetail.setTagClickNum(tagClickCountServiceImpl.findByProperty("tagName", tagName).size());
+		logTagDetail.setLogNum(logTag.getLogInfos().size());
+		logTagDetail.setSysTag(getSysTag(logTag));
+		return logTagDetail;
+	}
 	
+	/**
+	 * 获取标签所属的对用的系统标签的名称
+	 * @param logTag
+	 * @return
+	 */
+	public String getSysTag(LogTag logTag){
+		StringBuffer sb = new StringBuffer();
+		for(Tag tag : logTag.getTags()){
+			sb.append(tag.getTagName()).append(",");
+		}
+		return sb.toString();
+	}
 	
 }

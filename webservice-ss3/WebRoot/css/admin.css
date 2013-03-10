@@ -28,3 +28,5 @@ body {
 	height: 37px;
 }
 html { overflow-x: auto; overflow-y: auto; border:0;} 
+
+.newfont03 td{height: 20px; line-height: 20px;}
