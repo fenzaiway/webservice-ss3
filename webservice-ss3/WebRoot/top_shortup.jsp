@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -85,14 +86,19 @@ li{float:left;}
               	 <div id="top_text2">
                    <span>
                    <ul>
-                     <li>消息<span class="split">|</span></li>
-                            <li>
-							私信
-						<span class="split">|</span></li>
-                            <li><a href="userlogin/gotoLogin.do">登录</a><span class="split">|</span></li>
-                            <li><a href="register/gotoRegister.do">注册</a><span class="split">|</span></li>
-                            <li><a href="register/sendMail.do">邮件</a><span class="split">|</span></li>
-                            <li><a href="userlogin/sessionInvalidate.do">退出</a></li>
+						<s:if test='"" == myusername || null == myusername'>
+						 <li><a href="userlogin/gotoLogin.do">登录</a><span class="split">|</span></li>
+	                           <li><a href="register/gotoRegister.do">注册</a><span class="split">|</span></li>
+	                          
+						</s:if>
+						<s:else>
+						 <li>消息<span class="split">|</span></li>
+                     	<li>私信<span class="split">|</span></li>
+						<li><s:property value='myusername'/><span class="split">|</span></li>
+						 <li><a href="userlogin/sessionInvalidate.do">退出</a></li>
+							 
+						</s:else>
+                           
                         </ul>
                     </span>
               	 </div>

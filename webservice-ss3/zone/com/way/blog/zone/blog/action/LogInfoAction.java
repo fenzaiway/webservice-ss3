@@ -333,14 +333,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		////判断是否是原创日志
 		logInfo = logInfoServiceImpl.findOriginalLogInfo(myLogInfoId);
 		
-		logLikeList = logLikeServiceImpl.find("from LogLike where username=? and logInfo=?", new Object[]{myusername,logInfo});
-		if(null!=logLikeList && !logLikeList.isEmpty()){
-			logLike = logLikeList.get(0);
-			logLike.setLogInfo(null);
-		}else{
-			logLike = new LogLike();
-			logLike.setUsername(myusername);
-		}
+		logLike = logLikeServiceImpl.getUserLike(myusername, logInfo);
 //		logLikeList = null;
 //		logLikeList = logLikeServiceImpl.findByProperty("logInfo", logInfo);
 //		List<LogLike> myLogLikeList = new ArrayList<LogLike>();
@@ -364,6 +357,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			@Result(type="json")
 	})
 	public String updateLike(){
+		System.out.println("islike==" + isLike + "--username" + myusername + "--logid==" + myLogInfoId);
 		///1、获取原创日志ID
 		logInfo = logInfoServiceImpl.findOriginalLogInfo(myLogInfoId);
 		//2、判断用户是否like

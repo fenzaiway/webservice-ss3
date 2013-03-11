@@ -31,6 +31,8 @@ public class LogInfoData {
 	private String[] imgs; ///日志图像列表
 	
 	private String username; ///日志所属用户
+	
+	private int isLike ;   ////这篇日志用户是否喜欢，喜欢为1，不喜欢为0
 
 	public int getLogid() {
 		return logid;
@@ -126,6 +128,14 @@ public class LogInfoData {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public int getIsLike() {
+		return isLike;
+	}
+
+	public void setIsLike(int isLike) {
+		this.isLike = isLike;
 	}
 	
 	
