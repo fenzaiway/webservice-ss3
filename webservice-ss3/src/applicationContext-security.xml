@@ -18,10 +18,11 @@
 	<http auto-config="true" access-denied-page="/accessDenied.jsp">
 		<intercept-url pattern="/*.jsp" access="ROLE_ADMIN,ROLE_USER"/>
 		<intercept-url pattern="/register*/**" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/admin/main/**" access="ROLE_ADMIN"/>
 		<remember-me use-secure-cookie="true"/>
 		<logout delete-cookies="true" logout-url="/login.jsp"/>
-		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/login.jsp" default-target-url="/" authentication-failure-url="/login.jsp?error=true"/>
+		<intercept-url pattern="/userlogin/gotoLogin.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
 		<!--<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
 		
 		--><session-management>

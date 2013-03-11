@@ -54,8 +54,8 @@ public class PaginationSupport{
     	
     	StringBuffer sbf = new StringBuffer();
     	sbf.append("&nbsp;&nbsp;转到<input type='text' style='width:35px; hight:20px;' id='pagego' name='pagego'/>")
-  	  	.append("<input type='button' onclick='pagego();' value='确定'/>")
-	  	  .append("<script type='text/javascript'>function pagego()")
+  	  	.append("<input type='button' onclick='gotopage();' value='确定'/>")
+	  	  .append("<script type='text/javascript'>function gotopage()")
 	  	  .append("{var pagego=0; pagego=document.getElementsByName('pagego')[0].value; ")
 	  	  .append("if(pagego == \"\"){alert('请输入页码'); return false;}")
 	  	  .append("var reg = /^[1-9]*[1-9][0-9]*$/;")

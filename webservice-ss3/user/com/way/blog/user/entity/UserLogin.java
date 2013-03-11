@@ -82,6 +82,12 @@ public class UserLogin implements Serializable,UserDetails {
 	private int enabled;
 	
 	/**
+	 * 是否是管理员
+	 */
+	@Column(name="user_isadmin",unique = false, nullable = false, insertable = true, updatable = true)
+	private int isAdmin;
+	
+	/**
 	 * 关联注册表
 	 */
 	@OneToOne(targetEntity=UserRegister.class,cascade=CascadeType.ALL,fetch=FetchType.LAZY)
@@ -122,25 +128,33 @@ public class UserLogin implements Serializable,UserDetails {
 	
 	public UserLogin() {}
 
-	public UserLogin(int id, String username, String password, String account,
-			String createTime, int enabled, UserRegister userRegister,
-			BlogZone blogZone, MyUserDetial myUserDetial, Set<MyRoles> myRoles,
-			UserHeadImg userHeadImg, Set<Tag> tags) {
+	public UserLogin(String account, BlogZone blogZone, String createTime,
+			int enabled, int id, int isAdmin, Set<MyRoles> myRoles,
+			MyUserDetial myUserDetial, String password, Set<Tag> tags,
+			UserHeadImg userHeadImg, UserRegister userRegister, String username) {
 		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
 		this.account = account;
+		this.blogZone = blogZone;
 		this.createTime = createTime;
 		this.enabled = enabled;
-		this.userRegister = userRegister;
-		this.blogZone = blogZone;
-		this.myUserDetial = myUserDetial;
+		this.id = id;
+		this.isAdmin = isAdmin;
 		this.myRoles = myRoles;
-		this.userHeadImg = userHeadImg;
+		this.myUserDetial = myUserDetial;
+		this.password = password;
 		this.tags = tags;
+		this.userHeadImg = userHeadImg;
+		this.userRegister = userRegister;
+		this.username = username;
 	}
 
+	public int getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(int isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	public Set<Tag> getTags() {
 		return tags;
@@ -269,11 +283,13 @@ public class UserLogin implements Serializable,UserDetails {
 				+ ((createTime == null) ? 0 : createTime.hashCode());
 		result = prime * result + enabled;
 		result = prime * result + id;
+		result = prime * result + isAdmin;
 		result = prime * result + ((myRoles == null) ? 0 : myRoles.hashCode());
 		result = prime * result
 				+ ((myUserDetial == null) ? 0 : myUserDetial.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		result = prime * result
 				+ ((userHeadImg == null) ? 0 : userHeadImg.hashCode());
 		result = prime * result
@@ -311,6 +327,8 @@ public class UserLogin implements Serializable,UserDetails {
 			return false;
 		if (id != other.id)
 			return false;
+		if (isAdmin != other.isAdmin)
+			return false;
 		if (myRoles == null) {
 			if (other.myRoles != null)
 				return false;
@@ -325,6 +343,11 @@ public class UserLogin implements Serializable,UserDetails {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (tags == null) {
+			if (other.tags != null)
+				return false;
+		} else if (!tags.equals(other.tags))
 			return false;
 		if (userHeadImg == null) {
 			if (other.userHeadImg != null)
@@ -344,4 +367,5 @@ public class UserLogin implements Serializable,UserDetails {
 		return true;
 	}
 
+	
 }
