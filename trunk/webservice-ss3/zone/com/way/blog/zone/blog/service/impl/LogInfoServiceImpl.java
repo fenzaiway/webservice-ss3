@@ -35,7 +35,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	private LogTagServiceImpl logTagServiceImpl;
 	@Autowired
 	private LogTypeServiceImpl logTypeServiceImpl;
-	
+	@Autowired private LogLikeServiceImpl logLikeServiceImpl;
 	
 	PaginationSupport paginationSupport;
 	
@@ -163,7 +163,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public String getUserAttentionData(String username, int pageSize, int startIndex,Object... values){
 		paginationSupport = this.loadLogInfoDate(username, pageSize, startIndex, values);
 		//List<LogInfoJson> logInfoJsonList = new ArrayList<LogInfoJson>();
-		LogInfoJson logInfoJson = getLogInfoJson(paginationSupport);
+		LogInfoJson logInfoJson = getLogInfoJson(paginationSupport,username);
 		
 		return JsonUtil.toJson(logInfoJson);
 	}
@@ -173,7 +173,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * @param paginationSupport
 	 * @return
 	 */
-	public LogInfoJson getLogInfoJson(PaginationSupport paginationSupport){
+	public LogInfoJson getLogInfoJson(PaginationSupport paginationSupport,String username){
 		LogInfoJson logInfoJson = null;
 		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
 		List<LogInfo> loginfoList  = paginationSupport.getItems();
@@ -188,7 +188,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 				logInfoJson.setHasNext(-1);
 				logInfoJson.setStartIndex(0);
 			}
-			logInfoDataList = getLogInfoDataList(loginfoList);
+			logInfoDataList = getLogInfoDataList(loginfoList,username);
 			logInfoJson.setData(logInfoDataList);
 		}
 		return logInfoJson;
@@ -198,12 +198,12 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * 获取LogInfoData列表
 	 * @return
 	 */
-	public List<LogInfoData> getLogInfoDataList(List<LogInfo> loginfoList){
+	public List<LogInfoData> getLogInfoDataList(List<LogInfo> loginfoList,String username){
 		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
 		
 		
 		for (LogInfo logInfo : loginfoList) {
-			logInfoDataList.add(getLogInfoData(logInfo));
+			logInfoDataList.add(getLogInfoData(logInfo, username));
 		}
 		return logInfoDataList;
 	}
@@ -213,12 +213,17 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * @param logInfo
 	 * @return
 	 */
-	public LogInfoData getLogInfoData(LogInfo logInfo){
+	public LogInfoData getLogInfoData(LogInfo logInfo,String username){
 		LogInfoData logInfoData = null;
 		LogInfo originalLogInfo = null;
 		logInfoData = new LogInfoData();
 		if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){ ///如果这篇日志有标签的话，就设置标签
 			logInfoData.setTags(this.getTags(logInfo));
+		}
+		if(logLikeServiceImpl.checkIsUserLike(username, logInfo)){ ///用户喜欢
+			logInfoData.setIsLike(1);
+		}else{
+			logInfoData.setIsLike(0);
 		}
 		originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
 		logInfoData.setLogid(logInfo.getId());

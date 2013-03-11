@@ -87,8 +87,8 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		LogTagDetail logTagDetail = new LogTagDetail();
 		
 		//、logTag = this.myFindByProperty("tagName", tagName);
-		String tagName = logTag.getTagName();
 		logTag = findById(tagId);
+		String tagName = logTag.getTagName();
 		logTagDetail.setTagName(tagName);
 		logTagDetail.setTagCreateTime(logTag.getTagCreateTime());
 		logTagDetail.setTagClickNum(tagClickCountServiceImpl.findByProperty("tagName", tagName).size());

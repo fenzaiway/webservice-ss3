@@ -1,6 +1,7 @@
 //var username;
 	var position = 0;
-	var tagHtml;
+	var tagHtml;  ////标签html
+	var likeImg;  ////喜欢图片html
 	var commentHtml = "<div class='comment_info'><div class='comment_info_input'>";
 	commentHtml+="<div class='comment_text_div'><div class='comment_text' contenteditable='true'></div>";
 	commentHtml+="</div>";
@@ -10,14 +11,31 @@
 	commentHtml+="<div class='back_comment' position='' >收起按钮</div></div>";
 	////加标签html	
 	var addTagHtml = "<div class='addTagss'><input type='text' value='' class='addTagInput' name='tagName' /><input type='button' position='' logid='' class='addTagBut' value='添加'/></div><div class='clr'></div>";
+
+	//判断空间用户是不是登录用户
+	function isLoginUser()
+	{
+		if(username == myusername)
+		{
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
 	function showListData(data)
 	{
 		var html = "";
 		$("#pagebar").remove();
 		var headImg = "";
-		
+		var logids = "";
+		var logid;
 		for(var i=0;i<data.length;i++)
 		{
+			logid = data[i].logid;
+			logids += logid;
+			logids += ",";
 			if(""==data[i].headImgUrl)
 			{
 				headImg = "images/111.jpg";
@@ -28,9 +46,13 @@
 			
 			//判断是否文章包含Tag
 			tagHtml = "";
+			
 			if(typeof(data[i].tags)=="undefined")
 			{
-				tagHtml+="<li><div class='addtags' position='"+position+"'>加标签</div></li>";
+				if(isLoginUser())
+				{
+					tagHtml+="<li><div class='addtags' position='"+position+"'>加标签</div></li>";
+				}
 			}else
 			{
 				for(var j=0; j<data[i].tags.length; j++)
@@ -38,14 +60,22 @@
 					tagHtml+="<li><a href='tag/"+data[i].tags[j]+"'>#"+data[i].tags[j]+"</a></li>";
 				}
 			}
+			////判断用户是否喜欢该篇文章
+			if(1 == data[i].isLike) ///如果用户喜欢
+			{
+				likeImg = "<img src='images/like3.gif' logid="+logid+" class='likeimg' title='取消喜欢' isLike="+data[i].isLike+" alt='like'/>";
+			}else
+			{
+				likeImg = "<img src='images/like2.gif' logid="+logid+" class='likeimg' title='喜欢' isLike="+data[i].isLike+" alt='like'/>";
+			}
 			
 			html+="<div class='loginfo_list_left'>";
 				html+="<div class='headImg'>";
 				html+="<img src='"+headImg+"' alt='头像' />";
 				html+="</div>";
-					html+="<div class='info' logid="+data[i].logid+">";
+					html+="<div class='info' logid="+logid+">";
 					html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].publishTime+"</span></div>";
-					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+data[i].logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
+					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
 					html+="<div>";
 					html+="<div style='margin-bottom: 10px;'>";
 					html+="<div class='loginfo_img'><img src='images/ajaxDemo/mrPip.jpg' alt='图片'/></div>";
@@ -65,7 +95,7 @@
 					html+="<li>热度("+data[i].hotNum+")</li>";
 					html+="<li>转载("+data[i].reprintNum+") </li>";
 					html+="<li><a href='javascript:void(0)' class='my_info_comment'  position="+position+">评论(<span class='commentNum'>"+data[i].commentNum+"</span>)</a></li>";
-					html+="<li><img src='images/like1.gif' class='likeimg' alt='like'/>喜欢("+data[i].likeNum+")</li>";
+					html+="<li>"+likeImg+"喜欢(<span class='likeNum'>"+data[i].likeNum+"</span>)</li>";
 					html+="</ul>";
 					html+="</span></div>";
 					html+="</div></div>";
@@ -81,8 +111,10 @@
 		html+="<div class='clr'></div>";
 		html+="<div id='pagebar' style='display:block;text-align:center'></div>";
 		$("#loginfo_list").append(html);
-		
+		return logids;
 	}
+	
+	
 	
 	////回复评论
 	function replay(commentid, logid,index)
@@ -259,6 +291,7 @@
 		showAddTag(index);
 		$(this).toggle(function()
 		{
+			hideComment(index);
 			removeAddTag(index); ////移除标签文本框
 		},
 		function()
@@ -267,13 +300,60 @@
 		});
 	});
 	
+	//给喜欢图片添加事件
+	$(".likeimg").live("click",function()
+	{
+		var thisImg = $(this)
+		var logId = parseInt(thisImg.attr("logid"));
+		var isLike = parseInt(thisImg.attr("isLike"));
+		if(0 == isLike) ////如果用户还没有喜欢
+		{
+			isLike = 1; //设置为1表示在后台添加喜欢
+		}else if(1 == isLike)
+		{
+			isLike = 0;
+		}
+		var showLikeNum = thisImg.parent().find(".likeNum");
+	//	alert( + "--" +  + "--" + .text());
+		if(""==myusername)////如果用户没有登录
+		{
+			window.location.href="register/gotoLogin.do";
+		}else
+		{
+			//alert(myusername + "--" + logId + "--" + isLike);
+			$.post("loginfo/like.do",{"myusername":myusername,"myLogInfoId":logId,"isLike":isLike},function(data,status)
+			{
+				////改变图标颜色
+				if(1 == isLike)
+				{
+					thisImg.attr("src","images/like3.gif").attr("title","取消喜欢").attr("isLike",1);
+				}else if(0 == isLike)
+				{
+					thisImg.attr("src","images/like1.gif").attr("title","喜欢").attr("isLike",0);
+				}
+				showLikeNum.empty().text(data.length);
+				
+			});
+		}
+		
+	});
+	
+	
 	//改变喜欢图标样式
 	$(".likeimg").live("mouseover",function()
 	{
-		$(this).attr("src","images/like2.gif");
+		//$(this).attr("src","images/like2.gif");
+		if(1 != $(this).attr("isLike"))
+		{
+			$(this).attr("src","images/like2.gif");
+		}
 	}).live("mouseout",function()
 	{
-		$(this).attr("src","images/like1.gif");
+		if(1 != $(this).attr("isLike"))
+		{
+			$(this).attr("src","images/like1.gif");
+		}
+		
 	});
 	
 	$(".my_info_comment").live("click",function()
@@ -338,6 +418,20 @@
 		myRequest(id);
 	}
 	
+	/*function checkIsUserLike(mylogids)
+	{
+		if("" != myusername)
+			{
+				$.post("loginfo/isUserLike.do",{"myusername":myusername,"myLogInfoId":logId},function(data,status)
+				{
+					if(0!=data.id)
+					{
+						$(".like a").attr("href","javascript:like(0);");
+					}
+				});
+			}
+	}*/
+	
 	//分页
 	function myRequest(startIndex)
 	{
@@ -351,6 +445,7 @@
 			var loadIndex = data.startIndex;
 			
 			showListData(data.data);
+			
 		//	$("#pagebar").empty().html(pager);
 			//$("#pagebar").empty().html(loadmore);
 			if(0==startIndex)
@@ -418,7 +513,7 @@
 	        		{
 	        			
 		            	var loadmore = data.loadMore;
-	        			showListData(data.data);
+		            	showListData(data.data);
 	        			$("#pagebar").empty().html(loadmore);
 	        			//stop=true;
 	        		});
