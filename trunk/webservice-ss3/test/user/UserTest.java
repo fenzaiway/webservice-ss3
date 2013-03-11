@@ -89,6 +89,20 @@ public class UserTest extends BaseTest {
 		//userLoginService.save(ul);
 	}
 	
+	/////给用户设定是否为管理员
+	@Test
+	public void updateIsAdminTest(){
+		this.init();
+		List<UserLogin> userLoginList = null;
+		List<UserLogin> userLoginList2 = null;
+		userLoginList = userLoginService.loadAll();
+		for (UserLogin userLogin : userLoginList) {
+			userLogin.setIsAdmin(0);
+			userLoginList2.add(userLogin);
+		}
+		userLoginService.saveAll(userLoginList2);
+	}
+	
 	@Test
 	public void addUserLogin(){
 		this.init();

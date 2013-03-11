@@ -37,6 +37,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	private LogTypeServiceImpl logTypeServiceImpl;
 	@Autowired private LogLikeServiceImpl logLikeServiceImpl;
 	
+	public static final String HQL = "from LogInfo where 1=1 ";
+	
 	PaginationSupport paginationSupport;
 	
 	
@@ -57,7 +59,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * @return
 	 */
 	public PaginationSupport loadLogInfoDate(String username, int pageSize, int startIndex,Object... values){
-		String hql = "from LogInfo where username=?";
+		String hql = HQL + " and username=?";
 		paginationSupport = this.findPageByQuery(hql, pageSize, startIndex, new String[]{username});
 		return paginationSupport;
 	}
@@ -220,7 +222,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){ ///如果这篇日志有标签的话，就设置标签
 			logInfoData.setTags(this.getTags(logInfo));
 		}
-		if(logLikeServiceImpl.checkIsUserLike(username, logInfo)){ ///用户喜欢
+		if(logLikeServiceImpl.checkIsUserLike(username, logInfo) && null!=username){ ///用户喜欢
 			logInfoData.setIsLike(1);
 		}else{
 			logInfoData.setIsLike(0);
