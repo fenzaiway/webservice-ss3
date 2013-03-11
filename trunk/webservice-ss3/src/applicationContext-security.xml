@@ -22,7 +22,7 @@
 		<remember-me use-secure-cookie="true"/>
 		<logout delete-cookies="true" logout-url="/login.jsp"/>
 		<intercept-url pattern="/userlogin/gotoLogin.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
+		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/admin/main/gotoMainMenu.do" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
 		<!--<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
 		
 		--><session-management>
