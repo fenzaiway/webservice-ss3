@@ -132,7 +132,7 @@
 				<br/>记录</span>
 			</div>
 			<div style="height: 60px;padding-top: 10px;padding-left:15px;border-bottom: 1px dotted #ccc;">
-				<span style="border:1px solid red;"><input type="text" name="tag" style="line-height: 30px;width: 165px;border-radius:3px;margin-top: 10px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #ccc;  width:40px; height:30px; background-repeat:no-repeat;" ></span>
+				<span style="border:0px solid red;"><input type="text" name="tag" style="line-height: 30px;width: 165px;border-radius:3px;margin-top: 10px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #ccc;  width:40px; height:30px; background-repeat:no-repeat;" ></span>
 			</div>
 			<div style="height: 40px;height: auto!important;">
 				<h5>我订阅的标签</h5>
