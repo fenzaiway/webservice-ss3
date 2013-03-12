@@ -49,6 +49,12 @@ public class MyAuthority implements Serializable {
 	private String authorityName; 
 	
 	/**
+	 * 权限描述
+	 */
+	@Column(name="au_authority_desc",unique = false, nullable = true, insertable = true, updatable = true,length=50)
+	private String authorityDesc;
+	
+	/**
 	 * 权限-角色关系
 	 */
 	@ManyToMany(mappedBy="myAuthoritys",cascade={CascadeType.PERSIST,CascadeType.REFRESH},targetEntity=MyRoles.class)
@@ -63,14 +69,16 @@ public class MyAuthority implements Serializable {
 
 	public MyAuthority() {}
 
-	public MyAuthority(String authorityName, Integer enable, Integer id,
-			Set<MyResources> myResources, Set<MyRoles> myRoles) {
+	public MyAuthority(Integer id, Integer enable, String authorityName,
+			String authorityDesc, Set<MyRoles> myRoles,
+			Set<MyResources> myResources) {
 		super();
-		this.authorityName = authorityName;
-		this.enable = enable;
 		this.id = id;
-		this.myResources = myResources;
+		this.enable = enable;
+		this.authorityName = authorityName;
+		this.authorityDesc = authorityDesc;
 		this.myRoles = myRoles;
+		this.myResources = myResources;
 	}
 
 	public Integer getId() {
@@ -111,6 +119,14 @@ public class MyAuthority implements Serializable {
 
 	public void setMyResources(Set<MyResources> myResources) {
 		this.myResources = myResources;
+	}
+
+	public String getAuthorityDesc() {
+		return authorityDesc;
+	}
+
+	public void setAuthorityDesc(String authorityDesc) {
+		this.authorityDesc = authorityDesc;
 	} 
 	
 }
