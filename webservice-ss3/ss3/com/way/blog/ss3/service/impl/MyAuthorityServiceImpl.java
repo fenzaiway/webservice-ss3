@@ -19,4 +19,5 @@ public class MyAuthorityServiceImpl extends BaseGenericService<MyAuthority, Inte
 		super.setDao(dao);
 	}
 	
+	public static final String HQL = "from MyAuthority where 1=1 ";
 }

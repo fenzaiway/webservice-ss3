@@ -19,4 +19,6 @@ public class MyResourcesServiceImpl extends BaseGenericService<MyResources, Inte
 		super.setDao(dao);
 	}
 	
+	public static final String HQL = "from MyResources where 1=1 ";
+	
 }

@@ -19,5 +19,6 @@ public class MyRolesServiceImpl extends BaseGenericService<MyRoles, Integer> {
 		super.setDao(dao);
 	}
 	
+	public static final String HQL = "from MyRoles where 1=1 ";
 	
 }
