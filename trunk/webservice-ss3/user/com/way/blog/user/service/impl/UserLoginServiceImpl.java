@@ -34,7 +34,7 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 	 * @return 用户登录记录
 	 */
 	public UserLogin findUserLoginByUserName(String username){
-		List<UserLogin> userLoginList = super.findByProperty("username", username);
+		List<UserLogin> userLoginList = super.findByProperty("nickname", username);
 		UserLogin userLogin = null;
 		if(null != userLoginList && !userLoginList.isEmpty()){
 			userLogin = userLoginList.get(0);
@@ -56,7 +56,7 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 	public boolean isUserNameExist(String userName){
 		List<UserLogin> userLoginList = null;
 		boolean flag = false;
-		userLoginList = super.findByProperty("username", userName);
+		userLoginList = super.findByProperty("nickname", userName);
 		if(!isUserListEmpty(userLoginList)){
 			flag = true;
 		}
@@ -96,8 +96,8 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 		String hql = HQL;
 		StringBuffer sb = new StringBuffer();
 		sb.append(hql);
-		if(null != userLogin.getUsername()){
-			sb.append(" and username like '%"+userLogin.getUsername()+"%'");
+		if(null != userLogin.getNickname()){
+			sb.append(" and nickname like '%"+userLogin.getNickname()+"%'");
 		}
 		paginationSupport = this.findPageByQuery(sb.toString(), pageSize, startIndex, new Object[]{});
 		return paginationSupport;

@@ -50,7 +50,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 */
 	public void saveUserSubTag(int tagid, String username){
 		tag = this.findById(tagid);
-		userLogin = userLoginServiceImpl.myFindByProperty("username", username);
+		userLogin = userLoginServiceImpl.myFindByProperty("nickname", username);
 		///设置双向关联
 		userLogin.getTags().add(tag);
 		tag.getUserLogins().add(userLogin);
@@ -63,7 +63,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 * @return
 	 */
 	public List<Tag> loadUserSubTagList(String username){
-		tags = this.find("from Tag t join  t.userLogins as u where u.username=?", new String[]{username});
+		tags = this.find("from Tag t join  t.userLogins as u where u.nickname=?", new String[]{username});
 		return tags;
 	}
 	
@@ -93,7 +93,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 */
 	public List<Tag> nologUserSubTagList(String username){
 		List<Tag> tags;
-		UserLogin userLogin = userLoginServiceImpl.myFindByProperty("username", username);
+		UserLogin userLogin = userLoginServiceImpl.myFindByProperty("nickname", username);
 		if(null!=userLogin.getTags() && !userLogin.getTags().isEmpty()){
 			String ids = getIntId(userLogin.getTags());
 			String hql = "from Tag t where t.id not in("+ids+")";

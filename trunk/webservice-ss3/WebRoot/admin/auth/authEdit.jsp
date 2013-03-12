@@ -25,13 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
      <form action="admin/auth/update.do" method="post">
-     	<input type="hidden" value="<s:property value='myAuthority.id'/>" />
-    	权限名：<input type="text" name="authorityName" value="<s:property value='myAuthority.authorityName'/>"/><br/>
-    	权限是否可用：<select name="enable">
+     	<input type="hidden" name="myAuthority.id" value="<s:property value='myAuthority.id'/>" />
+    	权限名：<input type="text" name="myAuthority.authorityName" value="<s:property value='myAuthority.authorityName'/>"/><br/>
+    	权限是否可用：<select name="myAuthority.enable">
     				<option value="1">可用</option>
     				<option value="0">冻结</option>
     			  </select>
-    	权限描述：<textarea rows="" cols="" name="authorityDesc"><s:property value='myAuthority.authorityDesc'/></textarea><br/>
+    	权限描述：<textarea rows="" cols="" name="myAuthority.authorityDesc"><s:property value='myAuthority.authorityDesc'/></textarea><br/>
+		<s:checkboxlist name="resid" list="#request.myResourcesList" id="role"  listKey="id" listValue="resourceName" value="#request.resids"/>
     	<input type="submit" value="更新">
     </form>
   </body>

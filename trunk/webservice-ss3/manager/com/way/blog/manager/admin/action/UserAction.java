@@ -1,6 +1,9 @@
 package com.way.blog.manager.admin.action;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -9,7 +12,10 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ModelDriven;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.ss3.entity.MyRoles;
+import com.way.blog.ss3.service.impl.MyRolesServiceImpl;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.entity.UserRegister;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
@@ -19,17 +25,23 @@ import com.way.blog.util.PaginationSupport;
 @Controller("userAction")
 @ParentPackage("interceptor")
 @Namespace("/admin/user")
-public class UserAction extends BaseAction {
+public class UserAction extends BaseAction implements ModelDriven<UserLogin>{
 
 	@Autowired
 	private UserLoginServiceImpl userLoginServiceImpl;
 	@Autowired
 	private UserRegisterServiceImpl userRegisterServiceImpl;
+	@Autowired private MyRolesServiceImpl myRolesServiceImpl;
+	@Autowired private MyRoles myRoles;
 	
 	private List<UserLogin> userLoginList;
 	private List<UserRegister> userRegisterList;
+	private List<MyRoles> myRolesList;
+	private List<String> selectRoleids = new ArrayList<String>();
 	private UserLogin userLogin;
 	private UserRegister userRegister;
+	private String roleid;
+	private int userid;
 	private String hql;
 	
 	
@@ -83,6 +95,64 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	@Action(value="gotoEdit",results={
+			@Result(name="success",location="/admin/user/userLoginEdit.jsp")
+	})
+	public String gotoEdit(){
+		userLogin = userLoginServiceImpl.findById(userid);
+		if(null!=userLogin.getMyRoles() && !userLogin.getMyRoles().isEmpty()){
+			for(MyRoles mr : userLogin.getMyRoles()){
+				selectRoleids.add(mr.getId()+"");
+			}
+		}
+		myRolesList = myRolesServiceImpl.loadAll();
+		return SUCCESS;
+	}
+	
+	@Action(value="update",results={
+			@Result(name="success",location="/admin/user/userLoginList.do",type="redirect")
+	})
+	public String update(){
+		System.out.println("---in update---");
+		System.out.println(userLogin.getId());
+		System.out.println(userLogin.getAccount());
+		System.out.println("roleid = " + roleid);
+		String roleIds[] = splitRoleId(roleid);
+		UserLogin ul = userLoginServiceImpl.findById(userLogin.getId());
+		int length = roleIds.length;
+		Set<UserLogin> userLoginSet;
+		Set<MyRoles> myRolesSet ;
+		for(int i=0; i<length; i++){
+			myRoles = myRolesServiceImpl.findById(Integer.parseInt(roleIds[i].trim()));
+			////设置双向关联
+			if(null != myRoles.getUserLogins() && !myRoles.getUserLogins().isEmpty()){
+				myRoles.getUserLogins().add(ul);
+			}else{
+				userLoginSet = new HashSet<UserLogin>();
+				userLoginSet.add(ul);
+				myRoles.setUserLogins(userLoginSet);
+			}
+			
+			if(null != ul.getMyRoles() && !ul.getMyRoles().isEmpty()){
+				ul.getMyRoles().add(myRoles);
+			}else{
+				myRolesSet = new HashSet<MyRoles>();
+				myRolesSet.add(myRoles);
+				ul.setMyRoles(myRolesSet);
+			}
+			
+			userLoginServiceImpl.update(ul);
+			myRolesServiceImpl.update(myRoles);
+		}
+		
+		return SUCCESS;
+	}
+	
+	private String[] splitRoleId(String myRoleid)
+	{
+		return myRoleid.split(",");
+	}
+	
 	public List<UserLogin> getUserLoginList() {
 		return userLoginList;
 	}
@@ -121,6 +191,51 @@ public class UserAction extends BaseAction {
 
 	public void setDeleteIds(String deleteIds) {
 		this.deleteIds = deleteIds;
+	}
+
+	public UserLogin getModel() {
+		// TODO Auto-generated method stub
+		return userLogin;
+	}
+
+	public MyRoles getMyRoles() {
+		return myRoles;
+	}
+
+	public void setMyRoles(MyRoles myRoles) {
+		this.myRoles = myRoles;
+	}
+
+	public List<MyRoles> getMyRolesList() {
+		return myRolesList;
+	}
+
+	public void setMyRolesList(List<MyRoles> myRolesList) {
+		this.myRolesList = myRolesList;
+	}
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	public List<String> getSelectRoleids() {
+		return selectRoleids;
+	}
+
+	public void setSelectRoleids(List<String> selectRoleids) {
+		this.selectRoleids = selectRoleids;
 	}
 
 	

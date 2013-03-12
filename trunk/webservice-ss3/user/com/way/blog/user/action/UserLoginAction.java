@@ -53,10 +53,10 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 			//验证用户的账号是否可用
 			if(0==userLogin.getEnabled()){
 				this.setMailurl(SendMailService.getEmailAddress(userLogin.getAccount()));
-				this.setMyusername(userLogin.getUsername());
+				this.setMyusername(userLogin.getNickname());
 				returnString = "mailActivity";
 			}else{
-				myusername = userLogin.getUsername();
+				myusername = userLogin.getNickname();
 				session.setAttribute("myusername", myusername);
 				if(null == prePage){
 					prePage = "/zone/"+myusername+"";

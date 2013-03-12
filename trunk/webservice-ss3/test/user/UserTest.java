@@ -69,7 +69,7 @@ public class UserTest extends BaseTest {
 		ur.setSex(1);
 		UserLogin ul = new UserLogin();
 		ul.setAccount(email);
-		ul.setUsername(username);
+		ul.setNickname(username);
 		ul.setPassword(password);
 		ul.setEnabled(1);
 		ul.setCreateTime(MyFormatDate.getFullDate(new Date()));
@@ -109,7 +109,8 @@ public class UserTest extends BaseTest {
 		//实例化用户登录表
 		UserLogin ul = new UserLogin();
 		ul.setAccount(email);
-		ul.setUsername(username);
+		//ul.setUsername(username);
+		ul.setNickname(username);
 		ul.setPassword(password);
 		ul.setEnabled(1);
 		ul.setCreateTime(MyFormatDate.getFullDate(new Date()));

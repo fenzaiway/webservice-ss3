@@ -74,7 +74,7 @@ function link(){
 					<td width="10%">邮箱</td>
                     <td width="10%">注册时间</td>
 					<td width="10%">账号是否可用</td>
-					<td width="5%">优先级</td>
+					<td width="5%">是否管理员</td>
 					<td width="12%">操作</td>
                   </tr>
                   <s:iterator value="userLoginList" id="userLogin">
@@ -87,8 +87,9 @@ function link(){
                     	<s:if test="#userLogin.enabled==1">可用</s:if>
                     	<s:else><span style="color:red;">不可用</span></s:else>
                     </td>
-                    <td>急</td>
-                    <td><a href="editrenwu.htm">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
+                    <td><s:if test="#userLogin.isAdmin==1">是</s:if>
+                    	<s:else><span style="color:red;">否</span></s:else></td>
+                    <td><a href="admin/user/gotoEdit.do?userid=<s:property value="#userLogin.id"/>">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
 					<a href="admin/user/deleteById.do?userLogin.id=<s:property value='#userLogin.id'/>">删除</a></td>
                   </tr>
 				  </s:iterator>

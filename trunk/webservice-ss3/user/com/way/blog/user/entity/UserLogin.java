@@ -1,8 +1,10 @@
 package com.way.blog.user.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,10 +24,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import com.way.blog.manager.admin.entity.Tag;
+import com.way.blog.ss3.entity.MyAuthority;
 import com.way.blog.ss3.entity.MyRoles;
 import com.way.blog.zone.entity.BlogZone;
 import com.way.blog.zone.entity.LogTag;
@@ -55,7 +59,7 @@ public class UserLogin implements Serializable,UserDetails {
 	 * 登录昵称
 	 */
 	@Column(name="user_username",unique = false, nullable = false, insertable = true, updatable = true, length = 50)
-	private String username;
+	private String nickname;  /////原先是username ,与SpringSecurity冲突，2013-3-12修改
 	
 	/**
 	 * 登录密码
@@ -110,7 +114,7 @@ public class UserLogin implements Serializable,UserDetails {
 	 * 用户角色
 	 */
 	@ManyToMany
-	@JoinTable(name="tb_user_role",joinColumns={@JoinColumn(name="rid")},inverseJoinColumns={@JoinColumn(name="userid")})
+	@JoinTable(name="tb_user_role",joinColumns={@JoinColumn(name="userid")},inverseJoinColumns={@JoinColumn(name="rid")})
 	private Set<MyRoles> myRoles = new HashSet<MyRoles>();
 	
 	/**
@@ -128,25 +132,7 @@ public class UserLogin implements Serializable,UserDetails {
 	
 	public UserLogin() {}
 
-	public UserLogin(String account, BlogZone blogZone, String createTime,
-			int enabled, int id, int isAdmin, Set<MyRoles> myRoles,
-			MyUserDetial myUserDetial, String password, Set<Tag> tags,
-			UserHeadImg userHeadImg, UserRegister userRegister, String username) {
-		super();
-		this.account = account;
-		this.blogZone = blogZone;
-		this.createTime = createTime;
-		this.enabled = enabled;
-		this.id = id;
-		this.isAdmin = isAdmin;
-		this.myRoles = myRoles;
-		this.myUserDetial = myUserDetial;
-		this.password = password;
-		this.tags = tags;
-		this.userHeadImg = userHeadImg;
-		this.userRegister = userRegister;
-		this.username = username;
-	}
+	
 
 	public int getIsAdmin() {
 		return isAdmin;
@@ -172,14 +158,8 @@ public class UserLogin implements Serializable,UserDetails {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
+	
+	
 	public String getPassword() {
 		return password;
 	}
@@ -229,23 +209,30 @@ public class UserLogin implements Serializable,UserDetails {
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>(myRoles.size());
+		for(MyRoles role : myRoles){
+			for(MyAuthority auth : role.getMyAuthoritys())
+			grantedAuthorityList.add(new GrantedAuthorityImpl(auth.getAuthorityName()));
+		}
+		
+		return grantedAuthorityList;
 	}
 
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	public boolean isEnabled() {
 		return 1 == enabled ? true : false;
+		//return true;
 	}
 
 	public MyUserDetial getMyUserDetial() {
@@ -272,6 +259,26 @@ public class UserLogin implements Serializable,UserDetails {
 		this.userHeadImg = userHeadImg;
 	}
 
+	public UserLogin(String account, BlogZone blogZone, String createTime,
+			int enabled, int id, int isAdmin, Set<MyRoles> myRoles,
+			MyUserDetial myUserDetial, String nickname, String password,
+			Set<Tag> tags, UserHeadImg userHeadImg, UserRegister userRegister) {
+		super();
+		this.account = account;
+		this.blogZone = blogZone;
+		this.createTime = createTime;
+		this.enabled = enabled;
+		this.id = id;
+		this.isAdmin = isAdmin;
+		this.myRoles = myRoles;
+		this.myUserDetial = myUserDetial;
+		this.nickname = nickname;
+		this.password = password;
+		this.tags = tags;
+		this.userHeadImg = userHeadImg;
+		this.userRegister = userRegister;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -288,16 +295,18 @@ public class UserLogin implements Serializable,UserDetails {
 		result = prime * result
 				+ ((myUserDetial == null) ? 0 : myUserDetial.hashCode());
 		result = prime * result
+				+ ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		result = prime * result
 				+ ((userHeadImg == null) ? 0 : userHeadImg.hashCode());
 		result = prime * result
 				+ ((userRegister == null) ? 0 : userRegister.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -339,6 +348,11 @@ public class UserLogin implements Serializable,UserDetails {
 				return false;
 		} else if (!myUserDetial.equals(other.myUserDetial))
 			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -359,13 +373,26 @@ public class UserLogin implements Serializable,UserDetails {
 				return false;
 		} else if (!userRegister.equals(other.userRegister))
 			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
 		return true;
 	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+
+
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		
+		return this.getAccount();
+	}
+
+	
 
 	
 }

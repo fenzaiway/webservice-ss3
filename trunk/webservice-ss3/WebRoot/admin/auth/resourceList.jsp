@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td><s:property value="#res.type"/></td>
 					<td><s:property value="#res.enabled"/></td>
 					<td><s:property value="#res.descString"/></td>
-                    <td><a href="admin/res/gotoEdit.do?roleid=<s:property value="#res.id"/>">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
+                    <td><a href="admin/res/gotoEdit.do?resid=<s:property value="#res.id"/>">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
 					<a href="admin/tag/deleteById.do?userLogin.id=<s:property value='#tag.id'/>">删除</a></td>
                   </tr>
 				  </s:iterator>

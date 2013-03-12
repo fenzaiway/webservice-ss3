@@ -64,7 +64,7 @@ public class MyAuthority implements Serializable {
 	 * 权限-资源关系
 	 */
 	@ManyToMany
-	@JoinTable(name="tb_authority_resource",joinColumns={@JoinColumn(name="rid")},inverseJoinColumns={@JoinColumn(name="auid")})
+	@JoinTable(name="tb_authority_resource",joinColumns={@JoinColumn(name="auid")},inverseJoinColumns={@JoinColumn(name="rid")})
 	private Set<MyResources> myResources = new HashSet<MyResources>();
 
 	public MyAuthority() {}

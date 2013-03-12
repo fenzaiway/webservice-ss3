@@ -25,19 +25,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
      <form action="admin/res/update.do" method="post">
-     	<input type="hidden" value="<s:property value='myResources.id'/>">
-    	资源名：<input type="text" name="resourceName" value="<s:property value='myResources.resourceName'/>"/><br/>
-    	资源路径：<input type="text" name="url" value="<s:property value='myResources.url'/>"/><br/>
-    	资源是否可用：<select name="enable">
+     	<input type="hidden" name="myResources.id" value="<s:property value='myResources.id'/>">
+    	资源名：<input type="text" name="myResources.resourceName" value="<s:property value='myResources.resourceName'/>"/><br/>
+    	资源路径：<input type="text" name="myResources.url" value="<s:property value='myResources.url'/>"/><br/>
+    	资源是否可用：<select name="myResources.enable">
     				<option value="1">可用</option>
     				<option value="0">冻结</option>
     			  </select><br>
-    	资源类型：<select name="type">
+    	资源类型：<select name="myResources.type">
     				<option value=".do">.do</option>
     				<option value=".action">.action</option>
     			  </select><br>
     	资源描述：<textarea rows="" cols="" name="descString"><s:property value='myResources.descString'/></textarea><br/>
     	<input type="submit" value="更新">
     </form>
+<s:debug></s:debug>
   </body>
 </html>

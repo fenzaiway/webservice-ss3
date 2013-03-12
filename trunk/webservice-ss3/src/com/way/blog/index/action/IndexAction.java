@@ -68,7 +68,7 @@ public class IndexAction extends BaseAction {
 		userLoginList = new ArrayList<UserLogin>();
 		userHeadImgList = new ArrayList<UserHeadImg>();
 		for (LogInfo logInfo : logInfoList) {
-			userLogin = userLoginServiceImpl.myFindByProperty("username", logInfo.getUsername());
+			userLogin = userLoginServiceImpl.myFindByProperty("nickname", logInfo.getUsername());
 			userLoginList.add(userLogin);
 			userHeadImgList.add(userLogin.getUserHeadImg());
 		}
@@ -79,7 +79,7 @@ public class IndexAction extends BaseAction {
 	})
 	public String loadUserLogin(){
 		//System.out.println(userLogin.getUsername());
-		this.returnJsonByObject(userLoginServiceImpl.myFindByProperty("username", userLogin.getUsername()));
+		this.returnJsonByObject(userLoginServiceImpl.myFindByProperty("nickname", userLogin.getNickname()));
 		return null;
 	}
 	

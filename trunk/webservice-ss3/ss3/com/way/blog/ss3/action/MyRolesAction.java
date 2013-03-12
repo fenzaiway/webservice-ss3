@@ -1,7 +1,9 @@
 package com.way.blog.ss3.action;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.ss3.entity.MyAuthority;
 import com.way.blog.ss3.entity.MyRoles;
+import com.way.blog.ss3.service.impl.MyAuthorityServiceImpl;
 import com.way.blog.ss3.service.impl.MyRolesServiceImpl;
 import com.way.blog.util.PaginationSupport;
 
@@ -22,10 +26,15 @@ import com.way.blog.util.PaginationSupport;
 public class MyRolesAction extends BaseAction implements ModelDriven<MyRoles>{
 
 	@Autowired private MyRolesServiceImpl myRolesServiceImpl;
+	@Autowired private MyAuthorityServiceImpl myAuthorityServiceImpl;
 	@Autowired private MyRoles myRoles;
+	@Autowired private MyAuthority myAuthority;
 	
 	private List<MyRoles> myRolesList = new ArrayList<MyRoles>();
+	private List<MyAuthority> myAuthorityList = new ArrayList<MyAuthority>();
+	private List<String> authids = new ArrayList<String>();
 	private int roleid;
+	private String authIds;
 	
 	/**
 	 * 添加角色
@@ -57,7 +66,32 @@ public class MyRolesAction extends BaseAction implements ModelDriven<MyRoles>{
 			@Result(name="success", location="/admin/role/list.do",type="redirect"),
 	})
 	public String update(){
-		myRolesServiceImpl.update(myRoles);
+		
+		String []authid = authIds.split(",");
+		Set<MyRoles> roleSet;
+		Set<MyAuthority> authSet;
+		for(int i=0; i<authid.length; i++){
+			myAuthority = myAuthorityServiceImpl.findById(Integer.parseInt(authid[i].trim()));
+			if(null != myRoles.getMyAuthoritys() && !myRoles.getMyAuthoritys().isEmpty()){
+				myRoles.getMyAuthoritys().add(myAuthority);
+			}else{
+				authSet = new HashSet<MyAuthority>();
+				authSet.add(myAuthority);
+				myRoles.setMyAuthoritys(authSet);
+			}
+			
+			if(null != myAuthority.getMyRoles() && !myAuthority.getMyRoles().isEmpty()){
+				myAuthority.getMyRoles().add(myRoles);
+			}else{
+				roleSet = new HashSet<MyRoles>();
+				roleSet.add(myRoles);
+				myAuthority.setMyRoles(roleSet);
+			}
+			
+			myRolesServiceImpl.update(myRoles);
+			myAuthorityServiceImpl.update(myAuthority);
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -71,6 +105,13 @@ public class MyRolesAction extends BaseAction implements ModelDriven<MyRoles>{
 	})
 	public String gotoEdit(){
 		myRoles = myRolesServiceImpl.findById(roleid);
+		myAuthorityList = myAuthorityServiceImpl.loadAll();
+		
+		if(null != myRoles.getMyAuthoritys() && !myRoles.getMyAuthoritys().isEmpty()){
+			for(MyAuthority ma : myRoles.getMyAuthoritys()){
+				authids.add(ma.getId()+"");
+			}
+		}
 		return SUCCESS;
 	}
 
@@ -112,6 +153,30 @@ public class MyRolesAction extends BaseAction implements ModelDriven<MyRoles>{
 
 	public void setRoleid(int roleid) {
 		this.roleid = roleid;
+	}
+
+	public List<MyAuthority> getMyAuthorityList() {
+		return myAuthorityList;
+	}
+
+	public void setMyAuthorityList(List<MyAuthority> myAuthorityList) {
+		this.myAuthorityList = myAuthorityList;
+	}
+
+	public List<String> getAuthids() {
+		return authids;
+	}
+
+	public void setAuthids(List<String> authids) {
+		this.authids = authids;
+	}
+
+	public String getAuthIds() {
+		return authIds;
+	}
+
+	public void setAuthIds(String authIds) {
+		this.authIds = authIds;
 	}
 	
 }

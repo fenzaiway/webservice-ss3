@@ -55,7 +55,7 @@ public class MyRoles implements Serializable {
 	 * 权限-角色关系，多对多
 	 */
 	@ManyToMany
-	@JoinTable(name="tb_authority_role",joinColumns={@JoinColumn(name="auid")},inverseJoinColumns={@JoinColumn(name="rid")})
+	@JoinTable(name="tb_authority_role",joinColumns={@JoinColumn(name="rid")},inverseJoinColumns={@JoinColumn(name="auid")})
 	private Set<MyAuthority> myAuthoritys = new HashSet<MyAuthority>();
 	
 	/**

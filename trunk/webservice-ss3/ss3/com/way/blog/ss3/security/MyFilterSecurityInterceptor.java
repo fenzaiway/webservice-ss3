@@ -15,18 +15,58 @@ import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor {
+public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
+private FilterInvocationSecurityMetadataSource securityMetadataSource;
+	
+	public FilterInvocationSecurityMetadataSource getSecurityMetadataSource() {
+		return securityMetadataSource;
+	}
+
+	public void setSecurityMetadataSource(
+			FilterInvocationSecurityMetadataSource securityMetadataSource) {
+		this.securityMetadataSource = securityMetadataSource;
+	}
+	
 	@Override
 	public Class<?> getSecureObjectClass() {
-		// TODO Auto-generated method stub
-		return null;
+		 //下面的MyAccessDecisionManager的supports方面必须放回true,否则会提醒类型错误  
+		return FilterInvocation.class;
 	}
 
 	@Override
 	public SecurityMetadataSource obtainSecurityMetadataSource() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.securityMetadataSource;
+	}
+	
+	public void invoke(FilterInvocation fi) throws IOException, ServletException{
+		//1.获取请求资源的权限  
+        //执行Collection<ConfigAttribute> attributes = SecurityMetadataSource.getAttributes(object);  
+        //2.是否拥有权限  
+        //this.accessDecisionManager.decide(authenticated, object, attributes);
+		
+		//核心的InterceptorStatusToken token = super.beforeInvocation(fi);会调用我们定义的accessDecisionManager:decide(Object object)和securityMetadataSource
+		//:getAttributes(Object object)方法。
+		InterceptorStatusToken token = super.beforeInvocation(fi);
+		try {
+			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+		}finally{
+			super.afterInvocation(token, null);
+		}
+	}
+
+	public void destroy() {
+
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		FilterInvocation fi = new FilterInvocation(request,response,chain);
+		invoke(fi);
+	}
+
+	public void init(FilterConfig arg0) throws ServletException {
+
 	}
 
 }
