@@ -84,7 +84,8 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		 */
 		UserLogin userLogin = new UserLogin();
 		userLogin.setAccount(userRegister.getEmail());
-		userLogin.setUsername(username);
+		//userLogin.setUsername(username);
+		userLogin.setNickname(username);
 		userLogin.setPassword(password);
 		userLogin.setCreateTime(date);
 		userLogin.setEnabled(0);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1

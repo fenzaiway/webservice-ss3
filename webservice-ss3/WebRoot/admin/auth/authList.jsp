@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td ><s:property value="#auth.authorityName"/></td>
 					<td><s:property value="#auth.authorityDesc"/></td>
 					<td><s:property value="#auth.enable"/></td>
-                    <td><a href="admin/auth/gotoEdit.do?authid=<s:property value="#role.id"/>">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
+                    <td><a href="admin/auth/gotoEdit.do?authid=<s:property value="#auth.id"/>">编辑|</a><a href="listrenwumingxi.htm">查看|</a>
 					<a href="admin/tag/deleteById.do?userLogin.id=<s:property value='#tag.id'/>">删除</a></td>
                   </tr>
 				  </s:iterator>

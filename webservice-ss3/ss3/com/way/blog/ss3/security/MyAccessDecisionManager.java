@@ -13,21 +13,36 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
-	public void decide(Authentication arg0, Object arg1,
-			Collection<ConfigAttribute> arg2) throws AccessDeniedException,
-			InsufficientAuthenticationException {
-		// TODO Auto-generated method stub
-
+	public void decide(Authentication authentication, Object object,
+			Collection<ConfigAttribute> configAttributes)
+			throws AccessDeniedException, InsufficientAuthenticationException {
+		if(null == configAttributes){
+			return;
+		}
+		System.out.println("------------AAAAAAA----------");
+		////所请求的资源对应的权限（一个资源对应多个权限）
+		Iterator<ConfigAttribute> ite = configAttributes.iterator();
+		while(ite.hasNext()){
+			ConfigAttribute ca = ite.next();
+			//访问请求资源所需的权限
+			String needRole = ((SecurityConfig)ca).getAttribute();
+			//用户所拥有的权限
+			for(GrantedAuthority ga : authentication.getAuthorities()){
+				System.out.println("----in decision ---- " + needRole.trim() + " == " + ga.getAuthority().trim());
+				if(needRole.trim().equals(ga.getAuthority().trim())){
+					return;
+				}
+			}
+		}
+		throw new AccessDeniedException("用户权限不足，访问被限制...");
 	}
 
-	public boolean supports(ConfigAttribute arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean supports(ConfigAttribute attribute) {
+		return true;
 	}
 
-	public boolean supports(Class<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean supports(Class<?> clazz) {
+		return true;
 	}
 
 }

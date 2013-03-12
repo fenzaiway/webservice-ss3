@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
@@ -28,6 +29,7 @@ a:hover {font-size:12px; color:#00CCFF;text-decoration:none;}
 </style></head>
 
 <body>
+<c:url value="/j_spring_security_logout" var="logoutUrl"/>  
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td height="11" background="images/main_03.gif"><img src="images/main_01.gif" width="104" height="11"></td>
@@ -38,7 +40,7 @@ a:hover {font-size:12px; color:#00CCFF;text-decoration:none;}
         <td width="282" height="52" background="images/main_05.gif">&nbsp;</td>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td><span class="STYLE1"><img src="images/home.gif" width="12" height="13"> </span><span class="STYLE4"><a href="#">回首页</a></span><span class="STYLE1"> <img src="images/quit.gif" width="16" height="16"> </span><span class="STYLE4"><a href="#">退出系统</a></span><span class="STYLE1"> </span></td>
+            <td><span class="STYLE1"><img src="images/home.gif" width="12" height="13"> </span><span class="STYLE4"><a href="#">回首页</a></span><span class="STYLE1"> <img src="images/quit.gif" width="16" height="16"> </span><span class="STYLE4"><a href="${logoutUrl}" target="_parent">退出系统</a></span><span class="STYLE1"> </span></td>
           </tr>
         </table></td>
         <td width="247" background="images/main_08.gif">&nbsp;</td>

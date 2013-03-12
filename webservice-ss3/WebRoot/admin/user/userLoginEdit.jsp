@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib  prefix="s" uri="/struts-tags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>角色编辑</title>
+    <title>用户编辑</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -24,12 +24,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <form action="admin/role/update.do" method="post">
-    	<input type="hidden" name="id" value="<s:property value='myRoles.id'/>">
-    	角色名：<input type="text" name="roleName" value="<s:property value='myRoles.roleName'/>"/><br/>
-    	角色描述：<textarea rows="" cols="" name="roleDesc"><s:property value='myRoles.roleDesc'/></textarea><br/>
-		<s:checkboxlist name="authIds" list="#request.myAuthorityList" id="auth"  listKey="id" listValue="authorityDesc" value="#request.authids"/>
-    	<input type="submit" value="更新">
-    </form>
+		    
+	<form action="admin/user/update.do" method="post">
+		<input type="hidden" value="<s:property value='userLogin.id'/>" name="id">
+		<input type="text" name="userLogin.username" value="<s:property value='userLogin.username'/>" readonly="readonly"><br/>
+		
+		<s:checkboxlist name="roleid" list="#request.myRolesList" id="role"  listKey="id" listValue="roleDesc" value="#request.selectRoleids"/>
+				
+		<br>
+		<input type="submit" value="更新"/>
+	</form>
+
   </body>
 </html>

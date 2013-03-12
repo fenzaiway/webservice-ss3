@@ -1,7 +1,9 @@
 package com.way.blog.ss3.action;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -13,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ModelDriven;
 import com.way.blog.base.action.BaseAction;
 import com.way.blog.ss3.entity.MyAuthority;
+import com.way.blog.ss3.entity.MyResources;
+import com.way.blog.ss3.entity.MyRoles;
 import com.way.blog.ss3.service.impl.MyAuthorityServiceImpl;
+import com.way.blog.ss3.service.impl.MyResourcesServiceImpl;
 import com.way.blog.util.PaginationSupport;
 
 @Controller("myAuthorityAction")
@@ -22,10 +27,15 @@ import com.way.blog.util.PaginationSupport;
 public class MyAuthorityAction extends BaseAction implements ModelDriven<MyAuthority>{
 
 	@Autowired private MyAuthorityServiceImpl myAuthorityServiceImpl;
+	@Autowired private MyResourcesServiceImpl myResourcesServiceImpl;
 	@Autowired private MyAuthority myAuthority;
+	@Autowired private MyResources myResources;
 
 	private List<MyAuthority> myAuthorityList = new ArrayList<MyAuthority>();
-	private int authid;
+	private List<MyResources> myResourcesList = new ArrayList<MyResources>();
+	private List<String> resids = new ArrayList<String>();
+	private String authid;
+	private String resid;
 	
 	/**
 	 * 添加权限
@@ -43,17 +53,43 @@ public class MyAuthorityAction extends BaseAction implements ModelDriven<MyAutho
 			@Result(name="success", location="/admin/auth/authList.jsp"),
 	})
 	public String list(){
-		paginationSupport = myAuthorityServiceImpl.findPageByQuery(MyAuthorityServiceImpl.HQL, PaginationSupport.PAGESIZE, authid, new Object[]{});
+		paginationSupport = myAuthorityServiceImpl.findPageByQuery(MyAuthorityServiceImpl.HQL, PaginationSupport.PAGESIZE, startIndex, new Object[]{});
 		paginationSupport.setUrl("admin/auth/list.do");
 		myAuthorityList = paginationSupport.getItems();
 		return SUCCESS;
 	}
 	
 	@Action(value="update",results={
-			@Result(name="success", location="/admin/auth/authList.do",type="redirect"),
+			@Result(name="success", location="/admin/auth/list.do",type="redirect"),
 	})
 	public String update(){
-		myAuthorityServiceImpl.update(myAuthority);
+		
+		String []residArray = resid.split(",");
+		MyAuthority auth = myAuthorityServiceImpl.findById(myAuthority.getId());
+		Set<MyResources> resSet;
+		Set<MyAuthority> authSet;
+		for(int i=0; i<residArray.length; i++){
+			myResources = myResourcesServiceImpl.findById(Integer.parseInt(residArray[i].trim()));
+			
+			if(null != myResources.getMyAuthoritys() && !myResources.getMyAuthoritys().isEmpty()){
+				myResources.getMyAuthoritys().add(auth);
+			}else{
+				authSet = new HashSet<MyAuthority>();
+				authSet.add(auth);
+				myResources.setMyAuthoritys(authSet);
+			}
+			
+			if(null != auth.getMyResources()&& !auth.getMyResources().isEmpty()){
+				auth.getMyResources().add(myResources);
+			}else{
+				resSet = new HashSet<MyResources>();
+				resSet.add(myResources);
+				auth.setMyResources(resSet);
+			}
+			
+			myAuthorityServiceImpl.update(auth);
+			myResourcesServiceImpl.update(myResources);
+		}
 		return SUCCESS;
 	}
 	
@@ -69,7 +105,13 @@ public class MyAuthorityAction extends BaseAction implements ModelDriven<MyAutho
 			@Result(name="success", location="/admin/auth/authEdit.jsp"),
 	})
 	public String gotoEdit(){
-		myAuthority = myAuthorityServiceImpl.findById(authid);
+		myAuthority = myAuthorityServiceImpl.findById(Integer.parseInt(authid.trim()));
+		myResourcesList = myResourcesServiceImpl.loadAll();
+		if(null != myAuthority.getMyResources() && !myAuthority.getMyResources().isEmpty()){
+			for(MyResources res : myAuthority.getMyResources()){
+				resids.add(res.getId()+"");
+			}
+		}
 		return SUCCESS;
 	}
 	
@@ -96,13 +138,48 @@ public class MyAuthorityAction extends BaseAction implements ModelDriven<MyAutho
 		this.myAuthorityList = myAuthorityList;
 	}
 
-	public int getAuthid() {
+	public MyResources getMyResources() {
+		return myResources;
+	}
+
+	public void setMyResources(MyResources myResources) {
+		this.myResources = myResources;
+	}
+
+	public List<MyResources> getMyResourcesList() {
+		return myResourcesList;
+	}
+
+	public void setMyResourcesList(List<MyResources> myResourcesList) {
+		this.myResourcesList = myResourcesList;
+	}
+
+	public List<String> getResids() {
+		return resids;
+	}
+
+	public void setResids(List<String> resids) {
+		this.resids = resids;
+	}
+
+	public String getAuthid() {
 		return authid;
 	}
 
-	public void setAuthid(int authid) {
+	public void setAuthid(String authid) {
 		this.authid = authid;
 	}
+
+	public String getResid() {
+		return resid;
+	}
+
+	public void setResid(String resid) {
+		this.resid = resid;
+	}
+
+	
+
 	
 	
 }

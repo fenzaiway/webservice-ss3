@@ -16,16 +16,17 @@
 	<http pattern="/**/*.js" security="none" />
 	<http pattern="/login.jsp" security="none" />
 	<http auto-config="true" access-denied-page="/accessDenied.jsp">
+		<!-- 
 		<intercept-url pattern="/*.jsp" access="ROLE_ADMIN,ROLE_USER"/>
 		<intercept-url pattern="/register*/**" access="ROLE_ADMIN"/>
-		<intercept-url pattern="/admin/main/**" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/admin/main/**" access="ROLE_ADMIN"/> -->
 		<remember-me use-secure-cookie="true"/>
-		<logout delete-cookies="true" logout-url="/login.jsp"/>
+		<logout delete-cookies="true" logout-url="/j_spring_security_logout" logout-success-url="/userlogin/gotoLogin.do"/>
 		<intercept-url pattern="/userlogin/gotoLogin.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/admin/main/gotoMainMenu.do" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
-		<!--<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
 		
-		--><session-management>
+		<session-management>
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
 		</session-management>
 	</http>
@@ -33,37 +34,40 @@
 	<!-- 一个自定义的filter，必须包含authenticationManager,
   		accessDecisionManager,securityMetadataSource三个属性。  -->
   	 <!-- 配置过滤器 -->
-	 <!--<beans:bean id="myFilter" 
-	  class="com.way.ss3.filter.MyFilterSecurityInterceptor">
-	   用户拥有的权限 
+	<beans:bean id="myFilter" 
+	  class="com.way.blog.ss3.security.MyFilterSecurityInterceptor">
+	   <!--用户拥有的权限   -->
 	  <beans:property name="authenticationManager" ref="authenticationManager"/>
-	   用户是否拥有请求资源的权限 
+	 <!--用户是否拥有请求资源的权限   -->  
 	  <beans:property name="accessDecisionManager" ref="myAccessDecisionManager"/>
-	   资源与权限对应关系 
+	  <!-- 资源与权限对应关系  --> 
 	  <beans:property name="securityMetadataSource" ref="securityMetadataSource"/>
 	   
 	 </beans:bean>
 	 
-	 <beans:bean id="myAccessDecisionManager" class="com.way.ss3.filter.MyAccessDecisionManager"/>
-	 <beans:bean id="securityMetadataSource" class="com.way.ss3.service.impl.MyInvocationSecutityMetadataSourceService"/>
-	 <beans:bean id="securityManagerSupport" class="com.way.ss3.dao.SecurityManagerSupport"/>
+	 <beans:bean id="myAccessDecisionManager" class="com.way.blog.ss3.security.MyAccessDecisionManager"/>
+	 <beans:bean id="securityMetadataSource" class="com.way.blog.ss3.security.MyInvocationSecutityMetadataSourceService"/>
+	 <beans:bean id="securityManagerSupport" class="com.way.blog.ss3.security.MyUserdetialService"/>
 	
 	
-	--><!-- 根据登录用户获取用户的权限 -->
+	<!-- 根据登录用户获取用户的权限 -->
 	<authentication-manager alias="authenticationManager">
-		<authentication-provider>
-		<!--<authentication-provider user-service-ref="securityManagerSupport">
+		
+		<authentication-provider user-service-ref="securityManagerSupport">
 			<password-encoder hash="md5">
 				<salt-source user-property="username"/>
 			</password-encoder>
 			
-			--><!--<jdbc-user-service data-source-ref="dataSource" 
+			<!--<jdbc-user-service data-source-ref="dataSource" 
 			users-by-username-query="select u.username,u.password, u.enabled as 'enable' from users u where u.username=?"
 			authorities-by-username-query="select u.username, a.authority as 'authority' from users u join authorities a on a.username = u.username where u.username=?"/>
-			--><user-service>
+			-->
+			<!-- 
+			<user-service>
 				<user name="fenzaiway" password="way890727" authorities="ROLE_USER"/>
 				<user name="sa" password="sa" authorities="ROLE_USER,ROLE_ADMIN"/>
-			</user-service>
+			</user-service> -->
+			
 		</authentication-provider>
 	</authentication-manager>
 	
