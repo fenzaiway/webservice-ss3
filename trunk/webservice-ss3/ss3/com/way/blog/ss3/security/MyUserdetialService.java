@@ -42,12 +42,12 @@ public class MyUserdetialService implements UserDetailsService {
 		}else if(userList.isEmpty()){
 			throw new UsernameNotFoundException("User " + username + " not founded");
 		}*/
-		
 		if(null != userList && !userList.isEmpty()){
 			userLogin = userList.get(0);
+			return userLogin;
 		}
 		
-		return userLogin;
+		return (new UserLogin());
 	}
 
 }

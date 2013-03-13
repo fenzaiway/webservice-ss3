@@ -2,6 +2,8 @@ package com.way.blog.manager.admin.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -12,24 +14,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
+import com.way.blog.base.entity.Space;
+import com.way.blog.base.entity.TagSpace;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.user.entity.UserLogin;
+import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
+import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
+import com.way.blog.zone.entity.BlogZone;
+import com.way.blog.zone.entity.LogTag;
 
 @Service("tagServiceImpl")
 public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
-	@Autowired
-	private UserLoginServiceImpl userLoginServiceImpl;
-	@Autowired
-	private UserLogin userLogin;
-	@Autowired
-	private Tag tag;
+	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired private LogTagServiceImpl logTagServiceImpl;
+	@Autowired private BlogZoneServiceImpl blogZoneServiceImpl;
+	@Autowired private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired private UserLogin userLogin;
+	@Autowired private Tag tag;
+	@Autowired private LogTag logTag;
 	
 	public static final String HQL = "from Tag where 1=1 ";
 	
 	private static final int SIZE = 3;///返回的的另一批tag的数量
 	private List<Tag> tags;
+	private List<LogTag> logTagList;
 	@Override
 	@Resource(name="tagDao")
 	public void setDao(IHibernateGenericDao<Tag, Serializable> dao) {
@@ -161,5 +172,106 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 			}
 		}
 		return returnIds;
+	}
+	
+	
+	/**
+	 * 获取系统发现标签页面所需的内容
+	 * @return
+	 */
+	public List<TagSpace> getTagSpaceList(){
+		
+		List<TagSpace> tagSpaceList = new ArrayList<TagSpace>();
+		TagSpace tagSpace = null;
+		tags = this.loadAll();
+		for(Tag tag : tags){
+			tagSpace = new TagSpace();
+			tagSpace.setTag(tag);
+			tagSpace.setLogTagList(this.getLogTagList(""));
+			tagSpace.setSpaceList(this.getSpaceList(""));
+			tagSpaceList.add(tagSpace);
+		}
+		
+		return tagSpaceList;
+	}
+	
+	/**
+	 * 根据系统分类获取该分类目录下热门的标签top-N
+	 * @param tagName
+	 * @return
+	 */
+	public List<LogTag> getLogTagList(String tagName){
+		
+		/////还没开始对标签进行分类，现在通过生成随机数获取日志标签
+		List<LogTag> logTags = logTagServiceImpl.loadAll();
+		logTagList = new ArrayList<LogTag>();
+		////生成5个随机整数
+		int maxSize = logTags.size();
+		for(int i=0; i<4; i++){
+			int index = new Random().nextInt(maxSize);
+			logTagList.add(logTags.get(index));
+		}
+
+		return logTagList;
+	}
+	
+	/**
+	 * 获取标签分类目录下热门的空间用户
+	 * @param tagName
+	 * @return
+	 */
+	public List<Space> getSpaceList(String tagName){
+		List<Space> spaces = new ArrayList<Space>();
+		Space space = null;
+		List<UserLogin> userLogList = userLoginServiceImpl.loadAll();
+		int maxSize = userLogList.size();
+		for(int i=0; i<5; i++){
+			int index = new Random().nextInt(maxSize);
+			userLogin = userLogList.get(index);
+			String img = userHeadImgServiceImpl.getHeadImgUrl(userLogin.getNickname());
+			space = new Space();
+			space.setImg(img);
+			space.setUserLogin(userLogin);
+			spaces.add(space);
+		}
+		
+		return spaces;
+	}
+	
+	/**
+	 * 更新系统标签和日志标签的关系
+	 * @param tagid
+	 * @param logTagIds
+	 */
+	public void updateSysTag(int tagid, String logTagIds){
+		
+		String logidArray[] = logTagIds.split(",");
+		tag = findById(tagid);
+		Set<Tag> tagSet;
+		Set<LogTag> logTagSet;
+		for(int i=0; i< logidArray.length; i++){
+			logTag = logTagServiceImpl.findById(Integer.parseInt(logidArray[i].trim()));
+			if(null != logTag.getTags() && !logTag.getTags().isEmpty() ){
+				logTag.getTags().add(tag);
+			}else{
+				tagSet = new HashSet<Tag>();
+				tagSet.add(tag);
+				logTag.setTags(tagSet);
+			}
+			
+			
+			if(null != tag.getLogTags() && !tag.getLogTags().isEmpty()){
+				tag.getLogTags().add(logTag);
+			}else{
+				logTagSet = new HashSet<LogTag>();
+				logTagSet.add(logTag);
+				tag.setLogTags(logTagSet);
+			}
+			
+			logTagServiceImpl.update(logTag);
+			
+		}
+		
+		update(tag);
 	}
 }

@@ -22,7 +22,7 @@ public class UserSessionInterceptor extends AbstractInterceptor {
 	private static final long serialVersionUID = 1713218771996200247L;
 	
 	private static final String[] allowTogoUrls = new String[]{"/userlogin/gotoLogin","/userlogin/login.do","/register/loginout.do",
-		"/loginfo/goto","/loginfo/view","/loginfo/isUserLike","/loginfo/pageTest"};
+		"/loginfo/goto","/loginfo/view","/loginfo/isUserLike","/loginfo/pageTest","/admin/"};
 	
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {

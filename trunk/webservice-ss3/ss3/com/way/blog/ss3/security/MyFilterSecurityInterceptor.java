@@ -47,6 +47,7 @@ private FilterInvocationSecurityMetadataSource securityMetadataSource;
 		
 		//核心的InterceptorStatusToken token = super.beforeInvocation(fi);会调用我们定义的accessDecisionManager:decide(Object object)和securityMetadataSource
 		//:getAttributes(Object object)方法。
+		System.out.println("-------------in filter------------");
 		InterceptorStatusToken token = super.beforeInvocation(fi);
 		try {
 			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());

@@ -16,6 +16,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
+		System.out.println("----------------configAttributes ------ " + configAttributes);
 		if(null == configAttributes){
 			return;
 		}

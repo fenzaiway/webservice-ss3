@@ -3,8 +3,11 @@ package com.way.blog.ss3.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,7 +66,7 @@ public class MyInvocationSecutityMetadataSourceService implements
 			List<String> query1 = session.createQuery(hql).list();
 			System.out.println("---------------------------------");
 			for(String res : query1){
-				
+				System.out.println("-------------res-----" + res);
 				/*
 			     * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，将权限增加到权限集合中。
 			     * fenzaiway
@@ -80,9 +83,20 @@ public class MyInvocationSecutityMetadataSourceService implements
 			}
 		}
 	}
+	
+	/**
+	 * 得到所有权限的集合
+	 */
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("---------====1111====11==1=1=");
+		Set<ConfigAttribute> set = new HashSet<ConfigAttribute>();
+		  for (Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {
+			  System.out.println("22222222222222");
+			  set.addAll(entry.getValue());
+		  }
+		  return set;
+		//return null;
 	}
 
 	////根据用户请求的URL取出这个URL的访问权限
@@ -97,9 +111,14 @@ public class MyInvocationSecutityMetadataSourceService implements
 		if(null == resourceMap){
 			loadResourceDefine();
 		}
-
+		System.out.println("-------size--------" + resourceMap.entrySet().size());
 		for (Map.Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {
-            if (urlMatcher.pathMatchesUrl(entry.getKey(), url)) {
+			System.out.println("----request-url==- " + url);
+			String keyStr = entry.getKey();
+			System.out.println("keyStr==" + keyStr);
+			
+			System.out.println(keyStr.equals(url)+"====================");
+            if (urlMatcher.pathMatchesUrl(keyStr, url)) {
                 return entry.getValue();
             }
         }

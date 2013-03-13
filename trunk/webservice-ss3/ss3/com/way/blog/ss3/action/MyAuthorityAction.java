@@ -64,32 +64,35 @@ public class MyAuthorityAction extends BaseAction implements ModelDriven<MyAutho
 	})
 	public String update(){
 		
+		myAuthority.setMyResources(null);
+		
+		
+		if(0 == resid.length()){
+			myAuthorityServiceImpl.update(myAuthority);
+			return SUCCESS;
+		}
 		String []residArray = resid.split(",");
-		MyAuthority auth = myAuthorityServiceImpl.findById(myAuthority.getId());
-		Set<MyResources> resSet;
+		//MyAuthority auth = myAuthorityServiceImpl.findById(myAuthority.getId());
+		Set<MyResources> resSet = new HashSet<MyResources>();
 		Set<MyAuthority> authSet;
 		for(int i=0; i<residArray.length; i++){
 			myResources = myResourcesServiceImpl.findById(Integer.parseInt(residArray[i].trim()));
 			
-			if(null != myResources.getMyAuthoritys() && !myResources.getMyAuthoritys().isEmpty()){
+			/*if(null != myResources.getMyAuthoritys() && !myResources.getMyAuthoritys().isEmpty()){
 				myResources.getMyAuthoritys().add(auth);
 			}else{
 				authSet = new HashSet<MyAuthority>();
 				authSet.add(auth);
 				myResources.setMyAuthoritys(authSet);
 			}
-			
-			if(null != auth.getMyResources()&& !auth.getMyResources().isEmpty()){
-				auth.getMyResources().add(myResources);
-			}else{
-				resSet = new HashSet<MyResources>();
-				resSet.add(myResources);
-				auth.setMyResources(resSet);
-			}
-			
-			myAuthorityServiceImpl.update(auth);
-			myResourcesServiceImpl.update(myResources);
+			resSet.add(myResources);
+			myResourcesServiceImpl.update(myResources);*/
+			resSet.add(myResources);
 		}
+		//auth.setMyResources(resSet);
+		myAuthority.setMyResources(resSet);
+		//myAuthorityServiceImpl.update(auth);
+		myAuthorityServiceImpl.update(myAuthority);
 		return SUCCESS;
 	}
 	

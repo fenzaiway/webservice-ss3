@@ -113,38 +113,36 @@ public class UserAction extends BaseAction implements ModelDriven<UserLogin>{
 			@Result(name="success",location="/admin/user/userLoginList.do",type="redirect")
 	})
 	public String update(){
-		System.out.println("---in update---");
-		System.out.println(userLogin.getId());
-		System.out.println(userLogin.getAccount());
-		System.out.println("roleid = " + roleid);
-		String roleIds[] = splitRoleId(roleid);
+		
 		UserLogin ul = userLoginServiceImpl.findById(userLogin.getId());
+		ul.setMyRoles(null);
+		if(0 == roleid.length()){ //用户没有选择角色
+			userLoginServiceImpl.update(ul);
+			return SUCCESS;
+		}
+		
+		
+		String roleIds[] = splitRoleId(roleid);
+		
 		int length = roleIds.length;
 		Set<UserLogin> userLoginSet;
-		Set<MyRoles> myRolesSet ;
+		Set<MyRoles> myRolesSet = new HashSet<MyRoles>();
 		for(int i=0; i<length; i++){
 			myRoles = myRolesServiceImpl.findById(Integer.parseInt(roleIds[i].trim()));
 			////设置双向关联
-			if(null != myRoles.getUserLogins() && !myRoles.getUserLogins().isEmpty()){
+			/*if(null != myRoles.getUserLogins() && !myRoles.getUserLogins().isEmpty()){
 				myRoles.getUserLogins().add(ul);
 			}else{
 				userLoginSet = new HashSet<UserLogin>();
 				userLoginSet.add(ul);
 				myRoles.setUserLogins(userLoginSet);
-			}
-			
-			if(null != ul.getMyRoles() && !ul.getMyRoles().isEmpty()){
-				ul.getMyRoles().add(myRoles);
-			}else{
-				myRolesSet = new HashSet<MyRoles>();
-				myRolesSet.add(myRoles);
-				ul.setMyRoles(myRolesSet);
-			}
-			
-			userLoginServiceImpl.update(ul);
-			myRolesServiceImpl.update(myRoles);
-		}
+			}*/
+			myRolesSet.add(myRoles);
 		
+			//myRolesServiceImpl.update(myRoles);
+		}
+		ul.setMyRoles(myRolesSet);
+		userLoginServiceImpl.update(ul);
 		return SUCCESS;
 	}
 	
