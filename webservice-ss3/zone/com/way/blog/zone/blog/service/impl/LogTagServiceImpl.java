@@ -98,6 +98,16 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 	}
 	
 	/**
+	 * 根据标签名保存日志标签
+	 * @param tagName
+	 */
+	public void save(String tagName){
+		logTag.setTagName(tagName);
+		logTag.setTagCreateTime(MyFormatDate.getNowDate());
+		save(logTag);
+	}
+	
+	/**
 	 * 获取标签所属的对用的系统标签的名称
 	 * @param logTag
 	 * @return

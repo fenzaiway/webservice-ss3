@@ -21,11 +21,11 @@
 		<intercept-url pattern="/register*/**" access="ROLE_ADMIN"/>
 		<intercept-url pattern="/admin/main/**" access="ROLE_ADMIN"/> -->
 		<remember-me use-secure-cookie="true"/>
-		<logout delete-cookies="true" logout-url="/j_spring_security_logout" logout-success-url="/userlogin/gotoLogin.do"/>
+		<logout delete-cookies="JSESSIONID" logout-url="/j_spring_security_logout" invalidate-session="true" logout-success-url="/userlogin/gotoLogin.do"/>
 		<intercept-url pattern="/userlogin/gotoLogin.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/admin/main/gotoMainMenu.do" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
 		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
-		
+		<session-management invalid-session-url="/register/sessionError.do" />  
 		<session-management>
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
 		</session-management>

@@ -26,10 +26,19 @@ public class AdminTagAction extends BaseAction {
 	@Autowired private TagServiceImpl tagServiceImpl;
 	@Autowired private LogTagServiceImpl logTagServiceImpl;
 	
+	
 	private List<Tag> tagList = new ArrayList<Tag>(); ///系统标签列表
 	private List<LogTag> logTagList = new ArrayList<LogTag>();  ///日志标签列表
 	
 	private LogTagDetail logTagDetail; ///日志标签详细资料
+	
+	private Tag tag;
+	
+	private String logTagIds;
+	
+
+	
+	private String logTagName; ///日志标签名
 	
 	private int tagId;  ////标签Id
 	
@@ -70,8 +79,50 @@ public class AdminTagAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	@Action(value="sysTagUpdate",results={
+			@Result(name="success",location="/admin/tag/tagList.do", type="redirect")
+	})
+	public String sysTagUpdate(){
+		System.out.println("tagid == " + tag.getId());
+		System.out.println("---logTagids = =" + logTagIds);
+		tagServiceImpl.updateSysTag(tag.getId(), logTagIds);
+		return SUCCESS;
+	}
+	
+	@Action(value="gotoSysTagEdit",results={
+			@Result(name="success",location="/admin/tag/sysTagEdit.jsp"),
+	})
+	public String gotoSysTagEdit(){
+		tag = tagServiceImpl.findById(tagId);
+		logTagList = logTagServiceImpl.loadAll();
+		return SUCCESS;
+	}
 	
 	
+	/**
+	 * 保存日志标签
+	 * @return
+	 */
+	@Action(value="saveLogTag",results={
+			@Result(name="success",location="/admin/tag/logtagList.do", type="redirect")
+	})
+	public String saveLogTag(){
+		System.out.println("----------logTagname==" + logTagName);
+		logTagServiceImpl.save(logTagName);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 转到添加标签页面
+	 * @return
+	 */
+	@Action(value="gotoAddLogtag",results={
+			@Result(name="success",location="/admin/tag/addLogtag.jsp"),
+	})
+	public String gotoAddLogtag(){
+		
+		return SUCCESS;
+	}
 	
 	
 
@@ -105,6 +156,30 @@ public class AdminTagAction extends BaseAction {
 
 	public void setTagId(int tagId) {
 		this.tagId = tagId;
+	}
+
+	public String getLogTagName() {
+		return logTagName;
+	}
+
+	public void setLogTagName(String logTagName) {
+		this.logTagName = logTagName;
+	}
+
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
+	}
+
+	public String getLogTagIds() {
+		return logTagIds;
+	}
+
+	public void setLogTagIds(String logTagIds) {
+		this.logTagIds = logTagIds;
 	}
 	
 	

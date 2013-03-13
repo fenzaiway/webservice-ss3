@@ -1,8 +1,10 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>管理页面</title>
+<title>绠＄悊椤甸潰</title>
 
 <script src="js/prototype.lite.js" type="text/javascript"></script>
 <script src="js/moo.fx.js" type="text/javascript"></script>
@@ -142,7 +144,7 @@ H1 a {
 <table width="173" height="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#EEF2FB">
   <tr>
     <td width="182" valign="top"><div id="container">
-      <h1 class="type"><a href="javascript:void(0)">用户管理</a></h1>
+      <h1 class="type"><a href="javascript:void(0)">鐢ㄦ埛绠＄悊</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -150,10 +152,11 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../user/userLoginList.do" target="showFrame">用户列表</a></li>
+          <li><a href="../user/userLoginList.do" target="showFrame">鐢ㄦ埛鍒楄〃</a></li>
         </ul>
       </div>
-      <h1 class="type"><a href="javascript:void(0)">标签管理</a></h1>
+	
+      <h1 class="type"><a href="javascript:void(0)">鏍囩绠＄悊</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -161,11 +164,12 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../tag/tagList.do" target="showFrame">系统标签列表</a></li>
-          <li><a href="../tag/logtagList.do" target="showFrame">用户日志标签列表</a></li>
+          <li><a href="../tag/tagList.do" target="showFrame">绯荤粺鏍囩鍒楄〃</a></li>
+          <li><a href="../tag/logtagList.do" target="showFrame">鐢ㄦ埛鏃ュ織鏍囩鍒楄〃</a></li>
         </ul>
       </div>
-      <h1 class="type"><a href="javascript:void(0)">日志管理</a></h1>
+	
+      <h1 class="type"><a href="javascript:void(0)">鏃ュ織绠＄悊</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -173,10 +177,10 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../loginfo/loginfoList.do" target="showFrame">日志列表</a></li>
+          <li><a href="../loginfo/loginfoList.do" target="showFrame">鏃ュ織鍒楄〃</a></li>
         </ul>
       </div>
-      <h1 class="type"><a href="javascript:void(0)">权限管理</a></h1>
+      <h1 class="type"><a href="javascript:void(0)">鏉冮檺绠＄悊</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -184,9 +188,9 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../role/list.do" target="showFrame">角色管理</a></li>
-          <li><a href="../auth/list.do" target="showFrame">权限管理</a></li>
-          <li><a href="../res/list.do" target="showFrame">资源管理</a></li>
+          <li><a href="../role/list.do" target="showFrame">瑙掕壊绠＄悊</a></li>
+          <li><a href="../auth/list.do" target="showFrame">鏉冮檺绠＄悊</a></li>
+          <li><a href="../res/list.do" target="showFrame">璧勬簮绠＄悊</a></li>
         </ul>
       </div>
       
@@ -204,3 +208,4 @@ H1 a {
 </table>
 </body>
 </html>
+

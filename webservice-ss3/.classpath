@@ -80,7 +80,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.beans-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context.support-3.0.1.RELEASE-A.jar" sourcepath="D:/我的资料库/Downloads/spring-framework-3.1.1.RELEASE/src/org.springframework.context.support-sources-3.1.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.core-3.0.1.RELEASE-A.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.core-3.0.1.RELEASE-A.jar" sourcepath="D:/我的资料库/Downloads/spring-framework-3.1.1.RELEASE/src/org.springframework.core-sources-3.1.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.expression-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.instrument-3.0.1.RELEASE-A.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.instrument.tomcat-3.0.1.RELEASE-A.jar"/>

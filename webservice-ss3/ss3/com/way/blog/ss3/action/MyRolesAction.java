@@ -66,31 +66,34 @@ public class MyRolesAction extends BaseAction implements ModelDriven<MyRoles>{
 			@Result(name="success", location="/admin/role/list.do",type="redirect"),
 	})
 	public String update(){
+		myRoles.setMyAuthoritys(null);
 		
+		
+		
+		if(0 == authIds.length()){ ///用户没有选择权限
+			myRolesServiceImpl.update(myRoles);
+			return SUCCESS;
+		}
 		String []authid = authIds.split(",");
+		//MyRoles role = myRolesServiceImpl.findById(myRoles.getId());
 		Set<MyRoles> roleSet;
-		Set<MyAuthority> authSet;
+		Set<MyAuthority> authSet = new HashSet<MyAuthority>();;
 		for(int i=0; i<authid.length; i++){
 			myAuthority = myAuthorityServiceImpl.findById(Integer.parseInt(authid[i].trim()));
-			if(null != myRoles.getMyAuthoritys() && !myRoles.getMyAuthoritys().isEmpty()){
-				myRoles.getMyAuthoritys().add(myAuthority);
-			}else{
-				authSet = new HashSet<MyAuthority>();
-				authSet.add(myAuthority);
-				myRoles.setMyAuthoritys(authSet);
-			}
 			
-			if(null != myAuthority.getMyRoles() && !myAuthority.getMyRoles().isEmpty()){
-				myAuthority.getMyRoles().add(myRoles);
+			/*if(null != myAuthority.getMyRoles() && !myAuthority.getMyRoles().isEmpty()){
+				myAuthority.getMyRoles().add(role);
 			}else{
 				roleSet = new HashSet<MyRoles>();
-				roleSet.add(myRoles);
+				roleSet.add(role);
 				myAuthority.setMyRoles(roleSet);
-			}
+			}*/
 			
-			myRolesServiceImpl.update(myRoles);
-			myAuthorityServiceImpl.update(myAuthority);
+			authSet.add(myAuthority);
+			//myAuthorityServiceImpl.update(myAuthority);
 		}
+		myRoles.setMyAuthoritys(authSet);
+		myRolesServiceImpl.update(myRoles);
 		
 		return SUCCESS;
 	}

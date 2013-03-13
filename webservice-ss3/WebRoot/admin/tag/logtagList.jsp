@@ -22,11 +22,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>css/style1.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/admin.js"></script>
-
+<SCRIPT type="text/javascript">
+	$(function()
+	{
+		$(".logtag").focus();
+	});
+</SCRIPT>
   </head>
   
   <body>
-    <form name="fom" id="fom" method="post" action="admin/user/search.do">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   
   <tr>
@@ -40,6 +44,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td width="538">标签名：
 				<input name="userLogin.username" value="<s:property value='userLogin.username'/>" type="text" size="12"/>
 				<input name="Submit4" type="submit" class="right-button02" value="查 询" />
+				<a href="admin/tag/gotoAddLogtag.do">添加标签</a><form action="admin/tag/saveLogTag.do" method="post">
+    	<input type="text" name="logTagName" class="logtag" value=""/>
+		<input type="submit" value="添加">
+	</form>
 			  </td>
 			 
 		    </tr>
@@ -92,6 +100,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </td>
 </tr>
 </table>
-</form>
   </body>
 </html>

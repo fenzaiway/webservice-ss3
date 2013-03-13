@@ -1,0 +1,41 @@
+*{  margin:0px; padding:0px;}
+body{ background-color:#EEEFEF;}
+#tags_main{ margin:0px auto; min-height:200px; height:auto!important; width:980px; border:1px solid #CCCCFF;}
+#tags_top_scroll{ width:100%; height:420px;}
+#tags_buttom_list{ width:100%;min-height:200px; height:auto!important;}
+#tags_search{ height:55px; width:100%; text-align:center;}
+#tags_list_detail{ background-color:#fff;min-height:200px; height:auto!important;}
+#tags_detail_table{border-collapse:collapse;}
+#tags_detail_table th{ line-height:50px; height:50px; background-color:#fff; margin-left:30px; text-align:left; color:#5D5D5D;}
+#tags_detail_table th span{ margin-left:30px; font-size:16px; font-style:normal;}
+#tags_detail_table tr{ background-color:#FFF; line-height:62px;height:62px;}
+#tags_detail_table td{border:1px solid #E1E1E1;}
+#tags_detail_table td a{ margin-left:30px; text-decoration:none; color:#5D5D5D;}
+#tags_detail_table td a:hover{ color:#3FA7CB;}
+.hot_tags{ width:210px;}
+.hot_tags a{ font-size:20px; color:#3FA7CB;}
+.similar_tags{ width:450px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.hot_spaces{ width:320px; padding-left:30px;}
+.hot_spaces div{ float:left; width:42px; height:42px; border:1px solid #CCCCFF; margin-right:12px;}
+.space_img{ width:42px; height:42px;}
+.clr{ clear:both;}
+#tags_buttom{min-height:200px; height:auto!important;}
+.scroll_imgs{ width:140px; height:140px; float:left;  position:relative; display:block;}
+scroll_imgs cite
+{background: #fff;
+-moz-opacity:.55;
+filter:alpha(opacity=55);
+opacity:.55;
+color: #333;
+position:absolute;
+bottom:0; left:0;
+width:30px;
+padding:7px;
+border-top:#000 1px solid;
+margin-top: -20px;z-index: 1023px;
+}
+.scroll_imgs img{ width:140px; height:140px;}
+.scroll_imgs img:hover{ filter:alpha(opacity=60); /* IE */
+    -moz-opacity:0.6; /* Moz + FF */
+    opacity:0.6; /* 支持CSS3的浏览器（FF 1.5也支持）*/}

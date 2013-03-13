@@ -211,8 +211,10 @@ public class UserLogin implements Serializable,UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>(myRoles.size());
 		for(MyRoles role : myRoles){
-			for(MyAuthority auth : role.getMyAuthoritys())
-			grantedAuthorityList.add(new GrantedAuthorityImpl(auth.getAuthorityName()));
+			for(MyAuthority auth : role.getMyAuthoritys()){
+				System.out.println("---------------auth-- " + auth.getAuthorityName());
+				grantedAuthorityList.add(new GrantedAuthorityImpl(auth.getAuthorityName()));
+			}
 		}
 		
 		return grantedAuthorityList;
@@ -231,6 +233,7 @@ public class UserLogin implements Serializable,UserDetails {
 	}
 
 	public boolean isEnabled() {
+		System.out.println("-------------------enabled-------" + enabled);
 		return 1 == enabled ? true : false;
 		//return true;
 	}
@@ -388,7 +391,7 @@ public class UserLogin implements Serializable,UserDetails {
 
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("-----------getUsername-----" + account);
 		return this.getAccount();
 	}
 
