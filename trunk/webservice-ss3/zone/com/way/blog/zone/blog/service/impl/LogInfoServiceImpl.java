@@ -91,7 +91,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			//System.out.println(logText);
 			///只有长度超过200个字符的才转换
 			if(logText.length() > 200){
-				logInfo.setLogText(logText.substring(0,150));
+				logInfo.setLogText(logText.substring(0,200));
 			}
 			System.out.println(logInfo.getLogText());
 			System.out.println("\n\n--------------------------------");
@@ -127,32 +127,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		super.update(logInfo);
 	}
 	
-	/**
-	 * 根据用户名取得用户发表过的标签
-	 * @param username
-	 * @return
-	 */
-	public List<LogTag> getUserLogInfoTagList(String username){
-		/**
-		 * 步骤
-		 * 1、
-		 */
-		//List<LogTag> logTagList = new ArrayList<LogTag>();
-		Set<LogTag> logTagSet = new HashSet<LogTag>();
-		List<LogInfo> logInfoList = this.findByProperty("username", username);
-		for (LogInfo logInfo : logInfoList) {
-			if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){
-				//如果该篇日志的有关键字
-				//logTagList.
-				//logTagSet.add(e)
-				for (LogTag logTag : logInfo.getLogTags()) {
-					logTagSet.add(logTag);
-				}
-			}
-		}
-		
-		return new ArrayList<LogTag>(logTagSet);
-	}
+	
 	
 	/**
 	 * 通过json返回用户请求数据

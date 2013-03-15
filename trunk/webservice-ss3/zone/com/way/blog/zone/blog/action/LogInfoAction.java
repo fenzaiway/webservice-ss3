@@ -197,7 +197,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 查看文章更多信息
 	 */
 	@Action(value="viewmore",results={
-			@Result(name="success",location="/WEB-INF/jsp/loginfo/logInfoDetail.jsp"),
+			@Result(name="success",location="/WEB-INF/jsp/zone/info_detail.jsp"),
 			@Result(name="404",location="/404.jsp")
 	})
 	public String viewMore(){
@@ -317,7 +317,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		 */
 		logTypeList = logTypeServiceImpl.findByProperty("username", myusername);
 		tagList = tagServiceImpl.loadAll();///加载系统标签分类
-		logTagList = logInfoServiceImpl.getUserLogInfoTagList(myusername);
+		logTagList = logTagServiceImpl.getUserLogInfoTagList(myusername);
 		return SUCCESS;
 	}
 	

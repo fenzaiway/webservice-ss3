@@ -1,7 +1,9 @@
 package com.way.blog.zone.blog.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ import com.way.blog.zone.entity.LogTag;
 public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 	
 	public static final String HQL = "from LogTag where 1=1 ";
+	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	
 	@Override
 	@Resource(name="logTagDao")
 	public void setDao(IHibernateGenericDao<LogTag, Serializable> dao) {
@@ -118,6 +122,33 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 			sb.append(tag.getTagName()).append(",");
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * 根据用户名取得用户发表过的标签
+	 * @param username
+	 * @return
+	 */
+	public List<LogTag> getUserLogInfoTagList(String username){
+		/**
+		 * 步骤
+		 * 1、
+		 */
+		//List<LogTag> logTagList = new ArrayList<LogTag>();
+		Set<LogTag> logTagSet = new HashSet<LogTag>();
+		List<LogInfo> logInfoList = logInfoServiceImpl.findByProperty("username", username);
+		for (LogInfo logInfo : logInfoList) {
+			if(null!=logInfo.getLogTags() && !logInfo.getLogTags().isEmpty()){
+				//如果该篇日志的有关键字
+				//logTagList.
+				//logTagSet.add(e)
+				for (LogTag logTag : logInfo.getLogTags()) {
+					logTagSet.add(logTag);
+				}
+			}
+		}
+		
+		return new ArrayList<LogTag>(logTagSet);
 	}
 	
 }
