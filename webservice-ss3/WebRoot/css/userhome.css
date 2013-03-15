@@ -1,0 +1,46 @@
+body{
+	background-color:#BDE6FA;
+	background-image:url(../images/zone_background.jpg);
+	background-repeat: repeat-x;
+	background-attachment: fixed;//¹Ì¶¨²»¶¯
+}
+h3{ color:#fff; font-size:30px; padding:0px; margin:0px;}
+hr{ margin-top:7px;*margin: 0; border: 0; color: #FFF; background-color: #E2E2E2; height: 1px;}
+.hr_title{ margin-top:-25px;}
+#user_top_navi{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:40px; background-color:#3FA7CB;}
+#main{ border:1px solid #E0E6E5; width:1090px; height:300px; margin:0px auto;height:auto!important; background-color:#E0E6E5;}
+.clr{ clear:both;}
+#head_img,#intro,#new_photo,#all_tag,#fans{ height:175px;min-height:175px; height:auto!important; width:100%;}
+#head_img{ text-align:center;}
+#left{ width:270px; min-height:200px; height:auto!important; float:left; background-color:#E0E6E5; Opacity:0.8;}
+#right{ width:819px; min-height:200px; height:auto!important; float:right; background-color:#FFF; margin-top:-50px; margin-bottom:93px;}
+#head_img{ background-color:#E0E6E5;}
+#intro{ background-color:#F16E50;}
+#fans{ min-height:140px; height:140px;}
+
+.title_word{ height:30px; background-color:#F16E50; display:block; font-size:16px; font-family:"Î¢ÈíÑÅºÚ"; margin:0px auto; color:#fff; margin-top:5px;}
+.left_title_word{ padding-left:20px;background-color:#F16E50; border:1px solid #F16E50;}
+.left_content{ margin:25px 20px 0px 20px; min-height:120px; height:auto!important;}
+.left_content img{ width:150px; height:150px; margin-top:15px;}
+.left_content div{ margin:0px auto;  padding-top:30px;}
+.left_content p{color:#FFD1AF; padding:0px; margin:0px; line-height:20px;}
+.left_content span{ padding:0px; font-size:14px;}
+.left_content a{ font-size:14px;color:#F16E50;}
+ul{ list-style:none; }
+.left_content li{ margin-right:48px;float:left; margin-left:-40px; margin-top:-20px; margin-bottom:23px;}
+.left_content li a,.log_buttom li a{ text-decoration:none; font-size:12px; color:#454545; padding:3px;}
+.left_content li a:hover,.log_buttom li a:hover{ background-color:#F16E50;border-radius:4px; padding:3px;}
+.log_title{ height:70px; font-family:sans-serif,"ºÚÌå","Comic Sans MS","Ó×Ô²"; font-size:24px; margin-top:45px; margin-left:100px;}
+.log_title a{text-decoration: none;color: #454545;}
+.log_title a:hover{ color:#F16E50;}
+.log_content{ min-height:140px; height:auto!important;width:700px; margin:0px auto; font-size:14px; line-height:24px; color:#454545;}
+.log_content a{ color:#F16E50;}
+.log_content a:hover{color:#FF8B70;}
+.log_content img{ height:410px; width:700px; border-style:none;}
+.content_detail{ min-height:200px; height:auto!important;}
+.log_buttom{ min-height:70px; width:700px; margin:0px auto;}
+.buttom_a{ float:right;  display:block; margin-top:12px;}
+.buttom_a a{ margin-left:15px; font-size:14px; color:#B1B1B1;}
+.buttom_tag{ float:left; margin-top:-3px;}
+.buttom_tag a{ background-color:#E9ECEB; padding:3px;}
+.log_split{ min-height:45px; height:auto!important; background-color: #F1F2EF; margin-top:-10px;}
