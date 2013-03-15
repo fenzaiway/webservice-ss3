@@ -152,7 +152,7 @@
 				</ul>
 			</div>
 		</div>
-		<div style="height: 40px;" id="more_tags"><a href="tag" style="font-size: 16; font-family: 微软雅黑; text-decoration: none;">发现更多有趣内容</a></div>
+		<div style="height: 40px;" id="more_tags"><a href="tag/" style="font-size: 16; font-family: 微软雅黑; text-decoration: none;">发现更多有趣内容</a></div>
 		<div style="height: 90px; border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">访问统计
 			<span style="display:block;">今日访问量：0</span>
 			<span style="display:block;">总的访问量：0</span>

@@ -4,27 +4,53 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <style type="text/css">
-	body{ background-color:#BDE6FA;}
-	#user_top_navi{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:40px; background:#454545;}
-	#main{ border:1px solid #A0A0A4; width:1090px; height:300px; margin:0px auto;height:auto!important;}
+
+	body{
+	background-color:#BDE6FA;
+	background-image:url(../images/zone_background.jpg);
+	background-repeat: repeat-x;
+	background-attachment: fixed;//固定不动
+}
+	h3{ color:#fff; font-size:30px; padding:0px; margin:0px;}
+	hr{ margin-top:7px;*margin: 0; border: 0; color: #FFF; background-color: #E2E2E2; height: 1px;}
+	.hr_title{ margin-top:-25px;}
+	#user_top_navi{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:40px; background-color:#3FA7CB;}
+	#main{ border:1px solid #E0E6E5; width:1090px; height:300px; margin:0px auto;height:auto!important; background-color:#E0E6E5;}
 	.clr{ clear:both;}
-	#head_img,#intro,#new_photo,#all_tag,#fans{ height:200px;min-height:200px; height:auto!important; width:100%;}
-	#left{ width:270px; min-height:200px; height:auto!important; float:left; background-color:#E0E6E5;}
-	#right{ width:820px; min-height:200px; height:auto!important; float:right; background-color:#FFF; margin-top:-53px; margin-bottom:93px;}
+	#head_img,#intro,#new_photo,#all_tag,#fans{ height:175px;min-height:175px; height:auto!important; width:100%;}
+	#head_img{ text-align:center;}
+	#left{ width:270px; min-height:200px; height:auto!important; float:left; background-color:#E0E6E5; Opacity:0.8;}
+	#right{ width:819px; min-height:200px; height:auto!important; float:right; background-color:#FFF; margin-top:-50px; margin-bottom:93px;}
 	#head_img{ background-color:#E0E6E5;}
 	#intro{ background-color:#F16E50;}
-	.title_word{ height:30px; background-color:#F16E50; display:block;}
-	.left_content{ margin:25px 20px 25px 20px; min-height:200px; height:auto!important;  }
+	#fans{ min-height:140px; height:140px;}
+
+	.title_word{ height:30px; background-color:#F16E50; display:block; font-size:16px; font-family:"微软雅黑"; margin:0px auto; color:#fff; margin-top:5px;}
+	.left_title_word{ padding-left:20px;background-color:#F16E50; border:1px solid #F16E50;}
+	.left_content{ margin:25px 20px 0px 20px; min-height:120px; height:auto!important;}
+	.left_content img{ width:150px; height:150px; margin-top:15px;}
+	.left_content div{ margin:0px auto;  padding-top:30px;}
+	.left_content p{color:#FFD1AF; padding:0px; margin:0px; line-height:20px;}
+	.left_content span{ padding:0px; font-size:14px;}
+	.left_content a{ font-size:14px;color:#F16E50;}
 	ul{ list-style:none;}
 	.left_content li{ margin-right:48px;float:left; margin-left:-40px; margin-top:-20px; margin-bottom:20px;}
-	.left_content li a{ text-decoration:none; font-size:12px; color:#454545;}
-	.left_content li a:hover{ background-color:#F16E50;border-radius:4px; padding:3px;}
-	.log_title{ height:70px;}
-	.log_content{ min-height:140px; height:auto!important;}
-	.log_content img{ height:410px; width:700px;}
+	.left_content li a,.log_buttom li a{ text-decoration:none; font-size:12px; color:#454545; padding:3px;}
+	.left_content li a:hover,.log_buttom li a:hover{ background-color:#F16E50;border-radius:4px; padding:3px;}
+	.log_title{ height:70px; font-family:sans-serif,"黑体","Comic Sans MS","幼圆"; font-size:24px; margin-top:45px; margin-left:100px;}
+	.log_title:hover{ color:#F16E50;}
+	.log_content{ min-height:140px; height:auto!important;width:700px; margin:0px auto; font-size:14px; line-height:24px; color:#454545;}
+	.log_content a{ color:#F16E50;}
+	.log_content a:hover{color:#FF8B70;}
+	.log_content img{ height:410px; width:700px; border-style:none;}
 	.content_detail{ min-height:200px; height:auto!important;}
-	.log_buttom{ min-height:70px;}
-	.log_split{ min-height:80px; height:auto!important; background-color: #F1F2EF;}
+	.log_buttom{ min-height:70px; width:700px; margin:0px auto;}
+	.buttom_a{ float:right;  display:block; margin-top:12px;}
+	.buttom_a a{ margin-left:15px; font-size:14px; color:#B1B1B1;}
+	.buttom_tag{ float:left; margin-top:-3px;}
+	.buttom_tag a{ background-color:#E9ECEB; padding:3px;}
+	.log_split{ min-height:45px; height:auto!important; background-color: #F1F2EF; margin-top:-10px;}
+	
 </style>
 </head>
 
@@ -33,27 +59,37 @@
     <div style="height:70px;"></div>
     <div id="main">
     	<div id="left">
-        	<div id="head_img">头像
-            	<div class="left_content">左边内容</div>
+        	<div id="head_img">
+            	<div class="left_content">
+                	<img src="../images/111.jpg" alt="头像"/>
+                </div>
             </div>
           <div id="intro">
           	<div class="left_content">
-            	百度空间官方空间，致力于将空间最好的内容推荐给大家！ 欢迎推荐/自荐优质空间和内容，精彩共同分享！
+            	<div>
+            	<h3>fenzaiway</h3>
+            	<p>
+            	百度空间官方空间，致力于将空间最好的内容推荐给大家！ 欢迎推荐/自荐优质空间和内容，精彩共同分享！</p>
+                </div>
             </div>
           </div>
              <div id="fans">
              	<div class="left_content">
-             	  <p>粉丝：9800961</p>
-             	  <p><a href="http://msg.baidu.com/msg/writing?receiver=Hi_%BE%AB%B2%CA" target="_blank">私信</a> | <a href="http://hi.baidu.com/hispace/albums" target="_blank">相册</a> | <a href="http://hi.baidu.com/hispace/archive" target="_blank">存档</a> | <a href="http://hi.baidu.com/hispace#" onclick="return false">友情链接</a></p>
-             	  <p>加关注</p>
+             	  <span>粉丝：<a href="">9800961</a></span><br/>
+             	  <span><a href="http://msg.baidu.com/msg/writing?receiver=Hi_%BE%AB%B2%CA" target="_blank">私信</a> | <a href="http://hi.baidu.com/hispace/albums" target="_blank">相册</a> | <a href="http://hi.baidu.com/hispace/archive" target="_blank">存档</a> | <a href="http://hi.baidu.com/hispace#" onclick="return false">友情链接</a></span><br/>
+             	  <span>加关注</span>
              	</div>
              </div>
             <div id="new_photo">
+            	<div class="left_title_word">
             	<span class="title_word">最新照片</span>
-                <div class="left_content">左边内容</div>
+                </div>
+                <div class="left_content">照片</div>
             </div>
             <div id="all_tag">
+            	<div class="left_title_word">
             	<span class="title_word">全部标签</span>
+                </div>
                 <div class="left_content">
                 	<ul>
                     	<li><a href="">新版空间</a></li>
@@ -70,11 +106,12 @@
             </div>
         </div>
         <p>&nbsp;</p>
+       
         <div id="right">
         	<div class="log_title">【远方的父母】背后你不知道的事 Vol4</div>
-            <hr/>
+            <hr class="hr_title"/>
             <div class="log_content">
-            	<img src="http://b.hiphotos.baidu.com/album/pic/item/b17eca8065380cd778b9173ca144ad34588281b8.jpg" alt=""/>
+            	<img src="http://image.tianjimedia.com/uploadImages/2013/005/087W0N5R6WY0.jpg" alt=""/>
                 <div class="content_detail">
                   <p>想起早些年，不小心摔了腿，只能自己单腿蹬着自行车去医院，刘阿姨觉得，没什么比自己健健康康的更重要了。如今，她每天傍晚都会去附近的公园散步。（摄/右边印象)——来自<a href="http://hi.baidu.com/act/parents" target="_blank">百度空间2012年度策划《远方的父母》</a></p>
                   <p>【你不知道的事】</p>
@@ -85,14 +122,20 @@
                 </div>
             </div>
             <hr/>
-            <div class="log_buttom"><span data-blogid="27db1401ef781b35addc701a" data-actor-portrait="36e6686973706163650f25" data-actor-qurl="/hispace" data-actor-name="Hi_精彩" data-content-type="text"><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a">阅读全文</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#reply" hidefocus="">评论(324)</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#repost" hidefocus="">转载(518)</a></span><br />
+            <div class="log_buttom">
+             <span class="buttom_tag">
+            <ul>
+            	<li><a href="">#远方的父母</a></li>
+            </ul>
+            </span>
+            <span  class="buttom_a"><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a">阅读全文</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#reply" hidefocus="">评论(324)</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#repost" hidefocus="">转载(518)</a></span><br />
             </div>
             <hr/>
             <div class="log_split"></div>
             <div class="log_title">【远方的父母】背后你不知道的事 Vol4</div>
-            <hr/>
+            <hr class="hr_title"/>
             <div class="log_content">
-            	<img src="http://b.hiphotos.baidu.com/album/pic/item/b17eca8065380cd778b9173ca144ad34588281b8.jpg" alt=""/>
+            	<img src="http://image.tianjimedia.com/uploadImages/2013/005/087W0N5R6WY0.jpg" alt=""/>
                 <div class="content_detail">
                   <p>想起早些年，不小心摔了腿，只能自己单腿蹬着自行车去医院，刘阿姨觉得，没什么比自己健健康康的更重要了。如今，她每天傍晚都会去附近的公园散步。（摄/右边印象)——来自<a href="http://hi.baidu.com/act/parents" target="_blank">百度空间2012年度策划《远方的父母》</a></p>
                   <p>【你不知道的事】</p>
@@ -103,7 +146,13 @@
                 </div>
             </div>
             <hr/>
-            <div class="log_buttom"><span data-blogid="27db1401ef781b35addc701a" data-actor-portrait="36e6686973706163650f25" data-actor-qurl="/hispace" data-actor-name="Hi_精彩" data-content-type="text"><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a">阅读全文</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#reply" hidefocus="">评论(324)</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#repost" hidefocus="">转载(518)</a></span><br />
+            <div class="log_buttom">
+            <span class="buttom_tag">
+            <ul>
+            	<li><a href="">#远方的父母</a></li>
+            </ul>
+            </span>
+            <span class="buttom_a"><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a">阅读全文</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#reply" hidefocus="">评论(324)</a><a href="http://hi.baidu.com/hispace/item/27db1401ef781b35addc701a#repost" hidefocus="">转载(518)</a></span><br />
             </div>
             <hr/>
             <div class="log_split"></div>

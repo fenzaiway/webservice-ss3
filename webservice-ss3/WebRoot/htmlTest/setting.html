@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Menu Fader from CSS-Tricks</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<link rel="stylesheet" type="text/css" href="../css/tag_setting.css" />
+	
+	<script type="text/javascript" src="../js/jquery.js"></script>
+
+	<script type="text/javascript">
+	
+		$(function(){
+		
+			$("#setting_2-button").css({
+				opacity: 0.3
+			});
+			$("#setting_3-button").css({
+				opacity: 0.3
+			});
+		
+			$("#page-wrap div.button").click(function(){
+				
+				$clicked = $(this);
+				
+				// if the button is not already "transformed" AND is not animated
+				if ($clicked.css("opacity") != "1" && $clicked.is(":not(animated)")) {
+					
+					$clicked.animate({
+						opacity: 1,
+						borderWidth: 3
+					}, 600 );
+					
+					// each button div MUST have a "xx-button" and the target div must have an id "xx" 
+					var idToLoad = $clicked.attr("id").split('-');
+					
+					//we search trough the content for the visible div and we fade it out
+					$("#content").find("div:visible").fadeOut("fast", function(){
+						//once the fade out is completed, we start to fade in the right div
+						$(this).parent().find("#"+idToLoad[0]).fadeIn();
+					})
+				}
+				
+				//we reset the other buttons to default style
+				$clicked.siblings(".button").animate({
+					opacity: 0.5,
+					borderWidth: 1
+				}, 600 );
+				
+			});
+		});
+		
+	</script>
+
+    <style type="text/css">
+<!--
+.STYLE3 {font-size: 18px}
+-->
+    </style>
+</head>
+
+<body>
+
+	<div id="page-wrap">
+		<div id="top">
+        
+		<div id="setting_1-button" class="button">
+            <span >个人设置</span>
+		</div>
+		<div id="setting_2-button" class="button">
+			<span >主页设置</span>
+		</div>
+
+		<div id="setting_3-button" class="button">
+			<span >账号绑定</span>
+		</div>
+		
+		
+		</div>
+        <div class="clear"></div>
+		<div id="content">
+			
+			<div id="setting_1">
+			  <table width="100%" border="0" id="table_1">
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">头像：</span></td>
+                  <td rowspan="4"><img src="../images/222.jpg" alt="头像" width="110" height="110" /></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">域名：</span></td>
+                  <td>http://localhost:8090/ss3/zone/fenzaiway</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">用户名：</span></td>
+                  <td>fenzaiway</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">性别：</span></td>
+                  <td>
+                  	<input type="radio" name="sex" />男 <input type="radio" name="sex" />女
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">生日：</span></td>
+                  <td>
+                  	<input type="text" value="" style="height:24px; line-height:24px; border:1px solid #eee;"/> 
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">出生地：</span></td>
+                  <td>
+                  	<select>
+                    	<option>省份</option>
+                    </select>
+                    	<select>
+                    	<option>城市</option>
+                    </select>
+                    	<select>
+                    	<option>区域</option>
+                    </select>
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">现居地：</span></td>
+                  <td>
+                  		<select>
+                    	<option>省份</option>
+                    </select>
+                    	<select>
+                    	<option>城市</option>
+                    </select>
+                    	<select>
+                    	<option>区域</option>
+                    </select>
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3">电话：</span></td>
+                  <td><input type="text" value="" style="height:24px; line-height:24px; border:1px solid #eee;"/></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="100" align="right"><span class="STYLE3"></span></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </table>
+			</div>
+			
+		  <div id="setting_2">
+
+				个人主页
+		  </div>
+			
+			<div id="setting_3">
+				<div style="display:none;">账号绑定</div>
+				
+		  </div>
+		</div>
+	</div>
+
+</body>
+
+</html>

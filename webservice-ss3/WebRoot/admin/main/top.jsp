@@ -46,7 +46,7 @@ a:hover {font-size:12px; color:#00CCFF;text-decoration:none;}
         <td width="247" background="images/main_08.gif">&nbsp;</td>
         <td width="283" background="images/main_09.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td><img src="images/uesr.gif" width="14" height="14"><span class="STYLE2"> 当前登录用户：<c:out value="${myusername}"></c:out> 角色：管理员</span></td>
+            <td><img src="images/uesr.gif" width="14" height="14"><span class="STYLE2"> 当前登录用户：<sec:authentication property="name"/><c:out value="${myusername}"></c:out> 角色：管理员</span></td>
           </tr>
         </table></td>
       </tr>

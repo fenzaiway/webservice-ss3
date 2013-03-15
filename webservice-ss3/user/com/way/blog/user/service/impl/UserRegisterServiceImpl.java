@@ -64,7 +64,7 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		//生成验证码
 		
 		userRegister.setVerifiCode(MD5.code(getEncrypt(userRegister)));
-		userRegister.setEnabled(0);	//0表示账号不可用
+		userRegister.setEnabled(1);	//0表示账号不可用
 		userRegister.setRegistrationTime(date);
 		
 		
@@ -88,7 +88,7 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		userLogin.setNickname(username);
 		userLogin.setPassword(password);
 		userLogin.setCreateTime(date);
-		userLogin.setEnabled(0);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1
+		userLogin.setEnabled(1);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1
 //		
 //		/**
 //		 * 同时创建用户详细信息记录

@@ -23,6 +23,7 @@ loginfo_list_left{height:260px;min-height: 260px;height: auto!important;width: 7
 	border-radius:8px;
 	-webkit-box-shadow:0 0 10px 0 #aaa;
 	-moz-box-shadow:0 0 10px 0 #aaa;
+	overflow: hidden;
  }
  .comment_info{width: 630px;float:right;background-color: #FAFAFA;margin-top: -15px; margin-bottom: 15px; display: none;z-index: -1;border-top: 1px solid #E1E1E1;}
 h3,h4{color:#454545;font-size: 14px;}

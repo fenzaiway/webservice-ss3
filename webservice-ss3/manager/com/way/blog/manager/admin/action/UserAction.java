@@ -115,6 +115,9 @@ public class UserAction extends BaseAction implements ModelDriven<UserLogin>{
 	public String update(){
 		
 		UserLogin ul = userLoginServiceImpl.findById(userLogin.getId());
+		if(1 == userLogin.getIsAdmin()){  ////设置管理员
+			ul.setIsAdmin(1);
+		}
 		ul.setMyRoles(null);
 		if(0 == roleid.length()){ //用户没有选择角色
 			userLoginServiceImpl.update(ul);
