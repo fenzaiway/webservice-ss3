@@ -16,11 +16,11 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
-		System.out.println("----------------configAttributes ------ " + configAttributes);
+		//System.out.println("----------------configAttributes ------ " + configAttributes);
 		if(null == configAttributes){
 			return;
 		}
-		System.out.println("------------AAAAAAA----------");
+		//System.out.println("------------AAAAAAA----------");
 		////所请求的资源对应的权限（一个资源对应多个权限）
 		Iterator<ConfigAttribute> ite = configAttributes.iterator();
 		while(ite.hasNext()){
@@ -29,7 +29,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			String needRole = ((SecurityConfig)ca).getAttribute();
 			//用户所拥有的权限
 			for(GrantedAuthority ga : authentication.getAuthorities()){
-				System.out.println("----in decision ---- " + needRole.trim() + " == " + ga.getAuthority().trim());
+				//System.out.println("----in decision ---- " + needRole.trim() + " == " + ga.getAuthority().trim());
 				if(needRole.trim().equals(ga.getAuthority().trim())){
 					return;
 				}

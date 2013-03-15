@@ -21,6 +21,7 @@ import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
+import com.way.blog.util.NumberUtil;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
 import com.way.blog.zone.entity.BlogZone;
@@ -187,7 +188,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		for(Tag tag : tags){
 			tagSpace = new TagSpace();
 			tagSpace.setTag(tag);
-			tagSpace.setLogTagList(this.getLogTagList(""));
+			tagSpace.setLogTagList(this.getLogTagList(tag));
 			tagSpace.setSpaceList(this.getSpaceList(""));
 			tagSpaceList.add(tagSpace);
 		}
@@ -200,20 +201,46 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 * @param tagName
 	 * @return
 	 */
-	public List<LogTag> getLogTagList(String tagName){
+	//public List<LogTag> getLogTagList(String tagName){
+	public List<LogTag> getLogTagList(Tag tag){
 		
 		/////还没开始对标签进行分类，现在通过生成随机数获取日志标签
-		List<LogTag> logTags = logTagServiceImpl.loadAll();
+		/*List<LogTag> logTags = logTagServiceImpl.loadAll();
 		logTagList = new ArrayList<LogTag>();
 		////生成5个随机整数
 		int maxSize = logTags.size();
 		for(int i=0; i<4; i++){
 			int index = new Random().nextInt(maxSize);
 			logTagList.add(logTags.get(index));
+		}*/
+		//String hql = LogTagServiceImpl.HQL + " and tagName=?";  ////这个是获取到还没有经过算法取得数据，后期会先经行热门标签的额计算，然后将然们标签返回去
+		//List<LogTag> logTags = logTagServiceImpl.find(hql, tagName);
+		//tag = myFindByProperty("tagName", tagName);
+		List<LogTag>  logTags = new ArrayList<LogTag>(tag.getLogTags());
+		logTagList = new ArrayList<LogTag>();
+		int maxSize = logTags.size();
+		System.out.println("----------size--" + maxSize);
+		if(4 < maxSize){ ////如果该系统分类下的标签超过5个的话，就经过一个随机函数返回其中的4个标签
+			/*int maxSize = logTags.size();
+			for(int i=0; i<4; i++){
+				int index = new Random().nextInt(maxSize);
+				logTagList.add(logTags.get(index));
+			}*/
+			int [] a = NumberUtil.ranNumber(4, maxSize);
+			for (int i : a) {
+				logTagList.add(logTags.get(i));
+			}
+			
+		}else{
+			for (LogTag logTag : logTags) {
+				logTagList.add(logTag);
+			}
 		}
 
 		return logTagList;
 	}
+	
+
 	
 	/**
 	 * 获取标签分类目录下热门的空间用户

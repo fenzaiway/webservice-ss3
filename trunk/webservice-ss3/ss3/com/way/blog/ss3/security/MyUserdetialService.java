@@ -26,7 +26,7 @@ public class MyUserdetialService implements UserDetailsService {
 		
 		Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 		List<UserLogin> userList = null;
-		System.out.println("username===" + username);
+		//System.out.println("username===" + username);
 		userList = userLoginServiceImpl.find("from UserLogin where account=? and enabled=1 and isAdmin=1", new Object[]{username});
 		/*System.out.println(userList);
 		if(null != userList && !userList.isEmpty()){

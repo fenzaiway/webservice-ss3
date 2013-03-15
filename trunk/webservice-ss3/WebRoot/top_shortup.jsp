@@ -94,6 +94,7 @@ li{float:left;}
 						<s:else>
 						 <li>消息<span class="split">|</span></li>
                      	<li>私信<span class="split">|</span></li>
+                     	<li><a href="htmlTest/setting.html">设置</a><span class="split">|</span></li>
 						<li><s:property value='myusername'/><span class="split">|</span></li>
 						 <li><a href="userlogin/sessionInvalidate.do">退出</a></li>
 							 

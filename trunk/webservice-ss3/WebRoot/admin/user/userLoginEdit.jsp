@@ -28,7 +28,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<form action="admin/user/update.do" method="post">
 		<input type="hidden" value="<s:property value='userLogin.id'/>" name="id">
 		<input type="text" name="userLogin.username" value="<s:property value='userLogin.username'/>" readonly="readonly"><br/>
-		
+		管理员：<select name="userLogin.isAdmin">
+			<option value="1">是</option>
+			<option value="0" selected="selected">否</option>
+		</select>
 		<s:checkboxlist name="roleid" list="#request.myRolesList" id="role"  listKey="id" listValue="roleDesc" value="#request.selectRoleids"/>
 				
 		<br>

@@ -61,6 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    		</tr>
 				</table>
 			</form>
+			还没账号？<a href="register/gotoRegister.do">注册</a>
 		</div>
   </body>
 </html>

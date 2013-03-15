@@ -57,16 +57,16 @@ public class MyInvocationSecutityMetadataSourceService implements
 		
 		for(String auth : query){
 			ConfigAttribute ca = new SecurityConfig(auth);
-			System.out.println("=====" + auth);
+			//System.out.println("=====" + auth);
 			/**
 			 * 根据权限获取对应的资源
 			 */
 			
 			String hql = "select a.url from MyResources a inner join a.myAuthoritys as b where  b.authorityName='" + auth + "'";
 			List<String> query1 = session.createQuery(hql).list();
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			for(String res : query1){
-				System.out.println("-------------res-----" + res);
+				//System.out.println("-------------res-----" + res);
 				/*
 			     * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，将权限增加到权限集合中。
 			     * fenzaiway
@@ -89,10 +89,10 @@ public class MyInvocationSecutityMetadataSourceService implements
 	 */
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		// TODO Auto-generated method stub
-		System.out.println("---------====1111====11==1=1=");
+		//System.out.println("---------====1111====11==1=1=");
 		Set<ConfigAttribute> set = new HashSet<ConfigAttribute>();
 		  for (Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {
-			  System.out.println("22222222222222");
+			  //System.out.println("22222222222222");
 			  set.addAll(entry.getValue());
 		  }
 		  return set;
@@ -111,13 +111,13 @@ public class MyInvocationSecutityMetadataSourceService implements
 		if(null == resourceMap){
 			loadResourceDefine();
 		}
-		System.out.println("-------size--------" + resourceMap.entrySet().size());
+		//System.out.println("-------size--------" + resourceMap.entrySet().size());
 		for (Map.Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {
-			System.out.println("----request-url==- " + url);
+			//System.out.println("----request-url==- " + url);
 			String keyStr = entry.getKey();
-			System.out.println("keyStr==" + keyStr);
+			//System.out.println("keyStr==" + keyStr);
 			
-			System.out.println(keyStr.equals(url)+"====================");
+			//System.out.println(keyStr.equals(url)+"====================");
             if (urlMatcher.pathMatchesUrl(keyStr, url)) {
                 return entry.getValue();
             }

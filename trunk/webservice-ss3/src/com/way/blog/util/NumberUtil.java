@@ -1,9 +1,20 @@
-package demo1;
+package com.way.blog.util;
 
 import java.util.Random;
 
-public class RandomTest {
-	
+/**
+ * 数字工具类
+ * @author fenzaiway
+ *
+ */
+public class NumberUtil {
+
+	/**
+     * 生成在value范围内的num个不同的随机数
+     * @param num 生成的个数
+     * @param value 范围，从0开始
+     * @return
+     */
 	public static int[] ranNumber(int num,int value){
 		Random random = new Random();
         int n=0;
@@ -25,15 +36,4 @@ public class RandomTest {
         }
         return b ;
     }
-	
-	public static void main(String[] args) {
-		/*for(int i=0; i<5; i++){
-			int index = new Random().nextInt(40);
-			System.out.println(index);
-		}*/
-		int a[] = ranNumber(4, 3);
-		for (int i : a) {
-			System.out.println(i);
-		}
-	}
 }
