@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -177,7 +177,7 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../loginfo/loginfoList.do" target="showFrame">日志列表</a></li>
+          <sec:authorize ifAllGranted="ROLE_LOGINFO_MGR"><li><a href="../loginfo/loginfoList.do" target="showFrame">日志列表</a></li></sec:authorize>
         </ul>
       </div>
       <h1 class="type"><a href="javascript:void(0)">权限管理</a></h1>
@@ -188,9 +188,9 @@ H1 a {
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="../role/list.do" target="showFrame">角色管理</a></li>
-          <li><a href="../auth/list.do" target="showFrame">权限管理</a></li>
-          <li><a href="../res/list.do" target="showFrame">资源管理</a></li>
+          <sec:authorize ifAllGranted="ROLE_ROLE"><li><a href="../role/list.do" target="showFrame">角色管理</a></li></sec:authorize>
+          <sec:authorize ifAllGranted="ROLE_AUTH"><li><a href="../auth/list.do" target="showFrame">权限管理</a></li></sec:authorize>
+          <sec:authorize ifAllGranted="ROLE_RESOURCE"><li><a href="../res/list.do" target="showFrame">资源管理</a></li></sec:authorize>
         </ul>
       </div>
       
