@@ -70,7 +70,7 @@ public class MyResources implements Serializable {
 	/**
 	 * 资源-权限
 	 */
-	@ManyToMany(mappedBy="myResources",cascade={CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy="myResources",cascade={CascadeType.PERSIST,CascadeType.REFRESH},fetch=FetchType.LAZY)
 	private Set<MyAuthority> myAuthoritys = new HashSet<MyAuthority>();
 
 	public MyResources() {}

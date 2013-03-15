@@ -161,7 +161,7 @@
 		<div style="height: 320px;">客户端</div>
 	</div>
 	<div class="clr"></div>
-	<s:debug></s:debug>
+	
 </div></div>
   </body>
 
