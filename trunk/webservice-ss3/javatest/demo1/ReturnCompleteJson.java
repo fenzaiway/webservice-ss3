@@ -2,8 +2,11 @@ package demo1;
 
 import java.util.List;
 
-public class ReturnJsonTest {
+public class ReturnCompleteJson {
 
+	/**
+	 * 返回的数据集合
+	 */
 	List<ReturnData> data;
 
 	public List<ReturnData> getData() {

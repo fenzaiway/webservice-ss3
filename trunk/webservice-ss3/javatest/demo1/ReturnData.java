@@ -1,5 +1,10 @@
 package demo1;
 
+/**
+ * 
+ * @author fenzaiway
+ * 封装数据返回给自动下拉插件
+ */
 public class ReturnData {
 
 	private String title;

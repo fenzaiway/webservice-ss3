@@ -2,13 +2,28 @@
 body{ font-size:14px; font-family:"宋体"; background-image:url(../images/zone_background.jpg);background-repeat: repeat-x;
 background-attachment: fixed;//固定不动}
 h3{ color:#454545; font-size:18px; padding:0px; margin:0px;}
+ul{ list-style:none; }
+#tag li{ margin-right:5px;float:left; margin-left:15px; margin-top:-20px; margin-bottom:23px;}
+#tag li a{ text-decoration:none; font-size:12px; border-radius:4px; color:#454545; padding:3px;background-color:#F6F6F6;}
+#tag li a:hover{ background-color:#F16E50;border-radius:4px; padding:3px;}
 #user_top_navi{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:40px; background-color:#3FA7CB;}
-  	#main{ margin:0px auto; margin-top:200px;  width:800px; min-height:200px; height:auto!important; background-color:#FFFFFF;}
-#content img{ width:100%; margin-bottom:20px; margin-top:15px;}
-#title{ height:100px; width:100%; width:760px; margin:0px auto; border-bottom:1px solid #eee;}
-#content,.like,.comment{ width:760px; margin:0px auto; margin-top:35px;}
-.like{ height:205px;}
-.page{ height:95px;}
+#main{ margin-bottom: 100px;margin:0px auto; margin-top:200px;  width:880px; min-height:200px; height:auto!important; background-color:#FFFFFF;}
+#content img{ width:800px; margin-bottom:20px; margin-top:15px; vertical-align: middle;}
+#title{ height:100px; width:100%; width:860px; margin:0px auto; border-bottom:1px solid #eee;}
+#content,.like,.comment{ width:860px; margin:0px auto; margin-top:35px;}
+.comment{margin-bottom: 100px;height: auto!important;}
+#content{word-wrap:break-word;word-break:break-all;overflow：hidden;margin: 0px auto;display:table-cell; vertical-align:middle; padding-left: 10px;}
+.like{ height:205px;border-top: 1px solid #E2E2E2;}
+.page{ height:95px; line-height: 95px;width: 100%; background-color: #F9F9F7;border-top:1px solid E2E2E2;}
 .title_1{ width:580px; float:left; margin-top:30px; margin-left:5px;}
 .time{ width:160px; float:right; margin-top:30px; color:#C5C5C5; font-size:16px; font-family:"Georgia";}
 .clr{ clear:both;}
+#tag{margin-top: 10px;}
+.show_data{ margin-top: 10px;}
+.show_data a{ text-decoration:none; font-size:12px; color:#F16E50;}
+.show_word{color:#89898B;display: block; margin-top: 15px; margin-bottom: 10px;}
+
+.may_like{ width: 100px; height: 135px; border: 1px solid silver;float:left; margin-left: 15px;}
+.comment_text{margin-bottom: 20px;word-wrap:break-word;word-break:break-all;border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:760px;maxwidth:760px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:70px; height:auto!important; background-color:#fff;}
+
+.comment_list{ margin-bottom: 15px;min-height: 80px; height: auto!important; width: 800px; margin-top: 35px; border-bottom: 1px solid E2E2E2;}
