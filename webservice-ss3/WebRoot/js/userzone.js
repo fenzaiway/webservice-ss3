@@ -523,27 +523,27 @@
         });
 		
 	}
-		///首页
-		function indexPage(startIndex)
-		{
-			myRequest(startIndex);
-		}
-		////尾页
-	 	function endPage(startIndex)
-	 	{
-	 		myRequest(startIndex);
-	 	}
-		///上一页
-		function prePage(startIndex)
-		{
-			myRequest(startIndex);
-		}
-		
-		///下一页
-		function nextPage(startIndex)
-		{
-			myRequest(startIndex);
-		}
+	///首页
+	function indexPage(startIndex)
+	{
+		myRequest(startIndex);
+	}
+	////尾页
+ 	function endPage(startIndex)
+ 	{
+ 		myRequest(startIndex);
+ 	}
+	///上一页
+	function prePage(startIndex)
+	{
+		myRequest(startIndex);
+	}
+	
+	///下一页
+	function nextPage(startIndex)
+	{
+		myRequest(startIndex);
+	}
 
 	//给标签添加下划线
 	function addTasUnderline()
@@ -654,6 +654,24 @@
 			}
 		});
 	}
+	
+	//用户输入标签的时候，自动下拉提示
+	function tagComplete()
+	{
+		var url_="ajax/tag/tagComplete.do";
+		$("#tag").bigAutocomplete(
+		{	
+			url:url_, callback:function(data)
+			{
+               //alert(data);
+            }
+		});
+	}
+	
+	function defaultWord(){
+		$("#tag").FocusBlur();
+	}
+	
 
 	//加载日志
 	function loadLogInfo()
@@ -673,7 +691,28 @@
 		loadUserTags();
 		loadLogInfo();
 		autoLoadMore();
+		//自动下拉提示
+		tagComplete();
+		defaultWord();
 	}
+	
+	jQuery.fn.extend({
+    	FocusBlur: function() {
+        $(this).live('focus',function(){
+            if(!$(this).data('old'))
+                $(this).data('old', $(this).val());
+            
+            if($(this).val()==$(this).data('old'))
+                $(this).val('');
+        });
+        $(this).live('blur',function(){
+            if($(this).val()=='')
+                $(this).val($(this).data('old'));
+        });
+        
+    	}
+	});
+	
 	$(function()
 	{
 		init();

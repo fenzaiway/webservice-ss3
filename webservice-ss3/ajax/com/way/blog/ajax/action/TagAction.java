@@ -1,5 +1,6 @@
 package com.way.blog.ajax.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -16,6 +17,10 @@ import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
 import com.way.blog.zone.entity.LogInfo;
+import com.way.blog.zone.entity.LogTag;
+
+import demo1.ReturnCompleteJson;
+import demo1.ReturnData;
 
 /**
  * 系统标签控制器
@@ -47,8 +52,11 @@ public class TagAction extends BaseAction {
 	private String tags;  ////用户传递过来的标签
 	private int logid;    ////日志Id
 	
+	private String keyword; ////自动下拉提示关键字
+	
 	private List<Tag> otherTagList; ///换一批标签
 	private List<Tag> userTagList;
+	private List<LogTag> logTagList; ///日志标签集合
 	
 	@Action(value="saveLogTag",results={
 			@Result(name="success",type="json")
@@ -112,6 +120,37 @@ public class TagAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * 自动标签下拉提示
+	 * @return
+	 */
+	@Action(value="tagComplete",results={
+			@Result(name="success",type="json")
+	})
+	public String tagComplete(){
+		System.out.println("keyword==" + keyword);
+		keyword = "%"+keyword+"%";
+		logTagList = logTagServiceImpl.find(LogTagServiceImpl.HQL+" and tagName like ?", keyword);
+		ReturnCompleteJson returnCompleteJson = new ReturnCompleteJson();
+		List<ReturnData> dataList=new ArrayList<ReturnData>();
+		ReturnData returnData = null;
+		if(null!=logTagList && !logTagList.isEmpty()){
+			for (LogTag logTag : logTagList) {
+				returnData = new ReturnData();
+				returnData.setTitle(logTag.getTagName());
+				dataList.add(returnData);
+			}
+		}else{
+			returnData = new ReturnData();
+			returnData.setTitle("");
+			dataList.add(returnData);
+		}
+		returnCompleteJson.setData(dataList);
+		this.returnJsonByObject(returnCompleteJson);
+		return null;
+	}
+	
+	
 	public String getUsername() {
 		return username;
 	}
@@ -142,6 +181,22 @@ public class TagAction extends BaseAction {
 
 	public void setLogid(int logid) {
 		this.logid = logid;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public List<LogTag> getLogTagList() {
+		return logTagList;
+	}
+
+	public void setLogTagList(List<LogTag> logTagList) {
+		this.logTagList = logTagList;
 	}
 	
 	

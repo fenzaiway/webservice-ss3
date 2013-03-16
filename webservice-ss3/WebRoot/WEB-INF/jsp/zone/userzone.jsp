@@ -16,8 +16,9 @@
 	
 	<link rel="stylesheet" href="<%=basePath%>css/commons.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userzone.css">
-	
+	<link rel="stylesheet" href="<%=basePath%>css/jquery.bigautocomplete.css" type="text/css" />
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
+	<script type="text/javascript" src="<%=basePath%>js/jquery.bigautocomplete.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/jquery.XYTipsWindow.2.8.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
 	<SCRIPT type="text/javascript">
@@ -132,7 +133,8 @@
 				<br/>记录</span>
 			</div>
 			<div style="height: 60px;padding-top: 10px;padding-left:15px;border-bottom: 1px dotted #ccc;">
-				<span style="border:0px solid red;"><input type="text" name="tag" style="line-height: 30px;width: 165px;border-radius:3px;margin-top: 10px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #ccc;  width:40px; height:30px; background-repeat:no-repeat;" ></span>
+				<span style="border:0px solid red;"><input type="text" id="tag" value="输入想要查找的标签" name="tag" style="height:30px;line-height: 30px;width: 165px;border-top-left-radius:4px;border-buttom-left-radius:4px;margin-top: 10px;font-size: 16px;color:#D3D3D3;border: 1px solid #ccc; border-right: 0px solid #ccc;padding-left: 3px;" />
+				<input type="button" style="border-top-right-radius:4px;border-buttom-right-radius:4px;background:url(<%=basePath%>images/tagsearch.gif);line-height: 33px; border:1px solid #ccc;  width:40px; height:33px; background-repeat:no-repeat;margin-left:-5px;" ></span>
 			</div>
 			<div style="height: 40px;height: auto!important;">
 				<h5>我订阅的标签</h5>

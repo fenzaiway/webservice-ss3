@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
 
+import demo1.ReturnCompleteJson;
 import demo1.ReturnData;
-import demo1.ReturnJsonTest;
 
 /**
  * 测试自动下拉补齐插件
@@ -34,7 +34,7 @@ public class CompleteAction extends BaseAction {
 	})
 	public String getData(){
 		String data="";
-		ReturnJsonTest returnJsonTest = new ReturnJsonTest();
+		ReturnCompleteJson returnJsonTest = new ReturnCompleteJson();
 		//returnJsonTest
 		List<ReturnData> dataList=new ArrayList<ReturnData>();
 		ReturnData returnData = null;
