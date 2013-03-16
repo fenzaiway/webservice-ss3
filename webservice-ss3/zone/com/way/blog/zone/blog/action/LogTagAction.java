@@ -11,12 +11,16 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.entity.LogInfoData;
+import com.way.blog.base.entity.SearchTagData;
 import com.way.blog.base.entity.TagSpace;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.entity.TagClickCount;
 import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
+import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.entity.LogTag;
 
 @Controller("logTagAction")
@@ -26,10 +30,13 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 
 	@Autowired TagClickCountServiceImpl tagClickCountServiceImpl;
 	@Autowired TagServiceImpl tagServiceImpl;
+	@Autowired LogInfoServiceImpl logInfoServiceImpl;
 	@Autowired LogTag logTag;
 	@Autowired TagClickCount tagClickCount;
 	@Autowired Tag tag;
 	private List<TagSpace> tagSpaceList;
+	//private List<LogInfoData> logInfoDataList;
+	private SearchTagData searchTagData;
 	
 	
 	
@@ -49,6 +56,9 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 		if(null == logTag.getTagName() || "".equals(logTag.getTagName())){
 			return "tagPage";
 		}else{
+			//SELECT t FROM Teacher t join t.students s join s.books b where b.name = 'a'
+			paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogTag lt join lt.logInfos l where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			searchTagData = logInfoServiceImpl.getSearchTagData(paginationSupport, myusername);
 			saveTagClick(logTag); ///保存每次用户通过点击标签进行查询的记录
 			
 		}
@@ -107,6 +117,16 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 
 	public void setTagSpaceList(List<TagSpace> tagSpaceList) {
 		this.tagSpaceList = tagSpaceList;
+	}
+
+
+	public SearchTagData getSearchTagData() {
+		return searchTagData;
+	}
+
+
+	public void setSearchTagData(SearchTagData searchTagData) {
+		this.searchTagData = searchTagData;
 	}
 	
 	

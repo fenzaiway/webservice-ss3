@@ -15,6 +15,7 @@ import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.entity.LogInfoData;
 import com.way.blog.base.entity.LogInfoJson;
 import com.way.blog.base.entity.ReturnStatus;
+import com.way.blog.base.entity.SearchTagData;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.user.entity.UserHeadImg;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
@@ -169,6 +170,39 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			logInfoJson.setData(logInfoDataList);
 		}
 		return logInfoJson;
+	}
+	
+	/**
+	 * 根据用户点击标签查询对查询的数据进行封装，返回到前台显示
+	 * @param paginationSupport ///传递过来的经过条件查询的分页对象
+	 * @param username //用户名
+	 * @return
+	 */
+	public SearchTagData getSearchTagData(PaginationSupport paginationSupport,String username){
+		SearchTagData searchTagData = null;
+		List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
+		List<LogInfo> loginfoList  = paginationSupport.getItems();
+		if(null!=loginfoList && !loginfoList.isEmpty()){
+			loginfoList = this.changeLogInfoText(loginfoList);//转换字符长度
+			searchTagData = new SearchTagData();
+			////如果有下一页
+			if(paginationSupport.hasNextPage()){
+				searchTagData.setHasNext(1);
+				searchTagData.setNextIndex(paginationSupport.getNextIndex());
+			}else{
+				searchTagData.setHasNext(0);
+			}
+			//如果有上一页
+			if(paginationSupport.hasPreviousPage()){
+				searchTagData.setHasPre(1);
+				searchTagData.setPreIndex(paginationSupport.getPreviousIndex());
+			}else{
+				searchTagData.setHasPre(0);
+			}
+			logInfoDataList = getLogInfoDataList(loginfoList,username);
+			searchTagData.setData(logInfoDataList);
+		}
+		return searchTagData;
 	}
 	
 	/**

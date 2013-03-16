@@ -92,7 +92,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		//tags = ;
 		int[] ids = getIds(nologUserSubTagList(username));
 		//tag = 
-		String hql = "from Tag t where t.id in("+getIntId(ids)+")";
+		String hql = "from Tag t where t.id in("+getIntId(ids)+") and isSysTag=1";
 		tags = this.find(hql, new Object[]{});
 		System.out.println(tags.size());
 		return tags;
@@ -106,9 +106,9 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	public List<Tag> nologUserSubTagList(String username){
 		List<Tag> tags;
 		UserLogin userLogin = userLoginServiceImpl.myFindByProperty("nickname", username);
-		if(null!=userLogin.getTags() && !userLogin.getTags().isEmpty()){
+		if(null!=userLogin && !userLogin.getTags().isEmpty()){
 			String ids = getIntId(userLogin.getTags());
-			String hql = "from Tag t where t.id not in("+ids+")";
+			String hql = "from Tag t where t.id not in("+ids+") and isSysTag=1";
 			tags = this.find(hql, new Object[]{});
 		}else{
 			tags = this.loadAll();
@@ -184,7 +184,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		
 		List<TagSpace> tagSpaceList = new ArrayList<TagSpace>();
 		TagSpace tagSpace = null;
-		tags = this.loadAll();
+		tags = this.find(HQL+" and isSysTag=?", 1);
 		for(Tag tag : tags){
 			tagSpace = new TagSpace();
 			tagSpace.setTag(tag);
