@@ -66,6 +66,13 @@ public class Tag implements Serializable {
 	private String createTime;
 	
 	/**
+	 * 是不是系统标签 1 表示是 0表示不是
+	 */
+	@Expose
+	@Column(name="tag_is_systag",unique = false, nullable = false, insertable = true, updatable = true,length=11)
+	private int isSysTag;
+	
+	/**
 	 * 用户关注的标签
 	 */
 	@ManyToMany
@@ -80,15 +87,20 @@ public class Tag implements Serializable {
 
 	public Tag() {}
 
-	public Tag(int id, String tagName, String createTime,
-			Set<UserLogin> userLogins, Set<LogTag> logTags) {
+	
+
+	public Tag(String createTime, int id, int isSysTag, Set<LogTag> logTags,
+			String tagName, Set<UserLogin> userLogins) {
 		super();
-		this.id = id;
-		this.tagName = tagName;
 		this.createTime = createTime;
-		this.userLogins = userLogins;
+		this.id = id;
+		this.isSysTag = isSysTag;
 		this.logTags = logTags;
+		this.tagName = tagName;
+		this.userLogins = userLogins;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -128,6 +140,14 @@ public class Tag implements Serializable {
 
 	public void setLogTags(Set<LogTag> logTags) {
 		this.logTags = logTags;
+	}
+
+	public int getIsSysTag() {
+		return isSysTag;
+	}
+
+	public void setIsSysTag(int isSysTag) {
+		this.isSysTag = isSysTag;
 	}
 	
 	

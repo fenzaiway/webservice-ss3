@@ -16,16 +16,30 @@
 	
 	<link rel="stylesheet" href="<%=basePath%>css/commons.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userzone.css">
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/tagfeed.css">
 	
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
+	<script type="text/javascript" src="<%=basePath%>js/focusBlur.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/subTag.js"></script>
+	<script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
 	<SCRIPT type="text/javascript">
 		var username;
 		$(function()
 		{
-			backToTop();
 			username = '<s:property value="username"/>';
+			myusername = '<s:property value="myusername"/>';
+			
+			if(""==myusername)
+			{
+				
+			}else
+			{
+				init();
+			}
+			
+			backToTop();
 			//alert(username);
+			$("#tag").FocusBlur();////设置当文本框获得焦点的时候，文字消失
 		});
 	</SCRIPT>
 	
@@ -36,14 +50,25 @@
  		<div class="inner">
 		<div id="center_content">
 		<div id="top_navi">
-			
+			<div id="tagName" style="margin-top: 30px; margin-left:35px;font-size: 24px;float: left; "><s:property value="tagName"/></div>
+			<div>
+				<s:if test='"" == myusername || null == myusername'>
+					
+				</s:if>
+				<s:else>
+					<input type="button" style="margin-top: 20px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;" value="订阅"/>
+				</s:else>
+			</div>
 		</div>
-		<div id="user_setting"><s:property value="username"/></div>
+			<s:if test='"" == myusername || null == myusername'>
+				<div id="user_setting" style="background-color: #fff"><a href="userlogin/gotoLogin.do">登录</a>后可订阅标签</div>
+			</s:if>
+			<s:else>
+				<div id="user_setting"><s:property value="myusername"/></div>
+			</s:else>
 		</div>
-	<div class="clr"></div>
-  	<span style="color:#999999;font-size:16px;font-family:Verdana, Arial, Helv, Helvetica, sans-serif;">我关注的空间动态</span>
-	<div class="clr"></div>
-	<hr style="width: 720px;float: left;margin-bottom: 15px;"/>
+	
+	
 	<div class="clr"></div>
 	<div id="loginfo_list">
 			<s:iterator value="logInfoList" id="loginfo">
@@ -91,7 +116,11 @@
 		</s:iterator>
 		<div id="pagebar"></div>
 </div>
-	<div id="left_navi">
+	<s:if test='"" == myusername || null == myusername'>
+	
+	</s:if>
+	<s:else>
+		<div id="left_navi">
 		<div style="width: 100%;height: 355px;height: auto!important;">
 			<div class="left_navi_1">
 				<span>15<br/>关注</span>
@@ -101,7 +130,8 @@
 				<br/>记录</span>
 			</div>
 			<div style="height: 60px;padding-top: 10px;padding-left:15px;border-bottom: 1px dotted #ccc;">
-				<span style="border:1px solid red;"><input type="text" name="tag" style="line-height: 30px;width: 165px;border-radius:3px;margin-top: 10px;" /><input type="button" style="border-radius:3px;background:url(<%=basePath%>images/tagsearch.gif); border:1px solid #ccc;  width:40px; height:30px; background-repeat:no-repeat;" ></span>
+				<span style="border:0px solid red;"><input type="text" id="tag" value="输入想要查找的标签" name="tag" style="height:30px;line-height: 30px;width: 165px;border-top-left-radius:4px;border-buttom-left-radius:4px;margin-top: 10px;font-size: 16px;color:#AFB0B0;border: 1px solid #ccc; border-right: 0px solid #ccc;padding-left: 3px;" />
+				<input type="button" id="tagSearch" style="border-top-right-radius:4px;border-buttom-right-radius:4px;background:url(<%=basePath%>images/tagsearch.gif);line-height: 33px; border:1px solid #ccc;  width:40px; height:33px; background-repeat:no-repeat;margin-left:-5px;" ></span>
 			</div>
 			<div style="height: 40px;height: auto!important;">
 				<h5>我订阅的标签</h5>
@@ -128,6 +158,7 @@
 		</div>
 		<div style="height: 320px;">客户端</div>
 	</div>
+	</s:else>
 	<div class="clr"></div>
 	<s:debug></s:debug>
 </div></div>

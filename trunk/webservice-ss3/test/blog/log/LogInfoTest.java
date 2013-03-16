@@ -10,9 +10,11 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
 import com.way.blog.zone.blog.service.impl.AlbumTypeServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTypeServiceImpl;
 import com.way.blog.zone.entity.Album;
 import com.way.blog.zone.entity.AlbumType;
@@ -49,11 +51,13 @@ public class LogInfoTest extends BaseTest {
 	private LogInfoServiceImpl logInfoService;
 	private LogTypeServiceImpl logTypeService;
 	private AlbumTypeServiceImpl albumTypeServiceImpl;
+	private LogTagServiceImpl logTagServiceImpl;
 	
 	public void init(){
 		logInfoService = (LogInfoServiceImpl) this.context.getBean("logInfoServiceImpl");
 		logTypeService = (LogTypeServiceImpl) this.context.getBean("logTypeServiceImpl");
 		albumTypeServiceImpl = (AlbumTypeServiceImpl) this.context.getBean("albumTypeServiceImpl");
+		logTagServiceImpl = (LogTagServiceImpl) this.context.getBean("logTagServiceImpl");
 	}
 	
 	@Test
@@ -215,5 +219,19 @@ public class LogInfoTest extends BaseTest {
 		}
 		}
 		}
+	}
+	
+	@Test
+	public void getLogInfoByLogTagNameTest(){
+		this.init();
+		
+		List<LogInfo> logInfoList = new ArrayList<LogInfo>();
+		PaginationSupport paginationSupport = new PaginationSupport();
+		//logInfoList = logInfoService.find("from LogInfo l join fetch l.logTags t where t.tagName=?", "张国荣");
+		//paginationSupport = logInfoService.findPageByQuery("from LogInfo l join l.logTags t where t.tagName=?", 5, 0, "张国荣");
+		paginationSupport = logInfoService.findPageByQuery("select l from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, "测试");
+		
+		System.out.println(paginationSupport.getItems().size());
+		System.out.println(paginationSupport.getItems().get(0).getClass());
 	}
 }

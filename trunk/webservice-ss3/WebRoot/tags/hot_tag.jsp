@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
 	<div id="tags_buttom_list">
     	<div id="tags_search">
-        	<input type="text" name="tagName" class="tagSearch" value="搜索您感兴趣的标签"  style="width:360px; margin-top:10px; height:30px;"/><input type="button" value="搜索" style="width: 50px;background-color:#94B600 ;margin-top:10px; height:30px;line-height: 30px;border: 0px solid;"/>
+        	<input type="text" name="tagName" class="tagSearch" value="搜索您感兴趣的标签"  style="width:360px; margin-top:10px; height:30px;"/><input type="button" value="搜索" style="width: 50px;background-color:#94B600 ;margin-top:10px; height:34px;line-height: 34px;border: 0px solid;"/>
         </div>
         <div id="tags_list_detail">
         	<table width="100%" cellpadding="0" cellspacing="0" id="tags_detail_table">
