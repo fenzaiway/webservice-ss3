@@ -214,6 +214,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		
 		
 		for (LogInfo logInfo : loginfoList) {
+			//LogInfo li = this.findById(logInfo.getId());
 			logInfoDataList.add(getLogInfoData(logInfo, username));
 		}
 		return logInfoDataList;
@@ -305,4 +306,21 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public int getRecoreCount(String username){
 		return this.findByProperty("username", username).size();
 	}
+
+	/**
+	 * 根据tagName获取到这个tagName对应的经过分页的文章数据
+	 * @param pageSize
+	 * @param startIndex
+	 * @param tagName
+	 * @return
+	 */
+	public PaginationSupport findPageByQuery(int pageSize,
+			int startIndex, String tagName) {
+		
+		String hql = HQL+" and id in("+logTagServiceImpl.getLogInfoIds(tagName)+")";
+		
+		return super.findPageByQuery(hql, pageSize, startIndex, new Object[]{});
+	}
+	
+	
 }

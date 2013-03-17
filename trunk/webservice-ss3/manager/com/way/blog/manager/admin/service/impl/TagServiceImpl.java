@@ -167,10 +167,15 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		}else{
 			returnIds = new int[SIZE]; ////要返回的id
 			///生成随机的SIZE个数
-			for(int i=0; i<SIZE; i++){
+			/*for(int i=0; i<SIZE; i++){
 				int j = new Random().nextInt(length);
 				returnIds[i] = allIds[j];
+			}*/
+			int ran[] = NumberUtil.ranNumber(SIZE, length);
+			for(int i=0; i<SIZE; i++){
+				returnIds[i] = tags.get(ran[i]).getId();
 			}
+			
 		}
 		return returnIds;
 	}

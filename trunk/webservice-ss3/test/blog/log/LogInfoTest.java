@@ -21,6 +21,7 @@ import com.way.blog.zone.entity.AlbumType;
 import com.way.blog.zone.entity.LogAttachment;
 import com.way.blog.zone.entity.LogComment;
 import com.way.blog.zone.entity.LogInfo;
+import com.way.blog.zone.entity.LogTag;
 import com.way.blog.zone.entity.LogType;
 
 import java.io.IOException;
@@ -229,9 +230,13 @@ public class LogInfoTest extends BaseTest {
 		PaginationSupport paginationSupport = new PaginationSupport();
 		//logInfoList = logInfoService.find("from LogInfo l join fetch l.logTags t where t.tagName=?", "张国荣");
 		//paginationSupport = logInfoService.findPageByQuery("from LogInfo l join l.logTags t where t.tagName=?", 5, 0, "张国荣");
-		paginationSupport = logInfoService.findPageByQuery("select l from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, "测试");
-		
-		System.out.println(paginationSupport.getItems().size());
-		System.out.println(paginationSupport.getItems().get(0).getClass());
+		paginationSupport = logInfoService.findPageByQuery("from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, "张国荣");
+		int size = paginationSupport.getItems().size();
+		System.out.println(size);
+		Object [] obj;
+		for(int i=0; i<size; i++){
+			obj = (Object []) paginationSupport.getItems().get(i);
+			System.out.println(obj[1]);
+		}
 	}
 }

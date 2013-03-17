@@ -143,13 +143,13 @@ public class LogInfo implements Serializable {
 	/**
 	 * 日志评论
 	 */
-	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogComment.class)
+	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogComment.class)
 	public Set<LogComment> logComments = new HashSet<LogComment>();
 	
 	/**
 	 * 日志转载
 	 */
-	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogReprint.class)
+	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogReprint.class)
 	public Set<LogReprint> logReprints = new HashSet<LogReprint>();
 	
 	/**
@@ -167,7 +167,7 @@ public class LogInfo implements Serializable {
 	/**
 	 * 日志Like
 	 */
-	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogLike.class)
+	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogLike.class)
 	public Set<LogLike> logLikes = new HashSet<LogLike>();
 	
 	/**
@@ -185,7 +185,7 @@ public class LogInfo implements Serializable {
 	/**
 	 * 日志标签表
 	 */
-	@ManyToMany(mappedBy="logInfos",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=LogTag.class)
+	@ManyToMany(mappedBy="logInfos",cascade={CascadeType.ALL},fetch=FetchType.EAGER,targetEntity=LogTag.class)
 	private Set<LogTag> logTags = new HashSet<LogTag>();
 	
 	public LogInfo() {}

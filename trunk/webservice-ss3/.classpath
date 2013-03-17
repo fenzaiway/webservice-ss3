@@ -50,7 +50,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate-validator.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/http.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javassist-3.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-api.jar"/>
@@ -138,5 +137,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-junit-plugin-2.2.3.1.jar"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.ws.xfire.MYECLIPSE_METRO_IMPL"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.ws.xfire.MYECLIPSE_JAXWS_API"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate3.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
