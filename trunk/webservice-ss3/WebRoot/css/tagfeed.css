@@ -8,3 +8,5 @@
 #left_navi{
 	margin-top: -85px;
 }
+
+.unSubBut:hover{border: 1px solid #3FA7CB; color:#3FA7CB; background-color: red;}

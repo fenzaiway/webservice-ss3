@@ -39,7 +39,8 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 	//private List<LogInfoData> logInfoDataList;
 	private SearchTagData searchTagData;
 	
-	
+	private int isUserSub; ///判断用户是否已经订阅一个标签 1表示已经订阅，0表示还没有订阅
+	private int tagid; //标签Id
 	
 	
 	/**
@@ -67,6 +68,17 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 			 * 后期修复版的时候看这么避免这个问题
 			 */
 			searchTagData = logInfoServiceImpl.getSearchTagData(paginationSupport, myusername);
+			
+			///判断用户是否已经订阅这个标签,只有当用户登录的时候才会做这个判断
+			if(null != myusername || !"".equals(myusername)){
+				tagid = tagServiceImpl.isUserSubTagName(myusername,logTag.getTagName());
+				if(0 != tagid){
+					isUserSub = 1;
+				}else{
+					isUserSub = 0;
+				}
+			}
+			
 			
 			saveTagClick(logTag); ///保存每次用户通过点击标签进行查询的记录
 			
@@ -96,8 +108,6 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 		
 		return SUCCESS;
 	}
-	
-	
 	
 	
 	public void saveTagClick(LogTag myLogTag){
@@ -137,8 +147,24 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 	public void setSearchTagData(SearchTagData searchTagData) {
 		this.searchTagData = searchTagData;
 	}
-	
-	
+
+	public int getIsUserSub() {
+		return isUserSub;
+	}
+
+	public void setIsUserSub(int isUserSub) {
+		this.isUserSub = isUserSub;
+	}
+
+
+	public int getTagid() {
+		return tagid;
+	}
+
+
+	public void setTagid(int tagid) {
+		this.tagid = tagid;
+	}
 	
 	
 }

@@ -21,6 +21,7 @@ import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
+import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.NumberUtil;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
@@ -48,6 +49,87 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		super.setDao(dao);
 	}
 	
+	
+	
+	/**
+	 * 保存用户通过页面查询订阅的标签
+	 * @param username 用户名
+	 * @param tagName 标签名
+	 * @return
+	 */
+	public int savePageUserSubTag(String username, String tagName){
+		/**
+		 * 步骤:
+		 * 1、先判断这个标签名在标签表中是不是已经存在
+		 * 2、如果还没有存在，则先保存这个标签，并设置这个标签不是系统标签
+		 * 3、设置标签和用户之间的双向关联关系，并更新两者之间的关系
+		 */
+		//1、这个标签还没存在
+		int tagid = 0;
+		if(!isTagExits(tagName)){
+			tag = new Tag();
+			tag.setCreateTime(MyFormatDate.getNowDate());
+			tag.setIsSysTag(0);
+			tag.setTagName(tagName);
+			tagid = this.save(tag);
+		}else{
+			///如果存在，则先取出这个标签Id
+			tagid = this.myFindByProperty("tagName", tagName).getId();
+		}
+		
+		//设置关联关系并保存
+		
+		saveUserSubTag(tagid,username);
+		
+		return saveUserSubTag(tagid,username);
+	}
+	
+	/**
+	 * 判断用户是否已经订阅的点击的这个标签
+	 * 如果用户已经订阅这个标签，就返回这个标签的Id
+	 * @param username
+	 * @param tagName
+	 * @return
+	 */
+	public int isUserSubTagName(String username, String tagName){
+		/**
+		 * 步骤：
+		 * 1、先判断这个标签是否已经存在，（由于设计了日志标签和系统标签，所以现在这里要先进行判断）
+		 *   如果该标签没有存在，则返回false
+		 * 2、如果该标签存在，取出该用户订阅的标签与这个标签进行匹配，如果成功，则返回false;
+		 */
+		int tagid = 0;
+		//数据库中存在该标签
+		if(isTagExits(tagName)){
+			List<Tag> tagList = loadUserSubTagList(username);
+			for(Tag tag : tagList){
+				if(tagName.equals(tag.getTagName())){
+					/////匹配成功，表示用户已经订阅了该标签
+					tagid = tag.getId();
+					break; ///退出tag循环
+				}
+			}
+		}
+		
+		return tagid;
+	}
+	
+	/**
+	 * 根据标签名判断这个标签是不是在系统中存在
+	 * 如果存在，返回true
+	 * @param tagName
+	 * @return
+	 */
+	public boolean isTagExits(String tagName){
+		boolean flag = false;
+		tag = this.myFindByProperty("tagName", tagName);
+		//数据库中存在该标签
+		if(null != tag && 0!=tag.getId()){
+			flag = true;
+		}
+		return flag;
+	}
+	
 	///用户取消订阅标签
 	public void deleteUserSubTag(int tagid){
 		tag = this.findById(tagid);
@@ -60,13 +142,13 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 * @param tagid
 	 * @param username
 	 */
-	public void saveUserSubTag(int tagid, String username){
+	public int saveUserSubTag(int tagid, String username){
 		tag = this.findById(tagid);
 		userLogin = userLoginServiceImpl.myFindByProperty("nickname", username);
 		///设置双向关联
 		userLogin.getTags().add(tag);
 		tag.getUserLogins().add(userLogin);
-		this.save(tag);
+		return this.save(tag);
 	}
 	
 	/**
@@ -75,7 +157,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	 * @return
 	 */
 	public List<Tag> loadUserSubTagList(String username){
-		tags = this.find("from Tag t join  t.userLogins as u where u.nickname=?", new String[]{username});
+		tags = this.find("select t from Tag t join  t.userLogins as u where u.nickname=?", new String[]{username});
 		return tags;
 	}
 	
@@ -111,7 +193,7 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 			String hql = "from Tag t where t.id not in("+ids+") and isSysTag=1";
 			tags = this.find(hql, new Object[]{});
 		}else{
-			tags = this.loadAll();
+			tags = this.find(HQL+" and isSysTag=1",new Object[]{});
 		}
 		return tags;
 	}

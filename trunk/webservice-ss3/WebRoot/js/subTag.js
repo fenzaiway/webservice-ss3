@@ -48,8 +48,8 @@ function loadUserTags()
 		for(var i=0; i<data.length;i++)
 		{
 			html+="<li>";
-			html+=data[i][0].tagName;
-			html+="<a href='javascript:userCancelSubTag("+data[i][0].id+")'>取消订阅</a>"
+			html+=data[i].tagName;
+			html+="<a href='javascript:userCancelSubTag("+data[i].id+")'>取消订阅</a>"
 			html+="</li>";
 		}
 		$(".my_rec_sub").empty().html(html);
@@ -98,12 +98,19 @@ function userCancelSubTag(id)
 	{
 		if("success" == status)
 		{
+			var tagid = $(".unSubBut").attr("tagid");
+			if(id == tagid) ///如果取消订阅按钮和链接权限订阅按钮匹配
+			{
+				var butHTML = "<input type='button' class='subBut' style='margin-top: 23px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;' value='订阅'/>";
+				$("#tagSubBut").empty().html(butHTML);
+			}
 			
 			//removeTagHover(id);
 			///加载推荐订阅的标签
 			loadOtherTags();	
 			///加载当期用户订阅的标签
 			loadUserTags();
+			//alert($("#tagSubBut"));
 		}
 	});
 }
