@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -64,7 +65,7 @@ public class LogTag implements Serializable {
 	 * 标签对应的日志，属于多对多的关系
 	 * 一标签对应多篇日志，一日志有多个标签
 	 */
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="tb_loginfo_tag",joinColumns={@JoinColumn(name="tagid")},inverseJoinColumns={@JoinColumn(name="loginfoid")})
 	private Set<LogInfo> logInfos = new HashSet<LogInfo>();
 	

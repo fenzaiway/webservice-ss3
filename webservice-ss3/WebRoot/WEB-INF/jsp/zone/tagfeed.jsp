@@ -71,38 +71,38 @@
 	
 	<div class="clr"></div>
 	<div id="loginfo_list">
-			<s:iterator value="logInfoList" id="loginfo">
+			<s:iterator value="searchTagData.data" id="data">
 		<div class="loginfo_list_left">
 			<div class="headImg">
 				<img src="<%=basePath %>images/111.jpg" alt="头像" />
 			</div>
 			<div class="info">
 				
-				<div><span class="info_user"><s:property value="#loginfo.username"/></span><span class="info_time"><s:property value="#loginfo.logPublishTime"/></span></div>
-				<div class="clr"><h4><s:property value="#loginfo.logTitle"/></h4></div>
+				<div><span class="info_user"><s:property value="#data.username"/></span><span class="info_time"><s:property value="#data.publishTime"/></span></div>
+				<div class="clr"><h4><s:property value="#data.logTitle"/></h4></div>
 				<div>
 					<div style="margin-bottom: 10px;">
 						<div class="loginfo_img"><img src="<%=basePath %>images/ajaxDemo/mrPip.jpg" alt="图片"/></div>
 						<div class="info_detail">
-							<s:property value="#loginfo.logText" escape="false"/>
+							<s:property value="#data.logContent" escape="false"/>
 						</div>
 					</div>
 					<div class="clr"></div>
 					<div>
 					<span class="info_tag">
 						<ul>
-							<li>#科学</li>
-							<li>#数码 </li>
-							<li>#科技</li>
-							<li>#硬件</li>
+							<s:iterator value="#data.tags" id="tag">
+								<li>#<s:property value="#tag"/></li>
+							</s:iterator>
+							
 						</ul>
 					 </span>
 					<span class="info_like">
 						<ul>
-							<li>热度</li>
-							<li>转载 </li>
-							<li>评论(5)</li>
-							<li>喜欢(2)</li>
+							<li>热度(0)</li>
+							<li>转载(<s:property value="#data.reprintNum"/>)</li>
+							<li>评论(<s:property value="#data.commentNum"/>)</li>
+							<li>喜欢(<s:property value="#data.likeNum"/>)</li>
 						</ul>
 					</span></div>
 				</div>

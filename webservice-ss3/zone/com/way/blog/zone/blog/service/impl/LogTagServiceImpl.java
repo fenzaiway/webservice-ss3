@@ -151,4 +151,21 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		return new ArrayList<LogTag>(logTagSet);
 	}
 	
+	/**
+	 * 根据tagName 获取到这个tagName下日志的Id 如:1,2,3,
+	 * @param tagName
+	 * @return
+	 */
+	public String getLogInfoIds(String tagName){
+		logTag = myFindByProperty("tagName", tagName);
+		StringBuffer sb = new StringBuffer();
+		if(null!=logTag && !logTag.getLogInfos().isEmpty()){
+			for(LogInfo logInfo : logTag.getLogInfos()){
+				sb.append(logInfo.getId()).append(",");
+			}
+		}
+		String ids = sb.toString();
+		ids = ids.substring(0,ids.length()-1);
+		return ids;
+	}
 }

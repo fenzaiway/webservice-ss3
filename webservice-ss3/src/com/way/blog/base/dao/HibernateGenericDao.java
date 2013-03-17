@@ -452,7 +452,7 @@ public class HibernateGenericDao<T, ID extends Serializable> extends HibernateDa
     @Transactional(readOnly=true)
     public int getCountByQuery(final String hql, Object...values){   
 
-        String countQueryString = " select count (*) " + removeSelect(removeOrders(hql));
+        String countQueryString = " select count(*) " + removeSelect(removeOrders(hql));
         List countlist = getHibernateTemplate().find(countQueryString, values);
         return Integer.parseInt(countlist.get(0)+"");
 

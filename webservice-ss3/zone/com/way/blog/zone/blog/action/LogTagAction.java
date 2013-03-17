@@ -21,6 +21,7 @@ import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
+import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
 
 @Controller("logTagAction")
@@ -57,8 +58,16 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 			return "tagPage";
 		}else{
 			//SELECT t FROM Teacher t join t.students s join s.books b where b.name = 'a'
-			paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogTag lt join lt.logInfos l where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogInfo l join l.logTags lt where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			//paginationSupport = logInfoServiceImpl.findPageByQuery(PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			/*paginationSupport = logInfoServiceImpl.findPageByQuery("from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, logTag.getTagName());
+			*/
+			/**
+			 * 这个位置没有采用延迟加载，采用延迟加载会出现Session close 而导致取不到数据。
+			 * 后期修复版的时候看这么避免这个问题
+			 */
 			searchTagData = logInfoServiceImpl.getSearchTagData(paginationSupport, myusername);
+			
 			saveTagClick(logTag); ///保存每次用户通过点击标签进行查询的记录
 			
 		}
