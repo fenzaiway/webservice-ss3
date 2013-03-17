@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.loginfo.service.LogInfoService;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
@@ -54,10 +55,16 @@ public class TagAction extends BaseAction {
 	
 	private String keyword; ////自动下拉提示关键字
 	
+	
 	private List<Tag> otherTagList; ///换一批标签
 	private List<Tag> userTagList;
 	private List<LogTag> logTagList; ///日志标签集合
+	private String myTagName; ///标签名称
 	
+	/**
+	 * 保存日志标签和系统标签的关联关系
+	 * @return
+	 */
 	@Action(value="saveLogTag",results={
 			@Result(name="success",type="json")
 	})
@@ -66,6 +73,23 @@ public class TagAction extends BaseAction {
 		logTagServiceImpl.saveTag(logInfo, tags);
 		return null;
 	}
+	
+	/**
+	 * 保存用户订阅经过页面经过查询得到的表恰
+	 * @return
+	 */
+	@Action(value="savePageUserSubTag",results={
+			@Result(name="success",type="json")
+	})
+	public String savePageUserSubTag(){
+		System.out.println("----tagName --- " + myTagName);
+		tagid = tagServiceImpl.savePageUserSubTag(username, myTagName);
+		ReturnStatus rs = new ReturnStatus();
+		rs.setStatus(tagid);
+		this.returnJsonByObject(rs);
+		return null;
+	}
+	
 	
 	/**
 	 * 换另一批标签（每次加载SIZE个）
@@ -197,6 +221,14 @@ public class TagAction extends BaseAction {
 
 	public void setLogTagList(List<LogTag> logTagList) {
 		this.logTagList = logTagList;
+	}
+
+	public String getMyTagName() {
+		return myTagName;
+	}
+
+	public void setMyTagName(String myTagName) {
+		this.myTagName = myTagName;
 	}
 	
 	

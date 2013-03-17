@@ -230,13 +230,17 @@ public class LogInfoTest extends BaseTest {
 		PaginationSupport paginationSupport = new PaginationSupport();
 		//logInfoList = logInfoService.find("from LogInfo l join fetch l.logTags t where t.tagName=?", "张国荣");
 		//paginationSupport = logInfoService.findPageByQuery("from LogInfo l join l.logTags t where t.tagName=?", 5, 0, "张国荣");
-		paginationSupport = logInfoService.findPageByQuery("from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, "张国荣");
+		paginationSupport = logInfoService.findPageByQuery("select l from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, "测试");
 		int size = paginationSupport.getItems().size();
-		System.out.println(size);
-		Object [] obj;
-		for(int i=0; i<size; i++){
-			obj = (Object []) paginationSupport.getItems().get(i);
-			System.out.println(obj[1]);
+//		System.out.println(size);
+//		Object [] obj;
+//		for(int i=0; i<size; i++){
+//			obj = (Object []) paginationSupport.getItems().get(i);
+//			System.out.println(obj[1]);
+//		}
+		
+		for(LogInfo li : (List<LogInfo>)paginationSupport.getItems()){
+			System.out.println((new ArrayList<LogTag>(li.getLogTags())).get(0).getTagName());
 		}
 	}
 }

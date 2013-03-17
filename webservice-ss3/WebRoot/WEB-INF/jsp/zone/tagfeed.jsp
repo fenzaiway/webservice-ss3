@@ -26,7 +26,7 @@
 		var username;
 		$(function()
 		{
-			username = '<s:property value="username"/>';
+			username = '<s:property value="myusername"/>';
 			myusername = '<s:property value="myusername"/>';
 			
 			if(""==myusername)
@@ -40,6 +40,44 @@
 			backToTop();
 			//alert(username);
 			$("#tag").FocusBlur();////设置当文本框获得焦点的时候，文字消失
+			
+			//用户订阅标签
+			$(".subBut").live("click",function()
+			{
+				var tagName = $("#tagName").text()
+				$.post("ajax/tag/savePageUserSubTag.do",{"myTagName":tagName,"username":myusername},function(data,status)
+				{
+					if("success"==status)
+					{
+						////订阅成功
+						loadUserTags();///重新加载用户订阅的标签
+						var butHTML = "<input type='button' class='unSubBut' tagid="+data.status+" style='margin-top: 25px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#F4F4F4; color:#B4B4B4;border:1px solid #CFCFCF;font-size:16px; font-family:微软雅黑;' value='已订阅'/>";
+						$("#tagSubBut").empty().html(butHTML);
+					}
+				});
+			});
+			
+			var unSubButCSS="";
+			//鼠标移动该表按钮样式
+			$(".unSubBut").live("mouseover",function()
+			{
+				var style="margin-top: 25px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#F4F4F4; color:#3FA7CB;border:1px solid #3FA7CB;font-size:16px; font-family:微软雅黑;";
+				unSubButCSS = $(this).attr("style");
+				$(this).attr("style",style).val("取消订阅");
+				
+			}).live("mouseout",function()
+			{
+				$(this).attr("style",unSubButCSS).val("已订阅");
+			});
+			
+			///取消订阅
+			$(".unSubBut").live("click",function()
+			{
+				///alert($(this).attr("tagid"));
+				var tagid = $(this).attr("tagid"); ///获取这个标签的Id
+				userCancelSubTag(tagid); //取消订阅标签
+				
+			});
 		});
 	</SCRIPT>
 	
@@ -51,12 +89,20 @@
 		<div id="center_content">
 		<div id="top_navi">
 			<div id="tagName" style="margin-top: 30px; margin-left:35px;font-size: 24px;float: left; "><s:property value="tagName"/></div>
-			<div>
+			<div id="tagSubBut">
 				<s:if test='"" == myusername || null == myusername'>
 					
 				</s:if>
+				
 				<s:else>
-					<input type="button" style="margin-top: 20px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;" value="订阅"/>
+					<s:if test="1==isUserSub">
+						<!-- 用户已经订阅 -->
+						<input type="button" class="unSubBut" tagid="<s:property value="tagid"/>" style="margin-top: 25px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#F4F4F4; color:#B4B4B4;border:1px solid #CFCFCF;font-size:16px; font-family:微软雅黑;" value="已订阅"/>
+					</s:if>
+					<s:elseif test="0==isUserSub">
+						<input type="button" class="subBut" style="margin-top: 23px; margin-left:15px;width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;" value="订阅"/>
+					</s:elseif>
+					
 				</s:else>
 			</div>
 		</div>
@@ -92,7 +138,7 @@
 					<span class="info_tag">
 						<ul>
 							<s:iterator value="#data.tags" id="tag">
-								<li>#<s:property value="#tag"/></li>
+								<li><a href='tag/<s:property value="#tag"/>'>#<s:property value="#tag"/></a></li>
 							</s:iterator>
 							
 						</ul>
@@ -114,7 +160,16 @@
 	
 		<div class="clr"></div>
 		</s:iterator>
-		<div id="pagebar"></div>
+		<div id="pagebar">
+			<s:if test="1==searchTagData.hasNext">
+				<!-- 有下一页 -->
+				<a href="tag/<s:property value="tagName"/>?startIndex=<s:property value="searchTagData.nextIndex"/>"><img src="<%=basePath%>images/next.gif" style="float:right; margin-right:10px;" alt="下一页"/></a>
+			</s:if>
+			<s:if test="1==searchTagData.hasPre">
+				<!-- 有上一页 -->
+				<a href="tag/<s:property value="tagName"/>?startIndex=<s:property value="searchTagData.preIndex"/>"><img src="<%=basePath%>images/pre.gif" style="float:right; margin-right:10px;" alt="上一页"/></a>
+			</s:if>
+		</div>
 </div>
 	<s:if test='"" == myusername || null == myusername'>
 	

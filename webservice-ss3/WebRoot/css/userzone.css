@@ -40,7 +40,7 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 .info_detail img{width: 120px;height: 120px; margin: 10px;}
 .info_detail img:hover{background:url(images/like2.gif);}
 .loginfo_img{width:280px;height: 200px; float: left;}
-.loginfo_img img{width:260px;height: 200px;padding: 10px;}
+.loginfo_img img{width:260px;height: 200px;padding: 10px;margin-top: -8px;}
 .info_user{float: left;}
 .info_time{float: right;}
 .info_time,.info_user{margin:25px 15px;}
