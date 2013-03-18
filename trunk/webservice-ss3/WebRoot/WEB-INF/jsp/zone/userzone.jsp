@@ -29,12 +29,13 @@
 		$(function()
 		{
 			backToTop();
-			username = '<s:property value="username"/>';
+			username = '<s:property value="zoneuser"/>';
 			myusername = '<s:property value="myusername"/>';
 			//alert(username);
 			searchTag(); ///搜索标签
+			tagComplete();
 		});
-		tagComplete();
+		
 	</SCRIPT>
 	
 	<script type="text/javascript" src="<%=basePath%>js/userzone.js"></script>

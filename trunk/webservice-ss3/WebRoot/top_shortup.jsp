@@ -77,8 +77,8 @@ li{float:left;}
 				<s:if test='"" == myusername || null == myusername'>
 				</s:if>
 				<s:else>
-					<li><a href="zone/${myusername}">首页</a></li>
-					<li><a href="userzone/home.do">我的主页</a></li>
+					<li><a href="userzone/infocenter.do">首页</a></li>
+					<li><a href="zone/${myusername}">我的主页</a></li>
 					<li><a href="admin/main/gotoMainMenu.do">系统管理</a></li>
 				</s:else>
 				<li><a href="albumtype/gotoAlbumTypeList.do?zoneuser=${zoneuser }">相册</a></li>

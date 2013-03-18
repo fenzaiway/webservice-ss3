@@ -8,8 +8,14 @@ a:hover{text-decoration: underline;color: red;}
 .sub_navi img{margin-left: 5px;margin-top: 3px;}
 #loginfo_list{height:260px;min-height: 260px;height: auto!important;width: 720px; float: left;}
 loginfo_list_left{height:260px;min-height: 260px;height: auto!important;width: 720px; margin-bottom: 30px;}
-.headImg{width: 85px;height: 70px;float: left;}
+.headImg{width: 85px;min-height: 70px;height:auto!important;float: left; position: absolute;}
 .headImg img{margin:3px;width: 70px;height: 70px;}
+.imgdiv{display: none;width: 70px;height:60px;background-color:#fff;border-radius:5px;margin:-10px 3px 3px 3px;-webkit-box-shadow:0 0 10px 0 #aaa;-moz-box-shadow:0 0 10px 0 #aaa;}
+.imgdiv ul{list-style: none;}
+.imgdiv li{float:left; width: 60px;position: relative;margin-left: -40px;padding-left: 10px;padding-top:5px;font-size: 14px;}
+.imgdiv li:hover{background-color: #eee;}
+.imgdiv a{text-decoration: none;}
+.imgdiv a:hover{}
 .info
 {
 	width: 630px;

@@ -100,7 +100,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 保存
 	 */
 	@Action(value="save",results={
-			@Result(name="success",location="/zone/%{myusername}",type="redirect"),
+			@Result(name="success",location="/userzone/infocenter.do",type="redirect"),
 			//@Result(name="success",location="/loginfo/newLogInfo.do",type="redirect"),
 			@Result(name="input",location="/loginfo/newLogInfo.do",type="redirect")
 	})

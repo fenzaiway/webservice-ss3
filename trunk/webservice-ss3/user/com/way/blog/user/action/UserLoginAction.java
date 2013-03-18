@@ -58,8 +58,10 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 			}else{
 				myusername = userLogin.getNickname();
 				session.setAttribute("myusername", myusername);
-				if(null == prePage){
-					prePage = "/zone/"+myusername+"";
+				session.setAttribute("zoneuser", myusername);
+				if(null == prePage){ //如果用户登录前没有前往其他页面，那就默认跳转到用户的个人中心也页面
+					//prePage = "/zone/"+myusername+"";
+					prePage = "/userzone/infocenter.do";
 				}
 				returnString = SUCCESS;
 			}

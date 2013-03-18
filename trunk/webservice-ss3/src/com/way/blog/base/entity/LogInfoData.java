@@ -33,6 +33,8 @@ public class LogInfoData {
 	private String username; ///日志所属用户
 	
 	private int isLike ;   ////这篇日志用户是否喜欢，喜欢为1，不喜欢为0
+	
+	private int isAttention; ///判断用户是否关注该篇日志所属用户的空间 1表示已经关注，0表示还没有关注
 
 	public int getLogid() {
 		return logid;
@@ -136,6 +138,14 @@ public class LogInfoData {
 
 	public void setIsLike(int isLike) {
 		this.isLike = isLike;
+	}
+
+	public int getIsAttention() {
+		return isAttention;
+	}
+
+	public void setIsAttention(int isAttention) {
+		this.isAttention = isAttention;
 	}
 	
 	
