@@ -33,7 +33,7 @@ public class AjaxLogInfoAction extends BaseAction {
 		//paginationSupport = logInfoServiceImpl.loadLogInfoDate(zoneuser, PaginationSupport.PAGESIZE, startIndex, null);
 		//paginationSupport.setItems(logInfoServiceImpl.changeLogInfoText(paginationSupport.getItems()));
 		//this.pageClass2Json(paginationSupport);
-		this.returnJson(logInfoServiceImpl.getUserAttentionData(zoneuser, PaginationSupport.PAGESIZE, startIndex, null));
+		this.returnJson(logInfoServiceImpl.getUserAttentionData(myusername, PaginationSupport.PAGESIZE, startIndex, null));
 		return  null;
 	}
 	

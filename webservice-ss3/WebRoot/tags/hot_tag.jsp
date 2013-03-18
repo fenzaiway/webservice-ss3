@@ -23,7 +23,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<link rel="stylesheet" href="<%=basePath%>css/hot_tag.css" type="text/css">
+<link rel="stylesheet" href="<%=basePath%>css/jquery.bigautocomplete.css" type="text/css" />
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery.bigautocomplete.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/subTag.js"></script>
 	<script type="text/javascript">
 		
 		jQuery.fn.extend({
@@ -46,6 +49,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$(function()
 		{
 			$(".tagSearch").FocusBlur();
+			tagComplete();
+			searchTag();
 		});
 	</script>
 
@@ -88,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
 	<div id="tags_buttom_list">
     	<div id="tags_search">
-        	<input type="text" name="tagName" class="tagSearch" value="搜索您感兴趣的标签"  style="width:360px; margin-top:10px; height:30px;"/><input type="button" value="搜索" style="width: 50px;background-color:#94B600 ;margin-top:10px; height:34px;line-height: 34px;border: 0px solid;"/>
+        	<input type="text" name="tagName" id="tag" class="tagSearch" value="搜索您感兴趣的标签"  style="width:360px; margin-top:10px; height:30px;"/><input type="button" value="搜索" id="tagSubmit" style="width: 50px;background-color:#94B600 ;margin-top:10px; height:34px;line-height: 34px;border: 0px solid;"/>
         </div>
         <div id="tags_list_detail">
         	<table width="100%" cellpadding="0" cellspacing="0" id="tags_detail_table">
@@ -98,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	<td class="hot_tags"><a href="tag/<s:property value="#tagSpace.tag.tagName"/>"><s:property value="#tagSpace.tag.tagName"/></a></td>
 					<td class="similar_tags">
 						<s:iterator value="#tagSpace.logTagList" id="tag">
-						<a href=""><s:property value="#tag.tagName"/></a>
+						<a href="tag/<s:property value="#tag.tagName"/>"><s:property value="#tag.tagName"/></a>
                 		</s:iterator>
 					</td>
 						<td class="hot_spaces">

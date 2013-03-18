@@ -366,7 +366,17 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			////根据用户取出该用户的like
 			logLikeList = logLikeServiceImpl.find("from LogLike where username=? and logInfo=?", new Object[]{myusername,logInfo});
 			if(null!=logLikeList && !logLikeList.isEmpty()){
-				//logInfo.getLogLikes().remove(logLikeList.get(0));
+				/**
+				 * 解决hibernate 删除异常： deleted object would be re-saved by cascade (remove deleted object from associations) 收藏 
+				 *	在hibernate 删除关联时会出现eleted object would be re-saved by cascade (remove deleted object from associations)的异常，结合别人的和自己的经验通常有三种解决的方案：
+				 *	方法1 删除Set方的cascade：
+				 *  方法2 解决关联关系后，再删除
+    			 *	onside.getManys().remove(thisMany);   //在所关联的一方的set中移走当前要删除的对象
+    			 *	thisMany.setOne(null);                          //设置所对应的一方为空，解除它们之间的关系
+    			 *	manyDao.delete(thisMany);
+				 *  方法3 在many-to-one方增加cascade 但值不能是none
+				 */
+				logInfo.getLogLikes().remove(logLikeList.get(0));
 				logLikeServiceImpl.delete(logLikeList.get(0));
 			}
 			

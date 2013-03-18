@@ -545,20 +545,6 @@
 		myRequest(startIndex);
 	}
 
-	//用户输入标签的时候，自动下拉提示
-	function tagComplete()
-	{
-		var url_="ajax/tag/tagComplete.do";
-		$("#tag").bigAutocomplete(
-		{	
-			url:url_, callback:function(data)
-			{
-               //alert(data);
-				var value = data.title;
-				$("#tag").val(value);
-            }
-		});
-	}
 	
 	function defaultWord(){
 		$("#tag").FocusBlur();
@@ -613,6 +599,6 @@
 		///自动加载更多
 		autoLoadMore();
 		//自动下拉提示
-		tagComplete();
+		//tagComplete();
 		defaultWord();
 	});
