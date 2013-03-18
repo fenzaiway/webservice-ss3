@@ -12,10 +12,12 @@
 	////加标签html	
 	var addTagHtml = "<div class='addTagss'><input type='text' value='' class='addTagInput' name='tagName' /><input type='button' position='' logid='' class='addTagBut' value='添加'/></div><div class='clr'></div>";
 
+	var imgdiv = "";
+	
 	//判断空间用户是不是登录用户
-	function isLoginUser()
+	function isLoginUser(name)
 	{
-		if(username == myusername)
+		if(name == myusername)
 		{
 			return true;
 		}else{
@@ -31,6 +33,7 @@
 		var headImg = "";
 		var logids = "";
 		var logid;
+		var name = "";
 		for(var i=0;i<data.length;i++)
 		{
 			logid = data[i].logid;
@@ -46,10 +49,10 @@
 			
 			//判断是否文章包含Tag
 			tagHtml = "";
-			
+			name = data[i].username;
 			if(typeof(data[i].tags)=="undefined")
 			{
-				if(isLoginUser())
+				if(isLoginUser(name))
 				{
 					tagHtml+="<li><div class='addtags' position='"+position+"'>加标签</div></li>";
 				}
@@ -69,13 +72,22 @@
 				likeImg = "<img src='images/like2.gif' logid="+logid+" class='likeimg' title='喜欢' isLike="+data[i].isLike+" alt='like'/>";
 			}
 			
+			///判断用户是否关注其他用户的空间
+			if(1 == data[i].isAttention)
+			{
+				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" href='javascript:cancelAttention();'>取消关注</a></li></ul></div>";
+			}else if(0 == data[i].isAttention)
+			{
+				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" href='javascript:addAttention();'>加关注</a></li></ul></div>";
+			}
 			html+="<div class='loginfo_list_left'>";
 				html+="<div class='headImg'>";
-				html+="<img src='"+headImg+"' alt='头像' />";
+				html+="<a href='zone/"+name+"' title='"+name+"'><img src='"+headImg+"' alt='头像' /></a>";
+				html+=imgdiv;
 				html+="</div>";
 					html+="<div class='info' logid="+logid+">";
-					html+="<div><span class='info_user'>"+data[i].username+"</span><span class='info_time'>"+data[i].publishTime+"</span></div>";
-					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+username+"&logInfoid="+logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
+					html+="<div><span class='info_user'><a href='zone/"+name+"'>"+name+"</a></span><span class='info_time'>"+data[i].publishTime+"</span></div>";
+					html+="<div class='clr'><h4><a href='loginfo/viewmore.do?zoneuser="+name+"&logInfoid="+logid+"' title='"+data[i].logTitle+"'>"+data[i].logTitle+"</a></h4></div>";
 					html+="<div>";
 					html+="<div style='margin-bottom: 10px;'>";
 					html+="<div class='loginfo_img'><img src='images/ajaxDemo/mrPip.jpg' alt='图片'/></div>";
@@ -114,7 +126,68 @@
 		return logids;
 	}
 	
+	///加关注事件函数
+	function addAttention()
+	{
+		$(".imgdiv a").live("click",function()
+		{
+			//alert($(this).attr("username"));
+			var tousername = $(this).attr("username");
+			$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				var imgdivHtml = "<a href='javascript:cancelAttention();'>取消关注</a>";
+				$(this).parents("li").empty().html(imgdivHtml);
+			});
+			return false;
+		});
+		
+	}
 	
+	//取消关注事件函数
+	function cancelAttention()
+	{
+		
+		$(".imgdiv a").live("click",function()
+		{
+			//alert($(this).attr("username"));
+			var tousername = $(this).attr("username");
+			
+			$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				var imgdivHtml = "<a href='javascript:addAttention();'>加关注</a>";
+				$(this).parents("li").empty().html(imgdivHtml);
+			});
+			return false;
+		});
+		//alert("取消关注");
+		/*$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+		{
+			attentionButHtml = "<input type='button' class='attentionBut' onclick='addAttention();' value='加关注'/>";
+			$(".attentionDiv").empty().html(attentionButHtml);
+		});*/
+		
+	}
+	
+	//鼠标移动到用户头像，显示用户详细资料
+	function headimgHover()
+	{
+		$(".headImg").live("mouseover",function(e)
+		{
+			/*var x = e.pageX;
+			var y = e.pageY;
+			//alert($(this).height()+"--" + $(this).width());
+			x=(x+$(this).width()+10);
+			y=(y+$(this).height()-6);
+			var showDivHtml = "<div id='userdetail' style='width:80px;height:100px;background-color:#fff;position:absolute;left:"+x+"px;top:"+y+"px;'>用户信息</div>"
+			$("body").append(showDivHtml);*/
+			$(this).find(".imgdiv").css("display","block");
+			
+		}).live("mouseout",function()
+		{
+			$(this).find(".imgdiv").css("display","none");
+			//$("#userdetail").remove();
+		});
+	}
 	
 	////回复评论
 	function replay(commentid, logid,index)
@@ -601,4 +674,6 @@
 		//自动下拉提示
 		//tagComplete();
 		defaultWord();
+		
+		headimgHover();
 	});

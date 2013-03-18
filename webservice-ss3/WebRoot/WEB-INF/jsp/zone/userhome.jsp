@@ -5,7 +5,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -19,12 +19,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>css/userhome.css">
-	
-
+	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
+	<script type="text/javascript">
+		
+		var tousername; //关注的是哪个用户的空间
+		var attentionButHtml = "";
+		
+		///加关注事件函数
+		function addAttention()
+		{
+			//alert(tousername)
+			$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				attentionButHtml = "<input type='button' class='attentionBut' onclick='cancelAttention();' value='取消关注'/>";
+				$(".attentionDiv").empty().html(attentionButHtml);
+			});
+		}
+		
+		//取消关注事件函数
+		function cancelAttention()
+		{
+			$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				attentionButHtml = "<input type='button' class='attentionBut' onclick='addAttention();' value='加关注'/>";
+				$(".attentionDiv").empty().html(attentionButHtml);
+			});
+		}
+		
+		$(function()
+		{
+			tousername = '<s:property value="username"/>';
+		});
+		
+	</script>
   </head>
   
   <body>
-	<div id="user_top_navi">顶部导航</div>
+	<div id="user_top_navi"><a href="userzone/infocenter.do">首页</a></div>
     <div style="height:70px;"></div>
     <div id="main">
     	<div id="left">
@@ -36,9 +67,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div id="intro">
           	<div class="left_content">
             	<div>
-            	<h3>fenzaiway</h3>
+            	<h3>${zoneuser}</h3>
             	<p>
-            	百度空间官方空间，致力于将空间最好的内容推荐给大家！ 欢迎推荐/自荐优质空间和内容，精彩共同分享！</p>
+            	${zoneuser}的空间</p>
                 </div>
             </div>
           </div>
@@ -46,7 +77,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              	<div class="left_content">
              	  <span>粉丝：<a href="">9800961</a></span><br/>
              	  <span><a href="http://msg.baidu.com/msg/writing?receiver=Hi_%BE%AB%B2%CA" target="_blank">私信</a> | <a href="http://hi.baidu.com/hispace/albums" target="_blank">相册</a> | <a href="http://hi.baidu.com/hispace/archive" target="_blank">存档</a> | <a href="http://hi.baidu.com/hispace#" onclick="return false">友情链接</a></span><br/>
-             	  <span>加关注</span>
+             	  <span>
+					<div class="attentionDiv" style="margin-top: -25px;">
+             	  	<s:if test="0==isAttention">
+						<input type="button" class="attentionBut" onclick="addAttention();" value="加关注"/>
+             	  	</s:if>
+					<s:elseif test="1==isAttention">
+						<input type="button" class="attentionBut" onclick="cancelAttention();" value="取消关注"/>
+					</s:elseif>
+					<s:elseif test="-2==isAttention">
+						<input type="button" class="attentionBut" onclick="gotoLogin();" value="登录"/>
+					</s:elseif>
+					</div>
+             	  </span>
              	</div>
              </div>
             <div id="new_photo">

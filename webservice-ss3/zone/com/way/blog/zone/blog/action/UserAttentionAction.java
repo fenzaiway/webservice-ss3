@@ -24,12 +24,9 @@ import com.way.blog.zone.entity.BlogZone;
 @Namespace("/attention")
 public class UserAttentionAction extends BaseAction {
 
-	@Autowired
-	private AttentionServiceImpl attentionServiceImpl;
-	@Autowired
-	private BlogZoneServiceImpl blogZoneServiceImpl;
-	@Autowired
-	private Attention attention;
+	@Autowired private AttentionServiceImpl attentionServiceImpl;
+	@Autowired private BlogZoneServiceImpl blogZoneServiceImpl;
+	@Autowired private Attention attention;
 	private BlogZone blogZone;
 	
 	private String toUserName;
@@ -48,34 +45,7 @@ public class UserAttentionAction extends BaseAction {
 			@Result(type="json")
 	})
 	public String addAttention(){
-		//1、先判断用户以前是否关注过
-		attentionList = attentionServiceImpl.find("from Attention where fromUserName=? and toUserName=?", new String[]{myusername,toUserName});
-		if(attentionList!=null&&!attentionList.isEmpty()){
-			attention = attentionList.get(0);
-			attention.setAttentionTime(MyFormatDate.getNowDate());
-			attention.setIsAttention(1);
-			attentionServiceImpl.update(attention);
-		}else{
-			attention.setAttentionTime(MyFormatDate.getNowDate());
-			attention.setFromUserName(myusername);
-			attention.setToUserName(toUserName);
-			attention.setIsAttention(1);///1、为关注0为取消关注
-			blogZone = blogZoneServiceImpl.myFindByProperty("username", toUserName);///取出被关注者的空间
-			////设置双向关联
-			attention.setBlogZone(blogZone);
-			
-			if(blogZone.getAttentions()==null||blogZone.getAttentions().isEmpty()){
-				///还没有被关注
-				Set<Attention> attentions = new HashSet<Attention>();
-				attentions.add(attention);
-				blogZone.setAttentions(attentions);
-			}else{
-				blogZone.getAttentions().add(attention);
-			}
-			///blogZone.setAttentions(attentions)
-			attentionServiceImpl.save(attention);
-		}
-		
+		attentionServiceImpl.addAttention(myusername,toUserName);
 		return null;
 	}
 	
@@ -87,11 +57,7 @@ public class UserAttentionAction extends BaseAction {
 			@Result(type="json")
 	})
 	public String updateAttention(){
-		attentionList = attentionServiceImpl.find("from Attention where fromUserName=? and toUserName=?", new String[]{myusername,toUserName});
-		attention = attentionList.get(0);
-		attention.setCancelAttentionTime(MyFormatDate.getNowDate());
-		attention.setIsAttention(0);
-		attentionServiceImpl.update(attention);
+		attentionServiceImpl.updateAttention(myusername,toUserName);
 		return null;
 	}
 	
@@ -102,16 +68,7 @@ public class UserAttentionAction extends BaseAction {
 		
 		String[] toUserNamess = toUserNames.split(",");
 		List<Attention> myAttentionList = new ArrayList<Attention>();
-		for(int i=0; i<toUserNamess.length; i++){
-			attentionList = attentionServiceImpl.find("from Attention where fromUserName=? and toUserName=?", new String[]{myusername,toUserNamess[i]});
-			if(null!=attentionList && !attentionList.isEmpty()){
-				myAttentionList.add(attentionList.get(0));
-			}else{
-				attention.setIsAttention(0);
-				attention.setFromUserName(myusername);
-				myAttentionList.add(attention);
-			}
-		}
+		myAttentionList = attentionServiceImpl.getAttentionList(myusername, toUserNames);
 		this.returnJsonByObjectOfExpose(myAttentionList);
 		
 		

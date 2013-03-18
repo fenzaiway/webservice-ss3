@@ -18,25 +18,29 @@ import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.base.entity.SearchTagData;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.user.entity.UserHeadImg;
+import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
+import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.util.JsonUtil;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.util.RegexPatternUtil;
 import com.way.blog.util.json.JSONUtil;
+import com.way.blog.zone.entity.Attention;
+import com.way.blog.zone.entity.BlogZone;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
 import com.way.blog.zone.entity.LogType;
 
 @Service("logInfoServiceImpl")
 public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
-	@Autowired
-	private UserHeadImgServiceImpl userHeadImgServiceImpl;
-	@Autowired
-	private LogTagServiceImpl logTagServiceImpl;
-	@Autowired
-	private LogTypeServiceImpl logTypeServiceImpl;
+	@Autowired private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired private LogTagServiceImpl logTagServiceImpl;
+	@Autowired private LogTypeServiceImpl logTypeServiceImpl;
 	@Autowired private LogLikeServiceImpl logLikeServiceImpl;
+	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired private BlogZoneServiceImpl blogZoneServiceImpl;
+	@Autowired private AttentionServiceImpl attentionServiceImpl;
 	
 	public static final String HQL = "from LogInfo where 1=1 ";
 	
@@ -46,7 +50,9 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	@Autowired private LogTag logTag;
 	@Autowired private LogInfo logInfo;
 	@Autowired private LogType logType;
-	
+	@Autowired private UserLogin userLogin;
+	@Autowired private BlogZone blogZone;
+	List<Attention> attentionList = new ArrayList<Attention>();
 	
 	@Override
 	@Resource(name="logInfoDao")
@@ -60,8 +66,27 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	 * @return
 	 */
 	public PaginationSupport loadLogInfoDate(String username, int pageSize, int startIndex,Object... values){
-		String hql = HQL + " and username=?";
-		paginationSupport = this.findPageByQuery(hql, pageSize, startIndex, new String[]{username});
+		/**
+		 * 步骤：
+		 * 1、取出用户关注的用户
+		 * 2、拼接sql取出用户个人的数据和关注用户的数据（sql = and username=? or username=? or）
+		 */
+		String hql = HQL + " and username=? ";
+		//1、取出用户关注的用户
+		//blogZone = blogZoneServiceImpl.myFindByProperty("username", username);
+		//attentionList = attentionServiceImpl.findByProperty("fromUserName", username);
+		attentionList = attentionServiceImpl.find(AttentionServiceImpl.HQL+" and fromUserName=? and isAttention=1 ", username);
+		List<String> usernameList = new ArrayList<String>();
+		usernameList.add(username);
+		StringBuffer sb = new StringBuffer();
+		for(Attention attention : attentionList){
+			sb.append(" or username=? ");
+			usernameList.add(attention.getToUserName()); ///取得关注的用户
+		}
+		hql += sb.toString();
+		hql += " order by logPublishTime desc"; ///根据发表的时间进行倒序输出
+		
+		paginationSupport = this.findPageByQuery(hql, pageSize, startIndex, usernameList.toArray());
 		return paginationSupport;
 	}
 	
@@ -237,6 +262,17 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		}else{
 			logInfoData.setIsLike(0);
 		}
+		String logusername = logInfo.getUsername();
+		if(username.equals(logusername)){ ///如果当前日志的用户为用户自己
+			logInfoData.setIsAttention(-1);
+		}else{
+			if(attentionServiceImpl.isUserAttention(username, logusername)){ ///判断用户是否关注
+				logInfoData.setIsAttention(1);
+			}else{
+				logInfoData.setIsAttention(0);
+			}
+		}
+		
 		originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
 		logInfoData.setLogid(logInfo.getId());
 		logInfoData.setUsername(logInfo.getUsername());

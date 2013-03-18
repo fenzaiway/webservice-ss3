@@ -148,7 +148,7 @@ public class PaginationSupport{
 		if(this.hasNextPage){
 			sb.append("<button value='' id='loadmore' onclick='loadmore("+this.getNextIndex()+")'>加载更多</button>");
 		}else{
-			sb.append("精彩内容到此为止！<a href=''>发现关注更过内容</a>");
+			sb.append("精彩内容到此为止！<a href='tag/'>发现关注更多内容</a>");
 		}
 		return sb.toString();
 	}

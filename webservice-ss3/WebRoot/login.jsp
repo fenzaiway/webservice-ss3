@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    			<td align="right">密　码： </td><td align="left"><input type="password" name="j_password" id="j_password" /></td>
 		    		</tr>
 		  			<tr>
-		    			<td align="center"><input type="submit" value="登录"/></td>
+		    			<td align="center"><input type="submit" style=" width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;" value="登录"/></td>
 		    		</tr>
 				</table>
 			</form>
@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    			<td align="right">密　码： </td><td align="left"><input type="password" name="mypassword" id="password" /></td>
 		    		</tr>
 		  			<tr>
-		    			<td align="center"><input type="submit" value="登录"/></td>
+		    			<td align="center"><input type="submit" style=" width:70px; height:35px; line-height:35px;background-color:#94B600; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;" value="登录"/></td>
 		    		</tr>
 				</table>
 			</form>

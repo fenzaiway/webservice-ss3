@@ -37,36 +37,47 @@ public class UserZoneAction extends BaseAction {
 	 * 进入用户的个人主页
 	 * @return
 	 */
-	@Action(value="home",results={
-			@Result(name="success",location="/WEB-INF/jsp/zone/userhome.jsp"),
+//	@Action(value="home",results={
+//			@Result(name="success",location="/WEB-INF/jsp/zone/userhome.jsp"),
+//	})
+//	public String gotoUserHome(){
+//		/**
+//		 * 步骤：
+//		 * 1、加载用户的个人资料（暂时不做）
+//		 * 2、加载用户的空间资料（暂时不做）
+//		 * 3、加载用户的所有标签
+//		 * 4、加载日志信息，包括转载、评论数，
+//		 * 5、加载用户的最新照片（由于照片功能还没有完善，暂时不做）
+//		 */
+//		
+//		//3、加载用户的所有标签
+//		logTagList = logTagServiceImpl.getUserLogInfoTagList(myusername);
+//		
+//		//4、加载用户所有的日志
+//		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=? and deleteStatue=0", PaginationSupport.PAGESIZE, startIndex, myusername);
+//		paginationSupport.setUrl("userzone/home.do");
+//		logInfoList = paginationSupport.getItems();
+//		//logInfoList = logInfoServiceImpl.findByProperty("username", zoneuser);
+//		if(null != logInfoList){
+//			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
+//		}
+//		
+//		
+//		
+//		return SUCCESS;
+//	}
+
+	/**
+	 * 转入到用户的个人中心，如果用户没有登录，那么不能访问这个路径
+	 * @return
+	 */
+	@Action(value="infocenter",results={
+			@Result(name="success",location="/WEB-INF/jsp/zone/userzone.jsp"),
 	})
-	public String gotoUserHome(){
-		/**
-		 * 步骤：
-		 * 1、加载用户的个人资料（暂时不做）
-		 * 2、加载用户的空间资料（暂时不做）
-		 * 3、加载用户的所有标签
-		 * 4、加载日志信息，包括转载、评论数，
-		 * 5、加载用户的最新照片（由于照片功能还没有完善，暂时不做）
-		 */
-		
-		//3、加载用户的所有标签
-		logTagList = logTagServiceImpl.getUserLogInfoTagList(myusername);
-		
-		//4、加载用户所有的日志
-		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=? and deleteStatue=0", PaginationSupport.PAGESIZE, startIndex, myusername);
-		paginationSupport.setUrl("userzone/home.do");
-		logInfoList = paginationSupport.getItems();
-		//logInfoList = logInfoServiceImpl.findByProperty("username", zoneuser);
-		if(null != logInfoList){
-			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
-		}
-		
-		
-		
+	public String userInfoCenter(){
 		return SUCCESS;
 	}
-
+	
 	public List<LogTag> getLogTagList() {
 		return logTagList;
 	}
