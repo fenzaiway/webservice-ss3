@@ -115,6 +115,32 @@ function userCancelSubTag(id)
 	});
 }
 
+//用户输入标签的时候，自动下拉提示
+function tagComplete()
+{
+	var url_="ajax/tag/tagComplete.do";
+	$("#tag").bigAutocomplete(
+	{	
+		url:url_, callback:function(data)
+		{
+           //alert(data);
+			var value = data.title;
+			$("#tag").val(value);
+        }
+	});
+}
+
+////对标签进行搜索
+function searchTag()
+{
+	$("#tagSubmit").click(function()
+	{
+		var tag = $("#tag").val();
+		//$("#tagForm").submit();
+		window.location.href="tag/"+tag
+	});
+}
+
 ////在这个函数中加载数据
 function init()
 {
@@ -122,6 +148,5 @@ function init()
 	loadOtherTags();	
 	///加载当期用户订阅的标签
 	loadUserTags();
-	
 	
 }
