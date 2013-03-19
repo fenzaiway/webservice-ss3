@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.service.impl.MessageServiceImpl;
+import com.way.blog.loginfo.service.LogInfoService;
 import com.way.blog.zone.blog.service.impl.LogCommentServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.entity.LogComment;
+import com.way.blog.zone.entity.LogInfo;
 
 /**
  * 评论ajax控制器
@@ -23,9 +27,11 @@ public class AjaxLogCommentAction extends BaseAction {
 
 	@Autowired private LogCommentServiceImpl logCommentServiceImpl;
 	@Autowired private LogComment logComment;
+	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired private MessageServiceImpl messageServiceImpl;
 	private int logid;
 	private String commentText; ///评论的内容
-	
+	private LogInfo logInfo;
 	
 	@Action(value="loadCommentList",results={
 			@Result(name="success",type="json")
@@ -41,6 +47,11 @@ public class AjaxLogCommentAction extends BaseAction {
 	public String save(){
 		int commentid = logCommentServiceImpl.save(logid, myusername, commentText);
 		logComment = logCommentServiceImpl.findById(commentid);
+		
+		//评论完成后触发保存消息函数
+		logInfo = logInfoServiceImpl.findById(logid);
+		messageServiceImpl.saveMessage(myusername, 1, logInfo, null);
+		
 		this.returnJsonByObject(logCommentServiceImpl.getCommentListData(logComment));
 		return null;
 	}

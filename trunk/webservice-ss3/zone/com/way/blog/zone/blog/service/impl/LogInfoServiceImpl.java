@@ -263,7 +263,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			logInfoData.setIsLike(0);
 		}
 		String logusername = logInfo.getUsername();
-		if(username.equals(logusername)){ ///如果当前日志的用户为用户自己
+		if(logusername.equals(username)){ ///如果当前日志的用户为用户自己
 			logInfoData.setIsAttention(-1);
 		}else{
 			if(attentionServiceImpl.isUserAttention(username, logusername)){ ///判断用户是否关注

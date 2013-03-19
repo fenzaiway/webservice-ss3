@@ -69,6 +69,7 @@ public class MyUserDetialAction extends ActionSupport implements
 	private Province myProvince;
 	private City myCity;
 	private Area myArea;
+	private int addressid;
 	
 	public void prepare() throws Exception {
 		jobList = jobServiceImpl.loadAll();
@@ -93,11 +94,28 @@ public class MyUserDetialAction extends ActionSupport implements
 	 * @return
 	 */
 	@Action(value="update",results={
-			@Result(name="success",location="/%{zoneUrl}",type="redirect"),
+			//@Result(name="success",location="/%{zoneUrl}",type="redirect"),
+			@Result(name="success",location="/userzone/infocenter.do",type="redirect"),
 			@Result(name="input",location="/WEB-INF/jsp/userlogin/myuserDetial.jsp"),
 	})
 	public String update(){
-		address = new Address();
+		/**
+		 * 步骤：
+		 * 1、先判断用户有没有设置关联地址
+		 * 2、如果还没有，则设置新的地址
+		 * 3、如果已经关联，那么就取出这个地址更新
+		 */
+		//1、根据资料Id取出判断该Id下有没有关联地址
+		MyUserDetial mud = myUserDetialServiceImpl.findById(myUserDetial.getId());
+		
+		if(null!=mud.getAddress() && 0!=mud.getAddress().getId()){
+			//说明用户资料已经关联地址
+			//更新地址
+			address = mud.getAddress();
+			
+		}else{
+			address = new Address();
+		}
 		address.setProvince(province);
 		address.setCity(city);
 		address.setArea(area);
@@ -216,6 +234,14 @@ public class MyUserDetialAction extends ActionSupport implements
 
 	public void setUserHeadImg(UserHeadImg userHeadImg) {
 		this.userHeadImg = userHeadImg;
+	}
+
+	public int getAddressid() {
+		return addressid;
+	}
+
+	public void setAddressid(int addressid) {
+		this.addressid = addressid;
 	}
 	
 }

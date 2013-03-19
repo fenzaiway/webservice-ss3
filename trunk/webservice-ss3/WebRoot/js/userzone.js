@@ -75,10 +75,10 @@
 			///判断用户是否关注其他用户的空间
 			if(1 == data[i].isAttention)
 			{
-				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" href='javascript:cancelAttention();'>取消关注</a></li></ul></div>";
+				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" isattention=1 href='javascript:void(0);'>取消关注</a></li></ul></div>";
 			}else if(0 == data[i].isAttention)
 			{
-				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" href='javascript:addAttention();'>加关注</a></li></ul></div>";
+				imgdiv = "<div class='imgdiv'><ul><li><a username="+name+" isattention=0 href='javascript:void(0);'>加关注</a></li></ul></div>";
 			}
 			html+="<div class='loginfo_list_left'>";
 				html+="<div class='headImg'>";
@@ -127,24 +127,63 @@
 	}
 	
 	///加关注事件函数
-	function addAttention()
-	{
+//	function addAttention()
+//	{
 		$(".imgdiv a").live("click",function()
 		{
-			//alert($(this).attr("username"));
+			var isattention = $(this).attr("isattention");
 			var tousername = $(this).attr("username");
-			$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+			////取消喜欢
+			if(1==isattention)
+			{
+				
+				//alert($(".imgdiv a").length);
+				
+				$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+				{
+					$(".imgdiv a").each(function() 
+					{
+						//
+						var name11 = $(this).attr("username");
+						var isAttention11 = $(this).attr("isattention");
+						if(tousername==name11 && isattention==isAttention11) ////如果当前加载的内容是同一个人的话，那么当取消关注的时候，所有的所有的内容都需要修改
+						{
+							$(this).parent("li").html("<a username="+tousername+" isattention=0 href='javascript:void(0);'>加关注</a>");
+						}
+					});
+				});
+			}else if(0 == isattention) //加关注
+			{
+				$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+				{
+					$(".imgdiv a").each(function() 
+					{
+						//
+						var name11 = $(this).attr("username");
+						var isAttention11 = $(this).attr("isattention");
+						if(tousername==name11 && isattention==isAttention11) ////如果当前加载的内容是同一个人的话，那么当取消关注的时候，所有的所有的内容都需要修改
+						{
+							$(this).parent("li").html("<a username="+tousername+" isattention=1 href='javascript:void(0);'>取消关注</a>");
+						}
+					});
+				});
+				
+				
+			}
+			//alert($(this).attr("username"));
+			
+			/*$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
 			{
 				var imgdivHtml = "<a href='javascript:cancelAttention();'>取消关注</a>";
 				$(this).parents("li").empty().html(imgdivHtml);
-			});
+			});*/
 			return false;
 		});
 		
-	}
+//	}
 	
 	//取消关注事件函数
-	function cancelAttention()
+	/*function cancelAttention()
 	{
 		
 		$(".imgdiv a").live("click",function()
@@ -164,9 +203,9 @@
 		{
 			attentionButHtml = "<input type='button' class='attentionBut' onclick='addAttention();' value='加关注'/>";
 			$(".attentionDiv").empty().html(attentionButHtml);
-		});*/
+		});
 		
-	}
+	}*/
 	
 	//鼠标移动到用户头像，显示用户详细资料
 	function headimgHover()

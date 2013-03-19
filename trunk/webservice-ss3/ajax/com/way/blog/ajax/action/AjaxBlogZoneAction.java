@@ -28,7 +28,7 @@ public class AjaxBlogZoneAction extends BaseAction {
 	public String getRecord(){
 		///System.out.println("testname==" + testname);
 		
-		this.returnJS(""+blogZoneServiceImpl.getUserZoneRecord(zoneuser));
+		this.returnJS(""+blogZoneServiceImpl.getUserZoneRecord(myusername));//根据登录用户取得对应的用户值
 		return null;
 	}
 
