@@ -22,7 +22,7 @@ $(function(){
 		
 	});
 	
-	$(".loginForm").Validform({
+	$(".registerform").Validform({
 		tiptype:2,
 		usePlugin:{
 			

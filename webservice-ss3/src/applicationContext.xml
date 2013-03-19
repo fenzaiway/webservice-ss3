@@ -100,6 +100,8 @@
 				<value>com.way.blog.ss3.entity.MyRoles</value>
 				<value>com.way.blog.ss3.entity.MyResources</value>
 				<value>com.way.blog.ss3.entity.MyAuthority</value>
+				<!-- commons -->
+				<value>com.way.blog.base.entity.Message</value>
 			</list>
 		</property>
 		<!-- 定义Hibernate相关的属性 -->	

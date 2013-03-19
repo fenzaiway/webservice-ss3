@@ -60,8 +60,25 @@ li{float:left;}
  .split{ margin-left:10px;}
  
 </style>
+<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script src="http://mat1.gtimg.com/app/openjs/openjs.js"></script>
 <script src="http://mat1.gtimg.com/app/openjs/widget/connect.js"></script>
+
+<script type="text/javascript">
+	var username11 = '<s:property value="myusername"/>';
+	$(function()
+	{
+		$.post("ajax/message/getNewMessage.do",{},function(data)
+		{
+			//alert(data.length);
+			var newMessageNum = data.length;
+			if(0 != newMessageNum)
+			{
+				$(".messageNum").html("("+newMessageNum+")");
+			}
+		});
+	});
+</script>
 </head>
   
   <body>
@@ -94,9 +111,9 @@ li{float:left;}
 	                          
 						</s:if>
 						<s:else>
-						 <li>消息<span class="split">|</span></li>
+						 <li>消息<span class="messageNum"></span><span class="split">|</span></li>
                      	<li>私信<span class="split">|</span></li>
-                     	<li><a href="htmlTest/setting.html">设置</a><span class="split">|</span></li>
+                     	<li><a href="myUserDetial/gotoUserdetial.do">设置</a><span class="split">|</span></li>
 						<li><s:property value='myusername'/><span class="split">|</span></li>
 						 <li><a href="userlogin/sessionInvalidate.do">退出</a></li>
 							 

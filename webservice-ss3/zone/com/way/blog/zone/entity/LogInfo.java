@@ -20,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.annotations.Expose;
+import com.way.blog.base.entity.Message;
 
 /**
  * 
@@ -181,6 +182,12 @@ public class LogInfo implements Serializable {
 	 */
 	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogVisit.class)
 	public Set<LogVisit> logVisits = new HashSet<LogVisit>();
+	
+	/**
+	 * 日志对应的消息
+	 */
+	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Message.class)
+	private Set<Message> messageSet = new HashSet<Message>();
 
 	/**
 	 * 日志标签表
@@ -190,42 +197,42 @@ public class LogInfo implements Serializable {
 	
 	public LogInfo() {}
 
-	public LogInfo(int id, String logTitle, String logText,
-			String logPublishTime, int logContentStatus, int logAllowComment,
-			int logIsOriginal, int logToTop, int logAllowVisit,
-			String username, String reprintUsername, int sourceLogInfoId,
-			int deleteStatue, LogType logType,
-			Set<LogAttachment> logAttachments, Set<LogComment> logComments,
-			Set<LogReprint> logReprints, Set<LogDraft> logDraft,
-			Set<LogShare> logShares, Set<LogLike> logLikes,
-			Set<LogStore> logStores, Set<LogVisit> logVisits,
-			Set<LogTag> logTags) {
+
+	public LogInfo(int deleteStatue, int id, int logAllowComment,
+			int logAllowVisit, Set<LogAttachment> logAttachments,
+			Set<LogComment> logComments, int logContentStatus,
+			Set<LogDraft> logDraft, int logIsOriginal, Set<LogLike> logLikes,
+			String logPublishTime, Set<LogReprint> logReprints,
+			Set<LogShare> logShares, Set<LogStore> logStores,
+			Set<LogTag> logTags, String logText, String logTitle, int logToTop,
+			LogType logType, Set<LogVisit> logVisits, Set<Message> messageSet,
+			String reprintUsername, int sourceLogInfoId, String username) {
 		super();
-		this.id = id;
-		this.logTitle = logTitle;
-		this.logText = logText;
-		this.logPublishTime = logPublishTime;
-		this.logContentStatus = logContentStatus;
-		this.logAllowComment = logAllowComment;
-		this.logIsOriginal = logIsOriginal;
-		this.logToTop = logToTop;
-		this.logAllowVisit = logAllowVisit;
-		this.username = username;
-		this.reprintUsername = reprintUsername;
-		this.sourceLogInfoId = sourceLogInfoId;
 		this.deleteStatue = deleteStatue;
-		this.logType = logType;
+		this.id = id;
+		this.logAllowComment = logAllowComment;
+		this.logAllowVisit = logAllowVisit;
 		this.logAttachments = logAttachments;
 		this.logComments = logComments;
-		this.logReprints = logReprints;
+		this.logContentStatus = logContentStatus;
 		this.logDraft = logDraft;
-		this.logShares = logShares;
+		this.logIsOriginal = logIsOriginal;
 		this.logLikes = logLikes;
+		this.logPublishTime = logPublishTime;
+		this.logReprints = logReprints;
+		this.logShares = logShares;
 		this.logStores = logStores;
-		this.logVisits = logVisits;
 		this.logTags = logTags;
+		this.logText = logText;
+		this.logTitle = logTitle;
+		this.logToTop = logToTop;
+		this.logType = logType;
+		this.logVisits = logVisits;
+		this.messageSet = messageSet;
+		this.reprintUsername = reprintUsername;
+		this.sourceLogInfoId = sourceLogInfoId;
+		this.username = username;
 	}
-
 
 
 	public int getDeleteStatue() {
@@ -415,5 +422,14 @@ public class LogInfo implements Serializable {
 	public void setLogTags(Set<LogTag> logTags) {
 		this.logTags = logTags;
 	}
+
+	public Set<Message> getMessageSet() {
+		return messageSet;
+	}
+
+	public void setMessageSet(Set<Message> messageSet) {
+		this.messageSet = messageSet;
+	}
+	
 	
 }

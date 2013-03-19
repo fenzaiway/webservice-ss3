@@ -194,9 +194,11 @@
 		</div>
 		
 		<form action="myUserDetial/update.do" method="post">
+			<input type="hidden" value="${myUserDetial.id}" name="myUserDetial.id">
+			<input type="hidden" value="${myUserDetial.address.id}" name="addressid">
 			<ul>
 				<li>昵称：</li><li><input type="text" name="myUserDetial.username" value="${myUserDetial.username}" readonly="readonly"/></li><br/>
-				<li>生日：</li><li><input type="text" name="myUserDetial.birthday" value="${myUserDetial.birthday}"/></li><br/>
+				<li>生日：</li><li><input type="text" onClick="WdatePicker()" name="myUserDetial.birthday" value="${myUserDetial.birthday}"/></li><br/>
 				<li>感情状态：</li>
 					<li>
 						<select name="myUserDetial.loveStatue">

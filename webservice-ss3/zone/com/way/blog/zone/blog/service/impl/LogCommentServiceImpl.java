@@ -58,6 +58,7 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 		Set<LogComment> logComments = new HashSet<LogComment>();
 		logComments.add(logComment);
 		logInfo.setLogComments(logComments);
+		
 		return this.save(logComment);
 	}
 	

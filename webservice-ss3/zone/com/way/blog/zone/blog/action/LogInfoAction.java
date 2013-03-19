@@ -22,6 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.service.impl.MessageServiceImpl;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
@@ -55,23 +56,15 @@ import com.way.blog.zone.entity.SimilarLogInfo;
 @Namespace("/loginfo")
 public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	
-	@Autowired
-	private LogInfoServiceImpl logInfoServiceImpl;
-	@Autowired
-	private LogTypeServiceImpl logTypeServiceImpl;
-	@Autowired
-	private LogVisitServiceImpl logVisitServiceImpl;
-	@Autowired 
-	private LogReprintServiceImpl logReprintServiceImpl;
-	@Autowired 
-	private LogLikeServiceImpl logLikeServiceImpl;
-	@Autowired
-	private LogCommentServiceImpl logCommentServiceImpl;
-	@Autowired
-	private LogTagServiceImpl logTagServiceImpl;
-	@Autowired
-	private TagServiceImpl tagServiceImpl;
-	
+	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired private LogTypeServiceImpl logTypeServiceImpl;
+	@Autowired private LogVisitServiceImpl logVisitServiceImpl;
+	@Autowired private LogReprintServiceImpl logReprintServiceImpl;
+	@Autowired private LogLikeServiceImpl logLikeServiceImpl;
+	@Autowired private LogCommentServiceImpl logCommentServiceImpl;
+	@Autowired private LogTagServiceImpl logTagServiceImpl;
+	@Autowired private TagServiceImpl tagServiceImpl;
+	@Autowired private MessageServiceImpl messageServiceImpl;
 	
 	private List<LogInfo> logInfoList = new ArrayList<LogInfo>();
 	private List<LogType> logTypeList = new ArrayList<LogType>();
@@ -394,6 +387,9 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 				logLikes.add(logLike);
 			}
 			logLikeServiceImpl.save(logLike);
+			
+			///like后，触发消息
+			messageServiceImpl.saveMessage(myusername, 4, logInfo, null);
 		}
 		
 		//////3、返回like数量

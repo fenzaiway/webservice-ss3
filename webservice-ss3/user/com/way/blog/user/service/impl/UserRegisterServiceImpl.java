@@ -89,16 +89,16 @@ public class UserRegisterServiceImpl extends BaseGenericService<UserRegister,Int
 		userLogin.setPassword(password);
 		userLogin.setCreateTime(date);
 		userLogin.setEnabled(1);//////默认值为0表示登录不可用，在测试的时候，把默认值改为1
-//		
-//		/**
-//		 * 同时创建用户详细信息记录
-//		 */
-//		MyUserDetial myUserDetial = new MyUserDetial();
-//		myUserDetial.setUsername(username);
-//		myUserDetial.setInterests("");	////默认不添加用户的兴趣，在用户登录的时候，要求用户选择
-//		//设置用户与详细信息双向关联
-//		myUserDetial.setUser(userLogin);
-//		userLogin.setMyUserDetial(myUserDetial);
+		
+		/**
+		 * 同时创建用户详细信息记录
+		 */
+		MyUserDetial myUserDetial = new MyUserDetial();
+		myUserDetial.setUsername(username);
+		myUserDetial.setInterests("");	////默认不添加用户的兴趣，在用户登录的时候，要求用户选择
+		//设置用户与详细信息双向关联
+		myUserDetial.setUser(userLogin);
+		userLogin.setMyUserDetial(myUserDetial);
 //		
 //		///设置登录表与注册表双向关联
 		userLogin.setUserRegister(userRegister);
