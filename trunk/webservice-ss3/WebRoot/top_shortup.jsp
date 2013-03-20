@@ -61,22 +61,19 @@ li{float:left;}
  
 </style>
 <script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/message.js"></script>
 <script src="http://mat1.gtimg.com/app/openjs/openjs.js"></script>
 <script src="http://mat1.gtimg.com/app/openjs/widget/connect.js"></script>
 
 <script type="text/javascript">
+	
 	var username11 = '<s:property value="myusername"/>';
+	var msgHtml = "";
 	$(function()
 	{
-		$.post("ajax/message/getNewMessage.do",{},function(data)
-		{
-			//alert(data.length);
-			var newMessageNum = data.length;
-			if(0 != newMessageNum)
-			{
-				$(".messageNum").html("("+newMessageNum+")");
-			}
-		});
+		getMessage();//读取消息
+		//alert($(".message").text());
+		showNewMessage();
 	});
 </script>
 </head>
@@ -132,5 +129,6 @@ li{float:left;}
 	<div id="head_img">
 		<img src="images/top_banner.gif" style="width: 100%;height: 160px;"/>
 	</div>
+	
   </body>
 </html>

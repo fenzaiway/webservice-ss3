@@ -389,7 +389,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			logLikeServiceImpl.save(logLike);
 			
 			///like后，触发消息
-			messageServiceImpl.saveMessage(myusername, 4, logInfo, null);
+			messageServiceImpl.saveMessage(myusername, 4, logInfo, null,null);
 		}
 		
 		//////3、返回like数量

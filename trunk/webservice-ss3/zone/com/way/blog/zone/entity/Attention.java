@@ -39,6 +39,8 @@ public class Attention implements Serializable {
 	
 	/**
 	 * 是否关注
+	 * 1、表示关注
+	 * 0、表示不关注
 	 */
 	@Expose
 	@Column(name="att_is_attention",unique = false, nullable = false, insertable = true, updatable = true)

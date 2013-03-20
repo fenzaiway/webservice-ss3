@@ -54,6 +54,34 @@ public class AjaxMessageAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * 获取新消息并显示
+	 * @return
+	 */
+	@Action(value="showMessage",results={
+			@Result(name="success",type="json")
+	})
+	public String showMessage(){
+		/**
+		 * 步骤：
+		 * 1、当用户通过点击消息查看新消息的时候，异步获取最新的消息
+		 */
+		this.getNewMessage(); //获取新消息
+		return null;
+	}
+	
+	/**
+	 * 更新消息阅读状态
+	 * @return
+	 */
+	@Action(value="updateMessage",results={
+			@Result(name="success",type="json")
+	})
+	public String updateMessage(){
+		messageServiceImpl.updateMessage(myusername);
+		return null;
+	}
+	
 	public List<Message> getMessageList() {
 		return messageList;
 	}

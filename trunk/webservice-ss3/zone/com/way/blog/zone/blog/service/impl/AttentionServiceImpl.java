@@ -8,8 +8,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -115,5 +113,36 @@ public class AttentionServiceImpl extends BaseGenericService<Attention, Integer>
 			}
 		}
 		return myAttentionList;
+	}
+	
+	/**
+	 * 根据用户名获取粉丝数量
+	 * @param username
+	 * @return
+	 */
+	
+	public int getFans(String username){
+		int num=0;
+		String hql = HQL+" and toUserName=? and isAttention=1";
+		attentionList = find(hql, new String[]{username});
+		if(null!=attentionList && !attentionList.isEmpty()){
+			num = attentionList.size();
+		}
+		return num;
+	}
+	
+	/**
+	 * 获取用户关注其他用户量
+	 * @return
+	 */
+	
+	public int getAttentionNum(String username){
+		int num=0;
+		String hql = HQL+" and fromUserName=? and isAttention=1";
+		attentionList = find(hql, new String[]{username});
+		if(null!=attentionList && !attentionList.isEmpty()){
+			num = attentionList.size();
+		}
+		return num;
 	}
 }
