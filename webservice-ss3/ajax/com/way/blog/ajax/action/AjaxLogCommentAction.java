@@ -50,7 +50,7 @@ public class AjaxLogCommentAction extends BaseAction {
 		
 		//评论完成后触发保存消息函数
 		logInfo = logInfoServiceImpl.findById(logid);
-		messageServiceImpl.saveMessage(myusername, 1, logInfo, null);
+		messageServiceImpl.saveMessage(myusername, 1, logInfo, null,null);
 		
 		this.returnJsonByObject(logCommentServiceImpl.getCommentListData(logComment));
 		return null;

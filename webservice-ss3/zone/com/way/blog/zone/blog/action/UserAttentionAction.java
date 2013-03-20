@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.service.impl.MessageServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.zone.blog.service.impl.AttentionServiceImpl;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
@@ -27,6 +28,7 @@ public class UserAttentionAction extends BaseAction {
 	@Autowired private AttentionServiceImpl attentionServiceImpl;
 	@Autowired private BlogZoneServiceImpl blogZoneServiceImpl;
 	@Autowired private Attention attention;
+	@Autowired private MessageServiceImpl messageServiceImpl;
 	private BlogZone blogZone;
 	
 	private String toUserName;
@@ -46,6 +48,8 @@ public class UserAttentionAction extends BaseAction {
 	})
 	public String addAttention(){
 		attentionServiceImpl.addAttention(myusername,toUserName);
+		//触发消息事件
+		messageServiceImpl.saveMessage(myusername, 6, null, null,toUserName);
 		return null;
 	}
 	
@@ -85,6 +89,26 @@ public class UserAttentionAction extends BaseAction {
 //			System.out.println("222222222222" + toUserName);
 //			this.returnJsonByObject(attention);
 //		}
+		return null;
+	}
+	
+	/**
+	 * 获取粉丝数量
+	 * @return
+	 */
+	@Action(value="getFans")
+	public String getFans(){
+		this.returnJS(attentionServiceImpl.getFans(myusername)+"");
+		return null;
+	}
+	
+	/**
+	 * 获取关注数量
+	 * @return
+	 */
+	@Action(value="getAttentionNums")
+	public String getAttentionNums(){
+		this.returnJS(attentionServiceImpl.getAttentionNum(myusername)+"");
 		return null;
 	}
 	

@@ -33,12 +33,31 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	
 	List<Message> messageList = new ArrayList<Message>();
 	
+	/**
+	 * 获取消息列表
+	 * @param username
+	 * @return
+	 */
 	public List<Message> getNewMessage(String username){
 		
-		String hql = HQL+" and (username=? ) or ( msgtype=5 ) and msgStatus=0";
+		String hql = HQL+" and (username=? and msgStatus=0 ) or ( msgtype=5 )";
 		messageList = this.find(hql, new String[]{username});
 		return messageList;
 	}
+	
+	/**
+	 * 更新消息
+	 * @param username
+	 */
+	public void updateMessage(String username){
+		List<Message> msgList = this.getNewMessage(username);
+		if(null!=msgList && !msgList.isEmpty()){
+			for(Message msg : msgList){
+				msg.setMsgStatus(1);
+				this.update(msg);
+			}
+		}
+ 	}
 	
 	/**
 	 * 根据消息类型、哪篇日志、消息内，发起用户 保存消息
@@ -48,13 +67,17 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	 * @param msgType 消息类型
 	 * @param logInfo 哪篇日志
 	 * @param content 消息内容
+	 * @param username 消息属于哪个用户
 	 * 
 	 * @return
 	 */
-	public int saveMessage(String fromusername,int msgType, LogInfo logInfo, String content){
+	public int saveMessage(String fromusername,int msgType, LogInfo logInfo, String content,String username){
 		
 			if(5 == msgType){
 				message = getMessage(fromusername,content,msgType);
+			}else if(6==msgType)
+			{
+				message = getMessage(fromusername,msgType,username);
 			}else{
 				if(!fromusername.equals(logInfo.getUsername())){ //当评论用户评论的不是自己的内容的时候，才会触发
 					message = getMessage(msgType,logInfo,fromusername);
@@ -64,6 +87,27 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 			}
 			return this.save(message);
 		
+	}
+	
+	/**
+	 * 获取用户关注空间消息
+	 * @param fromusername
+	 * @param msgType
+	 * @return
+	 */
+	public Message getMessage(String fromusername,int msgType,String toUsername){
+		String userzoneUrl = "<a href='zone/"+fromusername+"'>"+fromusername+"</a>";
+		//表示评论
+		StringBuffer sb = new StringBuffer();
+		sb.append(userzoneUrl).append("关注了你的空间");
+		Message msg = new Message();
+		msg.setFromusername(fromusername);
+		msg.setMsgContent(sb.toString());
+		msg.setMsgStatus(0);
+		msg.setTriggerTime(MyFormatDate.getNowDate());
+		msg.setMsgtype(msgType);
+		msg.setUsername(toUsername);
+		return msg;
 	}
 	
 	/**
@@ -140,10 +184,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 			//表示评论
 			sb.append(userzoneUrl).append("喜欢了你的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
 		}
-		if(6 == msgType){
-			//表示评论
-			sb.append(userzoneUrl).append("关注了你的空间");
-		}
+		
 		return sb.toString();
 	}
 }

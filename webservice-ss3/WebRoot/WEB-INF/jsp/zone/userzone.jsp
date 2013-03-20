@@ -83,8 +83,13 @@
 	<hr style="width: 720px;float: left;margin-bottom: 15px;"/>
 	<div class="clr"></div>
 	<div id="loginfo_list">
+			<div class="message">
+				
+			</div>
+			<div class="clr"></div>
 			<s:iterator value="logInfoList" id="loginfo">
 		<div class="loginfo_list_left">
+			
 			<div class="headImg">
 				<img src="<%=basePath %>images/111.jpg" alt="头像" />
 			</div>
@@ -131,8 +136,12 @@
 	<div id="left_navi">
 		<div style="width: 100%;height: 355px;height: auto!important;">
 			<div class="left_navi_1">
-				<span>15<br/>关注</span>
-				<span>5<br/>粉丝</span>
+				<span>
+					<script src="attention/getAttentionNums.do" type="text/javascript"></script>
+				<br/>关注</span>
+				<span>
+				<script src="attention/getFans.do" type="text/javascript"></script>
+				<br/>粉丝</span>
 				<span style="border-right:0px solid #ccc;">
 				<script src="ajax/zone/record.do" type="text/javascript"></script>
 				<br/>记录</span>
