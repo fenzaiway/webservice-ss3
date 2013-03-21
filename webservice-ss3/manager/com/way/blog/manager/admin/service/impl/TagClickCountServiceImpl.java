@@ -23,5 +23,12 @@ public class TagClickCountServiceImpl extends BaseGenericService<TagClickCount, 
 		super.setDao(dao);
 	}
 
-	
+	/**
+	 * 获取标签的点击次数
+	 * @param tagName
+	 * @return
+	 */
+	public int getTagClickNum(String tagName){
+		return this.findByProperty("tagName", tagName).size();
+	}
 }
