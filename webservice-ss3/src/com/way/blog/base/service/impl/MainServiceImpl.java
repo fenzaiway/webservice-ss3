@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
+import com.way.blog.user.entity.MainConstant;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
@@ -33,7 +34,7 @@ public class MainServiceImpl {
 	@Autowired private LogTagServiceImpl logTagServiceImpl;
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
 	@Autowired private TagClickCountServiceImpl tagClickCountServiceImpl;
-	
+	DecimalFormat df=new DecimalFormat(".##");
 	/**
 	 * 获取每个系统标签下热门的标签
 	 * @param tag
@@ -116,7 +117,7 @@ public class MainServiceImpl {
 	 * @return
 	 */
 	public double getLogTagWeight(LogTag logTag){
-		DecimalFormat df=new DecimalFormat(".##");
+		
 		double weight = 0.0;
 		int clickNum=0;
 		int logInfoNum=0;
@@ -137,13 +138,26 @@ public class MainServiceImpl {
 		return 0;
 	}*/
 	
+	public List<LogInfo> getLogInfoList(List<LogInfo> logInfoList){
+		Map.Entry<LogInfo, Double> []logInfoMap = this.getSortedHashtableByValue(countLogInfoListWeight(logInfoList));
+		List<LogInfo> logInfoList11 = new ArrayList<LogInfo>();
+		for(int i = 0; i < logInfoMap.length; i++){
+			logInfoList11.add(logInfoMap[i].getKey());
+		}
+		return logInfoList11;
+	}
+	
 	/**
 	 * 获取每一篇日志的权值
 	 * @param logInfoList
 	 * @return
 	 */
 	public Map<LogInfo,Double> countLogInfoListWeight(List<LogInfo> logInfoList){
-		return null;
+		Map<LogInfo,Double> logInfoMapWeight = new HashMap<LogInfo, Double>();
+		for(LogInfo logInfo : logInfoList){
+			logInfoMapWeight.put(logInfo, getLogInfoWeight(logInfo));
+		}
+		return logInfoMapWeight;
 	}
 	
 	/**
@@ -152,8 +166,32 @@ public class MainServiceImpl {
 	 * @return
 	 */
 	public double getLogInfoWeight(LogInfo logInfo){
+		int reprintNum = 0;
+		int commentNum = 0;
+		int likeNum = 0;
+		int viewNum = 0;
+		int storeNum = 0;
+		int shareNum = 0;
+		int tagNum = 0; ///暂时不统计
 		
-		return 0.0;
+		reprintNum = logInfo.getLogReprints().size();
+		commentNum = logInfo.getLogComments().size();
+		likeNum = logInfo.getLogLikes().size();
+		viewNum = logInfo.getLogVisits().size();
+		storeNum = logInfo.getLogStores().size();
+		shareNum = logInfo.getLogShares().size();
+		
+		double weight = 0.0;
+		weight = Double.parseDouble(df.format( ///统计每一篇文章的权值
+							(reprintNum*MainConstant.REPRINTWEIGHT+
+							 commentNum*MainConstant.COMMENTWEIGHT+
+							 likeNum*MainConstant.LIKEWEIGHT+
+							 viewNum*MainConstant.VIEWWEIGHT+
+							 storeNum*MainConstant.STOREWEIGHT+
+							 shareNum*MainConstant.SHAREWEIGHT)/6));
+		
+		
+		return weight;
 	}
 	
 	/**
