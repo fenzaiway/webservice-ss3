@@ -388,4 +388,17 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		
 		update(tag);
 	}
+	
+	/**
+	 * 根据标签名获取标签被关注的数量
+	 * @param tagName
+	 * @return
+	 */
+	public int getTagAttentionNum(String tagName){
+		tag = myFindByProperty("tagName", tagName);
+		if(null!=tag && !tag.getUserLogins().isEmpty()){
+			return tag.getUserLogins().size();
+		}
+		return 0;
+	}
 }

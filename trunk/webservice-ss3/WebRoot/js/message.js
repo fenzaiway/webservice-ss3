@@ -103,8 +103,8 @@ function getMessage()
 	setTimeout(function() {
      pushMessage();
 	},200);
-  	/*30轮询读取函数*/
+  	/*30轮询读取函数
     setInterval(function() {
         pushMessage();
-	}, 30000);
+	}, 30000);*/
 }
