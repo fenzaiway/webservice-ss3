@@ -127,7 +127,7 @@ public class UserLogin implements Serializable,UserDetails {
 	/**
 	 * 用户关注的标签
 	 */
-	@ManyToMany(mappedBy="userLogins",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=Tag.class)
+	@ManyToMany(mappedBy="userLogins",cascade={CascadeType.ALL},fetch=FetchType.EAGER,targetEntity=Tag.class)
 	private Set<Tag> tags = new HashSet<Tag>();
 	
 	public UserLogin() {}

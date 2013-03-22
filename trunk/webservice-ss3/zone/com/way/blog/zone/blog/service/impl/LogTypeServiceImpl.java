@@ -44,7 +44,7 @@ public class LogTypeServiceImpl extends BaseGenericService<LogType, Integer> {
 	@Override
 	public int save(LogType logType) {
 		//取出登录账号
-		userLogin = userLoginServiceImpl.myFindByProperty("username", logType.getUsername());
+		userLogin = userLoginServiceImpl.myFindByProperty("nickname", logType.getUsername());
 		////根据登录用户取出该用户的空间
 		blogZone = userLogin.getBlogZone();
 		logType.setLogTypeCreateTime(MyFormatDate.getNowDate());
