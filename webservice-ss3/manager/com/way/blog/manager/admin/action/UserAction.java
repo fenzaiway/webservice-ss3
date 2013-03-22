@@ -67,6 +67,7 @@ public class UserAction extends BaseAction implements ModelDriven<UserLogin>{
 	public String search(){
 		
 		paginationSupport = userLoginServiceImpl.search(PaginationSupport.PAGESIZE,startIndex,userLogin);
+		paginationSupport.setUrl("admin/user/search.do");
 		userLoginList = paginationSupport.getItems();
 		//System.out.println(hql);
 		//session.setAttribute("hql", hql);

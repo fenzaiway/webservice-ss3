@@ -88,6 +88,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private int sourceLogInfoId; ////源日志ID
 	private int isLike;			/////如果like，则为1，否则为0
 	private String myLogTags;		///日志关键字
+	private int tagid;  	//系统标签Id
 	
 	/**
 	 * 保存
@@ -114,7 +115,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		//this.saveTag(logInfo);///保存日志的标签
 		
 		logInfoServiceImpl.save(logInfo.getLogTitle(), content, myLogTags, myusername, logInfo.getLogAllowVisit(), logTypeId);
-		
+		logTagServiceImpl.updateLogTagToTag(tagid,myLogTags);
 		return SUCCESS;
 	}
 	
@@ -614,6 +615,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 
 	public void setTagList(List<Tag> tagList) {
 		this.tagList = tagList;
+	}
+
+	public int getTagid() {
+		return tagid;
+	}
+
+	public void setTagid(int tagid) {
+		this.tagid = tagid;
 	}
 	
 	

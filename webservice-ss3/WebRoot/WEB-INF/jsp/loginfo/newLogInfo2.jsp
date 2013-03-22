@@ -302,7 +302,7 @@ $(function()
 			<div class="clr"></div>
             <span class="left_detail">给标签分分类</span>
              <div class="visiable">
-            	  <select name="select" id="tagid">
+            	  <select name="tagid" id="tagid">
               	<s:iterator value="tagList" id="tag">
 								<option value="<s:property value="#tag.id"/>"><s:property value="#tag.tagName"/></option>
 				</s:iterator>
