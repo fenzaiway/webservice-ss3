@@ -211,7 +211,7 @@
 	function headimgHover()
 	{
 		$(".headImg").live("mouseover",function(e)
-		{
+		{  
 			/*var x = e.pageX;
 			var y = e.pageY;
 			//alert($(this).height()+"--" + $(this).width());
