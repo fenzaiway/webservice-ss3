@@ -401,4 +401,8 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		}
 		return 0;
 	}
+	
+	public List<Tag> loadSysTag(){
+		return this.find(HQL+" and isSysTag=1", new Object[]{});
+	}
 }

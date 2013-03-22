@@ -309,7 +309,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		 * 根据登录用户，取得相应的用户数据
 		 */
 		logTypeList = logTypeServiceImpl.findByProperty("username", myusername);
-		tagList = tagServiceImpl.loadAll();///加载系统标签分类
+		tagList = tagServiceImpl.loadSysTag();///加载系统标签分类
 		logTagList = logTagServiceImpl.getUserLogInfoTagList(myusername);
 		return SUCCESS;
 	}

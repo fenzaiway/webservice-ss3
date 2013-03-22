@@ -35,6 +35,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	});
     }
     
+    //退出操作
+    function logout()
+	{
+		T.logout(function(){});
+	}
+    
     ///同步微博
     function addWB(content)
     {
@@ -100,7 +106,7 @@ $(function()
 		//alert($("#syswb:checked").val());
 		if("on" == $("#syswb:checked").val())
 		{
-			
+			//logout();
 			wbLogin();
 		}
 	});
@@ -157,6 +163,58 @@ $(function()
 		}
 		
 	});
+	
+	//添加分类按钮事件
+	$(".addTypeBut").live("click",function()
+	{
+			if($(".addType").is(":visible"))
+			{
+				$(".addType").toggle(function()
+				{	$(".addType").css(
+					{
+						"display":"none"
+					});
+				});
+			}else
+			{
+				$(".addType").toggle(function()
+				{
+					$(".addType").css(
+					{
+						"display":"block"
+					});
+				});
+			}
+	});
+	
+	//添加按钮事件
+	$(".butSubmit").live("click",function()
+	{
+			var typeName = $("#typeName").val();
+			if(""==typeName)
+			{
+				alert("分类不能为空");
+				return false;
+			}
+			//alert(addLogTypeName);
+			$("#typeName").val(""); ///清空文本框的值
+			
+			//提交到后台保存
+			if("" != typeName)
+			{
+				$.post("logtype/save.do",{"myLogTypeName":typeName},function(data,status)
+				{
+					$(".seleteType").append("<option selected='selected' value='"+data.id+"'>"+typeName+"</option>");
+					///隐藏添加div
+					$(".addType").toggle(function()
+					{	$(".addType").css(
+						{
+							"display":"none"
+						});
+					});
+				});	
+			}
+	});
 });
 
 
@@ -183,7 +241,7 @@ $(function()
 	.button:hover{ background-color:#EEEEEE;}
 	.publish{ background-color:#94B600; color:#FFFFFF; float:right; margin-right:30px;}
 	.publish:hover{ background-color:#9EC100;}
-	.visiable{margin-left:20px; margin-bottom:15px;}
+	.visiable{margin-left:20px; margin-bottom:15px;height:auto!important;}
 	.visiable,.visiable select{ width:200px; height:35px; line-height:35px; color:#333; }
 	.visiable select{border:1px solid #79A9B1; }
 	.visiable select option{ margin-bottom:15px;}
@@ -194,6 +252,7 @@ $(function()
 
 <body>
 	<form action="loginfo/save.do" name="wordform" id="wordform" method="post">
+	
 	<div id="new_info_main">
     	<div id="new_info_left">
         	<div id="detail">
@@ -207,6 +266,13 @@ $(function()
             	 <h3>内容</h3>
                 <div id="new_info_content">
                 	<script  id="editor" type="text/plain"></script>
+					<script type="text/javascript">
+				    	//实例化编辑器
+				  		///	var editor = new UE.ui.Editor();
+				   		// editor.render("new_info_content");
+				    	//1.2.4以后可以使用一下代码实例化编辑器
+				    	UE.getEditor('editor')
+					</script>
                 </div>
             </div>
             
@@ -251,13 +317,19 @@ $(function()
             </div>
 			<span class="left_detail">个人分类</span>
             <div class="visiable">
-					
-            	 <select name="logTypeId" id="select">
-              	<s:iterator value="logTypeList" id="logType">
+				<div style="border:1px solid #79A9B1;height: 35px;width: 200px;margin-top: 5px;margin-bottom: 5px;">
+            	 <select name="logTypeId" id="select" class="seleteType" style="width:125px;border:0px solid #79A9B1;">
+              		<s:iterator value="logTypeList" id="logType">
 								<option value="<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></option>
-				</s:iterator>
-              </select>
-            </div>
+					</s:iterator>
+                 </select>
+				<input  type="button" value="添加分类" class="addTypeBut" style="color:#FFFFFF;background-color:#94B600;font-size:16px; font-family:微软雅黑;float: right;height: 35px; width: 67px;line-height: 35px;border: 0px solid;"/>
+           		</div>
+			 <div class="addType" style="display: none;border:1px solid #79A9B1;height: 30px;width: 200px;margin-top: 5px;">	
+			<input type="text" value="" id="typeName" name="typeName" style="font-size: 16px;border:0px solid #79A9B1;height: 30px; width: 150px;line-height: 30px;float: left;"/>
+			<input type="button" class="butSubmit" value="添加" style="color:#FFFFFF;margin-left: 0px;background-color:#94B600; border:0px solid #79A9B1; font-size:16px; font-family:微软雅黑;height: 30px; width: 50px;line-height: 30px;"/>
+			</div>
+			</div>
             <div style="width:200px; height:35px; line-height:35px; color:#333;margin-left:20px; margin-bottom:15px;">同步到腾讯微博<input type="checkbox" id="syswb"/></div>
              <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
         </div>
@@ -265,13 +337,7 @@ $(function()
     </div>
 </form>
 	<s:debug></s:debug>
+
 </body>
-<script type="text/javascript">
-    //实例化编辑器
-  ///	var editor = new UE.ui.Editor();
-   // editor.render("new_info_content");
-    //1.2.4以后可以使用一下代码实例化编辑器
-    UE.getEditor('editor')
-    
-</script>
+
 </html>
