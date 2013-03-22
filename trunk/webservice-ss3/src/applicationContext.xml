@@ -114,7 +114,7 @@
 				<!-- 是否根据需要创建数据库 -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<!--设置显示Hibernate操作的SQL语句-->
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<!-- 将sql脚本格式化后输出 -->
 				<prop key="hibernate.format_sql">true</prop>
 				<!--设置二级缓冲-->

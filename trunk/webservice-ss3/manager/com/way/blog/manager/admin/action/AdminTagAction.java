@@ -1,7 +1,9 @@
 package com.way.blog.manager.admin.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -121,6 +123,23 @@ public class AdminTagAction extends BaseAction {
 	})
 	public String gotoAddLogtag(){
 		
+		return SUCCESS;
+	}
+	
+	@Action(value="logTagSearch",results={
+			//@Result(name="success",location="/admin/user/userLoginList.do",type="redirect")
+			@Result(name="success",location="/admin/tag/logtagList.jsp")
+	})
+	public String search(){
+		
+		paginationSupport = logTagServiceImpl.search(PaginationSupport.PAGESIZE,startIndex,logTagName);
+		Map<Object,Object> map = new HashMap<Object,Object>();
+		map.put("logTagName", logTagName);
+		paginationSupport.setMapValue(map);
+		paginationSupport.setUrl("admin/tag/logTagSearch.do");
+		logTagList = paginationSupport.getItems();
+		//System.out.println(hql);
+		//session.setAttribute("hql", hql);
 		return SUCCESS;
 	}
 	

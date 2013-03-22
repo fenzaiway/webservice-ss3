@@ -306,7 +306,6 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 		List<LogTag>  logTags = new ArrayList<LogTag>(tag.getLogTags());
 		logTagList = new ArrayList<LogTag>();
 		int maxSize = logTags.size();
-		System.out.println("----------size--" + maxSize);
 		if(4 < maxSize){ ////如果该系统分类下的标签超过5个的话，就经过一个随机函数返回其中的4个标签
 			/*int maxSize = logTags.size();
 			for(int i=0; i<4; i++){

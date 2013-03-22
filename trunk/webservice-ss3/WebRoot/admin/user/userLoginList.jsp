@@ -43,7 +43,7 @@ function link(){
 		    <tr>
 			  <td width="21"><img src="images/ico07.gif" width="20" height="18" /></td>
 			  <td width="538">用户名：
-				<input name="userLogin.username" value="<s:property value='userLogin.username'/>" type="text" size="12"/>
+				<input name="userLogin.nickname" value="<s:property value='userLogin.nickname'/>" type="text" size="12"/>
 				<input name="Submit4" type="submit" class="right-button02" value="查 询" />
 			  </td>
 			 
@@ -80,7 +80,7 @@ function link(){
                   <s:iterator value="userLoginList" id="userLogin">
                   <tr bgcolor="#FFFFFF">
 				    <td height="20"><input type="checkbox" class="delid" delId="<s:property value="#userLogin.id"/>" name="delid"/></td>
-                    <td ><s:property value="#userLogin.username"/></td>
+                    <td ><s:property value="#userLogin.nickname"/></td>
 					<td><s:property value="#userLogin.account"/></td>
                     <td><s:property value="#userLogin.createTime"/></td>
                     <td>

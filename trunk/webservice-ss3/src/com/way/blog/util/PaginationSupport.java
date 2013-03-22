@@ -1,6 +1,11 @@
 package com.way.blog.util;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.springframework.stereotype.Component;
 
@@ -45,6 +50,8 @@ public class PaginationSupport{
     private String pageToolBar; ///普通分页
     
     private String loadMore;///加载更过分页方式
+    
+    private Map<Object,Object> mapValue = new HashMap<Object, Object>(); 
     
     public PaginationSupport(){}; //默认构造函数
     
@@ -205,7 +212,7 @@ public class PaginationSupport{
     		sb.append("&nbsp;&nbsp;[上一页]");
     	}
     	if(hasNextPage()){
-    		sb.append("&nbsp;&nbsp;<a href='"+ url +"?startIndex="+getNextIndex()+"'>[下一页]</a>");
+    		sb.append("&nbsp;&nbsp;<a href='"+ url +"?startIndex="+getNextIndex()+getKeyValue()+"'>[下一页]</a>");
     	}else{
     		sb.append("&nbsp;&nbsp;[下一页]");
     	}
@@ -430,6 +437,17 @@ public class PaginationSupport{
 
     }
 
+    public String getKeyValue(){
+    	StringBuffer sb = new StringBuffer();
+    	 
+    	Iterator<Entry<Object, Object>>  it = mapValue.entrySet().iterator();
+    	while(it.hasNext()){
+    		Entry<Object, Object> entry = it.next();
+    		sb.append("&").append((String)entry.getKey()).append("=").append((String)entry.getValue());
+    	}
+    	return sb.toString();
+    }
+    
     /**
      * 
      */
@@ -438,6 +456,14 @@ public class PaginationSupport{
     	lastIndex = (this.getTotalPageCount()-1)*this.getPageSize();
     	return lastIndex;
     }
+
+	public Map<Object, Object> getMapValue() {
+		return mapValue;
+	}
+
+	public void setMapValue(Map<Object, Object> mapValue) {
+		this.mapValue = mapValue;
+	}
 
     
 }

@@ -119,8 +119,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			if(logText.length() > 200){
 				logInfo.setLogText(logText.substring(0,200));
 			}
-			System.out.println(logInfo.getLogText());
-			System.out.println("\n\n--------------------------------");
+			//System.out.println(logInfo.getLogText());
+			//System.out.println("\n\n--------------------------------");
 			myLogInfoList.add(logInfo);
 		}
 		return myLogInfoList;
@@ -328,7 +328,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		logInfo.setLogAllowVisit(visible);
 		int myid = this.save(logInfo);
 		logInfo = this.findById(myid);
-		logTagServiceImpl.saveTag(logInfo, tags);
+		logTagServiceImpl.saveTag(logInfo, tags); //保存日志标签
 		returnStatus = new ReturnStatus();
 		returnStatus.setStatus(1); ///表示成功
 		return JsonUtil.toJson(returnStatus);

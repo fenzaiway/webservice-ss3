@@ -16,7 +16,9 @@ import com.way.blog.base.entity.LogTagDetail;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
+import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
 
@@ -25,6 +27,7 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 	
 	public static final String HQL = "from LogTag where 1=1 ";
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired private TagServiceImpl tagServiceImpl;
 	
 	@Override
 	@Resource(name="logTagDao")
@@ -39,14 +42,14 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 	 * 保存关键字
 	 */
 	public String saveTag(LogInfo logInfo,String myLogTags){
-		if(!"".endsWith(myLogTags) && null != myLogTags){ ///关键字不空字符串或者不为null的时候，才保存关键字
+		if(isLogTagLegal(myLogTags)){ ///关键字不空字符串或者不为null的时候，才保存关键字
 		////保存关键字
 			String[] tags = myLogTags.split(",");////根据，分隔
 			for(int i=0; i<tags.length; i++){
 				////先根据关键字判断该关键字是否在tag表中,
 				//后期为了扩充关键字，改为like的方式，然后在判断全出来的关键字是不是相等，
 				//如果相等的话，就更新，否则将该关键字添加保存，同时相似的关键字也保存文章信息
-				LogTag logTag = this.myFindByProperty("tagName", tags[i]);
+				LogTag logTag = this.myFindByProperty("tagName", tags[i].trim());
 				if(null!=logTag && null != logTag.getTagName()){	////tag表中已经存在该关键字
 					
 					if(null !=logTag.getLogInfos() && !logTag.getLogInfos().isEmpty()){
@@ -82,6 +85,60 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 			}
 		}
 		
+		return null;
+	}
+	
+	/**
+	 * 验证传递过来的日志标签是否合法
+	 * @param logTags
+	 * @return
+	 */
+	public boolean isLogTagLegal(String logTags){
+		boolean flag = false;
+		if(!"".equals(logTags) && null != logTags){
+			flag = true;
+		}
+		return flag;
+	}
+	
+	/**
+	 * 更新系统标签和日志标签之间的关系
+	 * @param tagid
+	 * @param logtags
+	 * @return
+	 */
+	public String updateLogTagToTag(int tagid, String logTags){
+		if(isLogTagLegal(logTags)){
+			String logTagNames[] = logTags.split(",");
+			Tag tag = tagServiceImpl.findById(tagid);
+			int length = logTagNames.length;
+			Set<LogTag> logTagSet = new HashSet<LogTag>();
+			Set<Tag> tagSet;
+			for(int i=0; i<length; i++){
+				logTag = this.myFindByProperty("tagName", logTagNames[i].trim());
+				if(null!=logTag.getTags() && !logTag.getTags().isEmpty()){
+					if(!logTag.getTags().contains(tag)){ ///如果该标签已经包含了系统标签，那么就不更新两者直接的关系了
+						logTag.getTags().add(tag);
+						logTagSet.add(logTag);
+					}
+				}else{
+					tagSet = new HashSet<Tag>();
+					tagSet.add(tag);
+					logTag.setTags(tagSet);
+				}
+				
+			}
+			if(null!=tag.getLogTags() && !tag.getLogTags().isEmpty()){ //这个系统标签下对应有日志标签
+				//tag.getLogTags().add(e)
+				for(LogTag lt : logTagSet){
+					tag.getLogTags().add(lt);
+				}
+			}else{
+				tag.setLogTags(logTagSet);
+			}
+			
+			tagServiceImpl.update(tag);
+		}
 		return null;
 	}
 	
@@ -170,5 +227,11 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		String ids = sb.toString();
 		ids = ids.substring(0,ids.length()-1);
 		return ids;
+	}
+	
+	public PaginationSupport search(int pageSize, int startIndex, String logTagName){
+		String hql = HQL+" and tagName like ?";
+		logTagName = "%"+logTagName+"%";
+		return this.findPageByQuery(hql, pageSize, startIndex, new String[]{logTagName});
 	}
 }
