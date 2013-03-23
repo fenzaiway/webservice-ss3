@@ -22,6 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>css/style1.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/admin.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/page.js"></script>
+
 <SCRIPT type="text/javascript">
 	$(function()
 	{
@@ -31,7 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-<form name="fom" id="fom" method="post" action="admin/tag/logTagSearch.do">
+<form name="form" id="form" method="post" action="admin/tag/logTagSearch.do">
+ <input type="hidden" id="startIndex" name="startIndex" value=""/>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   
   <tr>
@@ -89,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </table>
       <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
-           <td align="right">&nbsp;<div id="pageToolbar"><s:property value="paginationSupport.pageToolBar" escape="false"/></div></td>
+           <td align="right">&nbsp;<div id="pageToolbar"><s:property value="paginationSupport.jqueryPage" escape="false"/></div></td>
         </tr>
           
       </table></td>
