@@ -29,7 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     
-    <form name="fom" id="fom" method="post" action="admin/user/search.do">
+    <form name="form" id="form" method="post" action="admin/user/search.do">
+    <input type="hidden" id="startIndex" name="startIndex" value=""/>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   
   <tr>

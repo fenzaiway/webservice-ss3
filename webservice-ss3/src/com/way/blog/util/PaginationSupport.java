@@ -51,6 +51,8 @@ public class PaginationSupport{
     
     private String loadMore;///加载更过分页方式
     
+    private String jqueryPage; ///通过js提交表单的方式分页
+    
     private Map<Object,Object> mapValue = new HashMap<Object, Object>(); 
     
     public PaginationSupport(){}; //默认构造函数
@@ -137,6 +139,7 @@ public class PaginationSupport{
         pager = getPager();
         pageToolBar = getPageToolBar();
         loadMore = getLoadMore();
+        jqueryPage = getJqueryPage();
     }
     
     public String getUrl() {
@@ -227,6 +230,44 @@ public class PaginationSupport{
     	return sb.toString();
 	}
 
+    /**
+     * 通过jquery提交表单的方式分页
+     * @return
+     */
+    public String getJqueryPage(){
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("总页数：").append(getTotalPageCount()).append("&nbsp;&nbsp;&nbsp;总记录数：").append(getTotalCount());
+    	sb.append("&nbsp;&nbsp;当前页：").append(getCurrentPageNo()).append("&nbsp;&nbsp;每页显示").append(getPageSize());
+    	if(0 != getTotalCount()){
+    		sb.append("&nbsp;&nbsp;<a href='javascript:indexPage(0)'>首页</a>");
+    	}else{
+    		sb.append("&nbsp;&nbsp;首页");
+    	}
+    	if(hasPreviousPage()){
+    		sb.append("&nbsp;&nbsp;<a href='javascript:preIndex("+this.getPreviousIndex()+")'>[上一页]</a>");
+    	}else{
+    		sb.append("&nbsp;&nbsp;[上一页]");
+    	}
+    	if(hasNextPage()){
+    		sb.append("&nbsp;&nbsp;<a href='javascript:nextIndex("+this.getNextIndex()+")'>[下一页]</a>");
+    	}else{
+    		sb.append("&nbsp;&nbsp;[下一页]");
+    	}
+    	if(0 != totalPageCount){
+    		sb.append("&nbsp;&nbsp;<a href='javascript:indexPage("+this.getLastIndex()+")'>尾页</a>");
+    	}else{
+    		sb.append("&nbsp;&nbsp;尾页");
+    	}
+    	/////跳转到第几页js代码
+    	
+    	//  sb.append(stringBuffer.toString()).append("window.location.href='").append(getUrl()).append("?startIndex='+myStartIndex;").append("}</script>");
+    	  sb.append(stringBuffer.toString()).append("gotoPage(myStartIndex);").append("}</script>");
+    	return sb.toString();
+
+    	
+    	
+    }
+    
 	/** *//**
 
      * 将页码转换为列表的startIndex，页大小为默认大小
