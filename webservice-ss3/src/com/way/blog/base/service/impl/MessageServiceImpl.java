@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.way.blog.base.dao.IHibernateGenericDao;
 import com.way.blog.base.entity.Message;
+import com.way.blog.base.entity.MessageData;
 import com.way.blog.base.service.BaseGenericService;
+import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.zone.entity.LogInfo;
 
@@ -28,6 +30,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	}
 	
 	@Autowired private Message message;
+	@Autowired UserHeadImgServiceImpl userHeadImgServiceImpl;
 	
 	private static final String HQL = "from Message where 1=1 ";
 	
@@ -72,15 +75,20 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	 * @return
 	 */
 	public int saveMessage(String fromusername,int msgType, LogInfo logInfo, String content,String username){
-		
 			if(5 == msgType){
 				message = getMessage(fromusername,content,msgType);
 			}else if(6==msgType)
 			{
 				message = getMessage(fromusername,msgType,username);
+			}else if(7==msgType){
+				if(!fromusername.equals(username))//当回复的不是自己评论的时候
+				message = getMessage(msgType,logInfo,fromusername);
+				message.setUsername(username);
 			}else{
 				if(!fromusername.equals(logInfo.getUsername())){ //当评论用户评论的不是自己的内容的时候，才会触发
-					message = getMessage(msgType,logInfo,fromusername);
+					
+						message = getMessage(msgType,logInfo,fromusername);
+					
 				}else{
 					return 0; ///如果是自己评论、like自己的内容，那么就不会触发保存
 				}
@@ -121,6 +129,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 		Message msg = new Message();
 		msg.setFromusername(fromusername);
 		msg.setMsgContent(createContentByMsgType(msgType,logInfo,fromusername));
+		
 		msg.setUsername(logInfo.getUsername());
 		msg.setTriggerTime(MyFormatDate.getNowDate());
 		msg.setMsgtype(msgType);
@@ -184,6 +193,97 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 			//表示评论
 			sb.append(userzoneUrl).append("喜欢了你的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
 		}
+		if(7==msgType){
+			sb.append(userzoneUrl).append("回复了你的评论").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
+		}
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * 根据日志取出该篇日志的热度值列表
+	 * @param logInfo
+	 * @return
+	 */
+	public List<Message> getMessageByLogInfo(LogInfo logInfo){
+		String hql = HQL+" and logInfo=?";
+		List<Message> messageList = this.find(hql, logInfo);
+		return messageList;
+	}
+	
+	/**
+	 * 根据日志取出该篇日志的热度值
+	 * @param logInfo
+	 * @return
+	 */
+	public int getHotNum(LogInfo logInfo){
+		List<Message> messageList = this.getMessageByLogInfo(logInfo);
+		int hotNum = 0;
+		if(null!=messageList && !messageList.isEmpty()){
+			hotNum = messageList.size();
+		}
+		return hotNum;
+	}
+	
+	/**
+	 * 根据日志取出该篇日志的热度值数据列表
+	 * @param logInfo
+	 * @return
+	 */
+	public List<MessageData> getMessageData(LogInfo logInfo){
+		
+		List<Message> messageList = this.getMessageByLogInfo(logInfo);
+		List<MessageData> messageDataList = new ArrayList<MessageData>();
+		MessageData messageData = null;
+		for(Message msg: messageList){
+			messageData = new MessageData();
+			messageData.setId(msg.getId());
+			messageData.setFromUserName(msg.getFromusername());
+			messageData.setHeadImgUrl(userHeadImgServiceImpl.getHeadImgUrl(msg.getFromusername()));
+			messageData.setContent(getMessageContentByMessageType(msg,logInfo));
+			messageDataList.add(messageData);
+		}
+		
+		return messageDataList;
+	}
+	
+	/**
+	 * 根据消息类型生成对应类型的内容
+	 * @param msgType
+	 * @return
+	 */
+	public String getMessageContentByMessageType(Message msg, LogInfo logInfo){
+		/**
+		 * 消息类型
+		 * 1、表示评论消息 xxx评论了哪篇文章
+		 * 2、表示转载消息 xxx转载了哪篇文章
+		 * 3、表示收藏消息 
+		 * 4、表示like消息
+		 * 5、表示公告消息
+		 * 6、表示关注信息 
+		 * 7、表示回复
+		 */
+		int msgType = msg.getMsgtype();
+		String fromUserName = msg.getFromusername();
+		String userzoneUrl = "<a href='zone/"+fromUserName+"'>"+fromUserName+"</a>";
+		StringBuffer sb = new StringBuffer();
+		
+		if(1 == msgType){
+			sb.append(userzoneUrl).append("评论了这篇文章");
+		}
+		
+		if(2 == msgType){
+			sb.append(userzoneUrl).append("转载了这篇文章");
+		}
+		
+		if(3 == msgType){
+			sb.append(userzoneUrl).append("收藏了这篇文章");
+		}
+		
+		if(4 == msgType){
+			sb.append(userzoneUrl).append("很喜欢这篇文章");
+		}
+		
 		
 		return sb.toString();
 	}

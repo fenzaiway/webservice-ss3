@@ -23,6 +23,7 @@ import com.way.blog.util.JsonUtil;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.entity.LogComment;
+import com.way.blog.zone.entity.LogCommentReply;
 import com.way.blog.zone.entity.LogInfo;
 
 @Service("logCommentServiceImpl")
@@ -30,6 +31,7 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
 	@Autowired private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired private LogCommentReplyServiceImpl logCommentReplyServiceImpl;
 	@Autowired private LogComment logComment;
 	@Autowired private LogInfo logInfo;
 	
@@ -70,6 +72,7 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 	public String loadCommentList(int logId){
 		//List<CommentListJson> commentListJsonList = new ArrayList<CommentListJson>();
 		List<CommentListData> commentListJsonList = new ArrayList<CommentListData>();
+		Set<CommentListData> commentListDataSet = new HashSet<CommentListData>();
 		//CommentListJson commentListJson = null;
 		
 		List<LogComment> logCommList = null;
@@ -80,15 +83,26 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 		//String hql = "from LogComment where LogInfo=?";
 		//paginationSupport = this.findPageByQuery(hql, PaginationSupport.PAGESIZE, 0, new Object[]{logInfo});
 		//logCommList = new ArrayList<LogComment>(logInfo.getLogComments());
-		logCommList = this.sort(logInfo.getLogComments());
+		//logCommList = this.sort(logInfo.getLogComments());
+		logCommList = new ArrayList<LogComment>(logInfo.getLogComments());
+		///取得评论内容
 		if(null != logCommList && !logCommList.isEmpty()){
 			for(LogComment comment : logCommList){
 				//commentListJson = new CommentListJson();\
 				
-				commentListJsonList.add(getCommentListData(comment));
+				commentListDataSet.add(getCommentListData(comment));
 			}
 			
 		}
+		//取得回复内容
+		if(null!=logInfo.getLogCommentReplys() && !logInfo.getLogCommentReplys().isEmpty()){
+			for(LogCommentReply logCommentReply : logInfo.getLogCommentReplys()){
+				commentListDataSet.add(logCommentReplyServiceImpl.getCommentListData(logCommentReply.getId()));
+			}
+			
+		}
+		
+		commentListJsonList = this.sortCommentListData(commentListDataSet);
 		
 		return JsonUtil.toJson(commentListJsonList);
 	}
@@ -100,8 +114,10 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 		username = comment.getUsername();
 		commentListData.setCommentUsername(username);
 		commentListData.setHeadimgUrl(userHeadImgServiceImpl.getHeadImgUrl(username));
+		commentListData.setReplyUsername("");
 		commentListData.setId(comment.getId());
 		commentListData.setConten(comment.getCommentContent());
+		commentListData.setTime(comment.getCommentTime());
 		return commentListData;
 	}
 	
@@ -118,4 +134,21 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 			}});
  		return logCommentList;
 	}
+	
+	/**
+	 * 对CommentListData按时间进行排序
+	 * @param commentListDataSet
+	 * @return
+	 */
+	public List<CommentListData> sortCommentListData(Set<CommentListData> commentListDataSet){
+		List<CommentListData> commentListDataList = new ArrayList<CommentListData>(commentListDataSet);
+		Collections.sort(commentListDataList, new Comparator(){
+
+			public int compare(Object o1, Object o2) {
+				
+				return -((CommentListData)o1).getTime().compareTo(((CommentListData)o2).getTime());
+			}});
+ 		return commentListDataList;
+	}
 }
+

@@ -148,6 +148,12 @@ public class LogInfo implements Serializable {
 	public Set<LogComment> logComments = new HashSet<LogComment>();
 	
 	/**
+	 * 日志评论回复
+	 */
+	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogCommentReply.class)
+	public Set<LogCommentReply> logCommentReplys = new HashSet<LogCommentReply>();
+	
+	/**
 	 * 日志转载
 	 */
 	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogReprint.class)
@@ -197,15 +203,15 @@ public class LogInfo implements Serializable {
 	
 	public LogInfo() {}
 
-
 	public LogInfo(int deleteStatue, int id, int logAllowComment,
 			int logAllowVisit, Set<LogAttachment> logAttachments,
-			Set<LogComment> logComments, int logContentStatus,
-			Set<LogDraft> logDraft, int logIsOriginal, Set<LogLike> logLikes,
-			String logPublishTime, Set<LogReprint> logReprints,
-			Set<LogShare> logShares, Set<LogStore> logStores,
-			Set<LogTag> logTags, String logText, String logTitle, int logToTop,
-			LogType logType, Set<LogVisit> logVisits, Set<Message> messageSet,
+			Set<LogCommentReply> logCommentReplys, Set<LogComment> logComments,
+			int logContentStatus, Set<LogDraft> logDraft, int logIsOriginal,
+			Set<LogLike> logLikes, String logPublishTime,
+			Set<LogReprint> logReprints, Set<LogShare> logShares,
+			Set<LogStore> logStores, Set<LogTag> logTags, String logText,
+			String logTitle, int logToTop, LogType logType,
+			Set<LogVisit> logVisits, Set<Message> messageSet,
 			String reprintUsername, int sourceLogInfoId, String username) {
 		super();
 		this.deleteStatue = deleteStatue;
@@ -213,6 +219,7 @@ public class LogInfo implements Serializable {
 		this.logAllowComment = logAllowComment;
 		this.logAllowVisit = logAllowVisit;
 		this.logAttachments = logAttachments;
+		this.logCommentReplys = logCommentReplys;
 		this.logComments = logComments;
 		this.logContentStatus = logContentStatus;
 		this.logDraft = logDraft;
@@ -429,6 +436,16 @@ public class LogInfo implements Serializable {
 
 	public void setMessageSet(Set<Message> messageSet) {
 		this.messageSet = messageSet;
+	}
+
+
+	public Set<LogCommentReply> getLogCommentReplys() {
+		return logCommentReplys;
+	}
+
+
+	public void setLogCommentReplys(Set<LogCommentReply> logCommentReplys) {
+		this.logCommentReplys = logCommentReplys;
 	}
 	
 	

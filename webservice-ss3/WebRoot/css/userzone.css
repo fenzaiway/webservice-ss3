@@ -83,6 +83,8 @@ h4 a:hover{text-decoration: none;color:#3FA7CB;}
 /*加标签样式*/.addtags{width: 60px; height: 20px; border: 1px solid #3FA7CB; text-align: center;}
 /*评论列表CSS*/
 .comment_info{ background-color: #F1F1F1;width: 630px; margin:0px auto;height:auto!important; min-height:150px; margin-bottom:10px;}
+/*热度值列表css*/
+.hotList{display: none ;background-color: #F1F1F1;width: 630px; margin:0px auto;height:auto!important; min-height:150px; margin-bottom:10px;float: right;margin-top: -20px;}
 .comment_info_input{ margin-top:10px; padding-top:0px;border:0px solid #CECECF; min-height:50px; height:auto!important; padding-bottom:5px;}
 /*文本换行{word-wrap:break-word;word-break:break-all;*/
 .comment_text{word-wrap:break-word;word-break:break-all;border:1px solid #CECECF; font-size:18px; margin-right:10px; resize:none;width:550px;maxwidth:550px;border-radius: 3px; border:1px solid #d2d2d2; box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2); padding: 5px;  min-height:50px; height:auto!important; background-color:#fff;}

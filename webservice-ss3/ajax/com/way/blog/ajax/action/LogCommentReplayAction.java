@@ -50,7 +50,7 @@ public class LogCommentReplayAction implements Preparable {
 		List<LogCommentReply> logCommentReplyList = new ArrayList<LogCommentReply>(logComment.getLogCommentReplys());
 		List<LogCommentReply> replyList = new ArrayList<LogCommentReply>();
 		for(LogCommentReply logCommentReply : logCommentReplyList){
-			logCommentReply.setLogComments(null);
+			logCommentReply.setLogComment(null);
 			replyList.add(logCommentReply);
 		}
 		this.returnJsonString(replyList);
