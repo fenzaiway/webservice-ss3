@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.blog.way.com/" targetNamespace="http://service.blog.way.com/" version="1.0">
 
-  <xs:element name="userlogin" type="tns:userlogin"/>
+  <xs:element name="login" type="tns:login"/>
 
-  <xs:element name="userloginResponse" type="tns:userloginResponse"/>
+  <xs:element name="loginResponse" type="tns:loginResponse"/>
 
-  <xs:complexType name="userlogin">
+  <xs:complexType name="login">
     <xs:sequence>
       <xs:element minOccurs="0" name="username" type="xs:string"/>
       <xs:element minOccurs="0" name="password" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="userloginResponse">
+  <xs:complexType name="loginResponse">
     <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

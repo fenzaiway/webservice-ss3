@@ -146,7 +146,7 @@ public class UserTest extends BaseTest {
 	@Test
 	public void wsTest(){
 		this.init();
-		System.out.println(myUserLoginServiceImpl.userlogin("fenzaiway@qq.com", "way890727"));
+		//System.out.println(myUserLoginServiceImpl.userlogin("fenzaiway@qq.com", "way890727"));
 	}
 	
 }

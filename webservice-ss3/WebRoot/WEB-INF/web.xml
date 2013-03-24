@@ -153,24 +153,14 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LogInfoServiceService</servlet-name>
+		<url-pattern>/MyUserLoginServiceImplPort</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LogInfoServiceService</servlet-name>
 		<url-pattern>/LogInfoServicePort</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<description>
-			JAX-WS endpoint - MyUserLoginServiceImplService
-		</description>
-		<display-name>MyUserLoginServiceImplService</display-name>
-		<servlet-name>MyUserLoginServiceImplService</servlet-name>
-		<servlet-class>
-			com.sun.xml.ws.transport.http.servlet.WSServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>MyUserLoginServiceImplService</servlet-name>
-		<url-pattern>/MyUserLoginServiceImplPort</url-pattern>
-	</servlet-mapping>
+	
 	
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>

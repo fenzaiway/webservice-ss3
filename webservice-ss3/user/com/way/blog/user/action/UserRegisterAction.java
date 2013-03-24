@@ -196,7 +196,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		String returnString=INPUT;
 		////登录成功
 		//if(userLoginServiceImpl.login(account, mypassword)){
-		if(myUserLoginServiceImpl.userlogin(account, mypassword)){
+		if(userLoginServiceImpl.login(account, mypassword)){
 			userLogin = userLoginServiceImpl.findUserLoginByAccount(account);
 			myusername = userLogin.getNickname();
 			session.setAttribute("myusername", myusername);

@@ -6,21 +6,21 @@
       <xsd:import namespace="http://service.blog.way.com/" schemaLocation="MyUserLoginServiceImplService_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="userlogin">
-    <part element="tns:userlogin" name="parameters"/>
+  <message name="login">
+    <part element="tns:login" name="parameters"/>
   </message>
-  <message name="userloginResponse">
-    <part element="tns:userloginResponse" name="parameters"/>
+  <message name="loginResponse">
+    <part element="tns:loginResponse" name="parameters"/>
   </message>
   <portType name="MyUserLoginServiceImpl">
-    <operation name="userlogin">
-      <input message="tns:userlogin"/>
-      <output message="tns:userloginResponse"/>
+    <operation name="login">
+      <input message="tns:login"/>
+      <output message="tns:loginResponse"/>
     </operation>
   </portType>
   <binding name="MyUserLoginServiceImplPortBinding" type="tns:MyUserLoginServiceImpl">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="userlogin">
+    <operation name="login">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

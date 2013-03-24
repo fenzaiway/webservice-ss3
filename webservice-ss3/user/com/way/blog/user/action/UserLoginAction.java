@@ -48,7 +48,7 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 		String returnString=INPUT;
 		////登录成功
 		//if(userLoginServiceImpl.login(account, mypassword)){
-		if(myUserLoginServiceImpl.userlogin(account, mypassword)){
+		if(userLoginServiceImpl.login(account, mypassword)){
 			userLogin = userLoginServiceImpl.findUserLoginByAccount(account);
 			//验证用户的账号是否可用
 			if(0==userLogin.getEnabled()){
