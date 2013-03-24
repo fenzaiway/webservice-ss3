@@ -117,7 +117,6 @@ public class HibernateGenericDao<T, ID extends Serializable> extends HibernateDa
 	 */
     @Transactional(readOnly=true)
     public List find(String hql, Object... values){
-
         return getHibernateTemplate().find(hql, values);
 
     }

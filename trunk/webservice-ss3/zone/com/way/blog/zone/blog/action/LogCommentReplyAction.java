@@ -60,7 +60,7 @@ public class LogCommentReplyAction extends BaseAction implements
 		///设置双向关联
 		Set<LogComment> logComments = new HashSet<LogComment>();
 		logComments.add(logComment);
-		logCommentReply.setLogComments(logComments);
+		logCommentReply.setLogComment(logComment);
 		Set<LogCommentReply> logCommentReplys = new HashSet<LogCommentReply>();
 		logCommentReplys.add(logCommentReply);
 		logComment.setLogCommentReplys(logCommentReplys);

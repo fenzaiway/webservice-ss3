@@ -17,6 +17,7 @@ import com.way.blog.base.entity.LogInfoJson;
 import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.base.entity.SearchTagData;
 import com.way.blog.base.service.BaseGenericService;
+import com.way.blog.base.service.impl.MessageServiceImpl;
 import com.way.blog.user.entity.UserHeadImg;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
@@ -41,6 +42,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
 	@Autowired private BlogZoneServiceImpl blogZoneServiceImpl;
 	@Autowired private AttentionServiceImpl attentionServiceImpl;
+	@Autowired private MessageServiceImpl messageServiceImpl;
 	
 	public static final String HQL = "from LogInfo where 1=1 ";
 	
@@ -275,11 +277,12 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		
 		originalLogInfo = this.findOriginalLogInfo(logInfo.getId());
 		logInfoData.setLogid(logInfo.getId());
+		logInfoData.setHotNum(messageServiceImpl.getHotNum(logInfo));
 		logInfoData.setUsername(logInfo.getUsername());
 		logInfoData.setLogTitle(logInfo.getLogTitle());
 		logInfoData.setLogContent(logInfo.getLogText());
 		logInfoData.setPublishTime(logInfo.getLogPublishTime());
-		logInfoData.setCommentNum(logInfo.getLogComments().size());
+		logInfoData.setCommentNum((logInfo.getLogComments().size()+logInfo.getLogCommentReplys().size()));
 		logInfoData.setLikeNum(originalLogInfo.getLogLikes().size());
 		logInfoData.setReprintNum(originalLogInfo.getLogReprints().size());
 		logInfoData.setHeadImgUrl(userHeadImgServiceImpl.getHeadImgUrl(logInfo.getUsername()));

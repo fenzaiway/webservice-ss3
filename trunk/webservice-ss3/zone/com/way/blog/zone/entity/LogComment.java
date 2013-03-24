@@ -74,7 +74,7 @@ public class LogComment implements Serializable {
 	/**
 	 * 评论回复
 	 */
-	@ManyToMany(mappedBy="logComments",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=LogCommentReply.class)
+	@OneToMany(mappedBy="logComment",cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=LogCommentReply.class)
 	private Set<LogCommentReply> logCommentReplys = new HashSet<LogCommentReply>();
 
 	public LogComment() {}

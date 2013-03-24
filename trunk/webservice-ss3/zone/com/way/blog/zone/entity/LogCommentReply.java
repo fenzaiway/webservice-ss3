@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -64,27 +65,58 @@ public class LogCommentReply implements Serializable {
 	@Column(name="lcr_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
 	private String username;
 	
+	/**
+	 * 回复哪个用户
+	 */
+	@Expose
+	@Column(name="lcr_tousername",unique = false, nullable = true, insertable = true, updatable = true,length=50)
+	private String toUserName;
+	
 
 	/**
 	 * 回复哪条评论
 	 */
-	@ManyToMany
-	@JoinTable(name="tb_comment_reply",joinColumns={@JoinColumn(name="lcrid")},inverseJoinColumns={@JoinColumn(name="lcid")})
-	private Set<LogComment> logComments;
+	@ManyToOne
+	private LogComment logComment;
 
+	/**
+	 * 回复输入哪篇日志
+	 */
+	@ManyToOne
+	private LogInfo logInfo;
 	
-
 	public LogCommentReply() {}
 
-	public LogCommentReply(int id, Set<LogComment> logComments,
-			String replyContent, String replyTime, String username) {
+	public LogCommentReply(int id, LogComment logComment, LogInfo logInfo,
+			String replyContent, String replyTime, String toUserName,
+			String username) {
 		super();
 		this.id = id;
-		this.logComments = logComments;
+		this.logComment = logComment;
+		this.logInfo = logInfo;
 		this.replyContent = replyContent;
 		this.replyTime = replyTime;
+		this.toUserName = toUserName;
 		this.username = username;
 	}
+
+	public String getToUserName() {
+		return toUserName;
+	}
+
+	public void setToUserName(String toUserName) {
+		this.toUserName = toUserName;
+	}
+
+	public LogInfo getLogInfo() {
+		return logInfo;
+	}
+
+	public void setLogInfo(LogInfo logInfo) {
+		this.logInfo = logInfo;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -125,12 +157,13 @@ public class LogCommentReply implements Serializable {
 		this.username = username;
 	}
 
-	public Set<LogComment> getLogComments() {
-		return logComments;
+
+	public LogComment getLogComment() {
+		return logComment;
 	}
 
-	public void setLogComments(Set<LogComment> logComments) {
-		this.logComments = logComments;
+	public void setLogComment(LogComment logComment) {
+		this.logComment = logComment;
 	}
 
 }

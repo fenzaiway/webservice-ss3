@@ -11,6 +11,8 @@ public class CommentListData {
 	private String headimgUrl;  //评论用户的头像地址
 	
 	private String conten; ///回复的内容
+	
+	private String time;
 
 	public int getId() {
 		return id;
@@ -50,6 +52,14 @@ public class CommentListData {
 
 	public void setConten(String conten) {
 		this.conten = conten;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 }

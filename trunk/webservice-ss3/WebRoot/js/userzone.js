@@ -3,7 +3,7 @@
 	var tagHtml;  ////标签html
 	var likeImg;  ////喜欢图片html
 	var commentHtml = "<div class='comment_info'><div class='comment_info_input'>";
-	commentHtml+="<div class='comment_text_div'><div class='comment_text' contenteditable='true'></div>";
+	commentHtml+="<div class='comment_text_div'><div class='comment_text' commentid='' contenteditable='true'></div>";
 	commentHtml+="</div>";
 	commentHtml+="<div><input type='button' class='comment_button' logid='' position='' value='发表'/></div> <div class='clr'>";
 	commentHtml+="<div class='comment_position'></div>"		
@@ -12,6 +12,9 @@
 	////加标签html	
 	var addTagHtml = "<div class='addTagss'><input type='text' value='' class='addTagInput' name='tagName' /><input type='button' position='' logid='' class='addTagBut' value='添加'/></div><div class='clr'></div>";
 
+	////热度列表
+	var hotHtml = "<div class='hotList'></div>";
+	
 	var imgdiv = "";
 	
 	//判断空间用户是不是登录用户
@@ -104,7 +107,7 @@
 					html+="</span>";
 					html+="<span class='info_like'>";
 					html+="<ul>";
-					html+="<li>热度("+data[i].hotNum+")</li>";
+					html+="<li><a href='javascript:void(0)' class='my_hotNum' logid="+logid+" position="+position+">热度(<span class='hotNum'>"+data[i].hotNum+"</span>)</a></li>";
 					html+="<li>转载("+data[i].reprintNum+") </li>";
 					html+="<li><a href='javascript:void(0)' class='my_info_comment'  position="+position+">评论(<span class='commentNum'>"+data[i].commentNum+"</span>)</a></li>";
 					html+="<li>"+likeImg+"喜欢(<span class='likeNum'>"+data[i].likeNum+"</span>)</li>";
@@ -113,6 +116,7 @@
 					html+="</div></div>";
 			html+="<div class='clr'></div>";
 			html+=commentHtml;
+			html+=hotHtml;
 			html+="<div class='clr'></div>";
 			html+="</div>";
 			
@@ -125,6 +129,62 @@
 		$("#loginfo_list").append(html);
 		return logids;
 	}
+	//隐藏热度值列表
+	function myHideHotList(position)
+	{
+		$(".hotList:eq("+position+")").slideToggle(function()
+		{
+			$(".hotList:eq("+position+")").css("display","none");
+		});
+	}
+	//热度值框事件
+	function hideHotList(position)
+	{
+		if($(".hotList:eq("+position+")").is(":visible"))
+		{
+			myHideHotList(position);
+		}else
+		{
+			$(".hotList:eq("+position+")").slideToggle(function()
+			{
+				$(".hotList:eq("+position+")").css("display","block");
+			});
+		}
+	}
+	
+	///点击热度值事件
+	$(".my_hotNum").live("click",function()
+	{
+		var position = $(this).attr("position");
+		var hotNum = $(this).find(".hotNum").text();
+		hideComment(position);
+		
+		hideHotList(position);
+		///当热度值不等于0的时候才去取热度列表
+		if(0 != hotNum)
+		{
+			if($(".hotList:eq("+position+")").html()=="")
+			{
+				var logInfoId = $(this).attr("logid");
+				var messageDataHtml = "<div class='messagedata'>"
+				$.post("ajax/message/getHotMessageList.do",{"logInfoId":logInfoId},function(data)
+				{
+					for(var i=0; i<data.length; i++)
+					{
+						messageDataHtml+=data[i].content;
+						messageDataHtml+="<br/>";
+					}
+					messageDataHtml+="<div>"
+					$(".hotList:eq("+position+")").empty().html(messageDataHtml);
+				});
+			}
+			
+		}else
+		{
+			$(".hotList:eq("+position+")").empty().html("暂时还没有与这篇文章相关的热度值");
+		}
+		return false;
+	});
 	
 	///加关注事件函数
 //	function addAttention()
@@ -229,15 +289,16 @@
 	}
 	
 	////回复评论
-	function replay(commentid, logid,index)
+	function replay(commentid, logid,index,position)
 	{
-		var text = $(".comment_list_comment_info a:eq("+index+")").text();
+		var text = $(".comment_list_comment_info a:eq("+position+")").text();
 		text = "回复" + text+":"
 		//alert(commentid+"   " + logid);
-		$(".comment_text:eq("+index+")").text(text);
+		$(".comment_text:eq("+index+")").attr("commentid",commentid);
+		$(".comment_text:eq("+index+")").empty().text(text);
 	}
 	
-	function getcommentText(data,logid,index)
+	function getcommentText(data,logid,index,position)
 	{
 		var commentListHtml = "";
 		commentListHtml+= "<div class='comment_list'>";
@@ -248,7 +309,24 @@
 		commentListHtml+= "<a href='zone/"+data.commentUsername+"'>"+data.commentUsername+"</a>&nbsp;&nbsp;"+data.conten+"";
 		commentListHtml+= " <div class='clr'></div>";
 		commentListHtml+= " </div>";
-		commentListHtml+= " <div class='comment_list_reply'><a href='javascript:void(0);' onclick='replay("+data.id+","+logid+","+index+")'>回复</a></div>";
+		commentListHtml+= " <div class='comment_list_reply'><a href='javascript:void(0);' onclick='replay("+data.id+","+logid+","+index+","+position+")'>回复</a></div>";
+		commentListHtml+= " <div class='clr'></div>";
+		commentListHtml+= " </div>";
+		return commentListHtml;
+	}
+	
+	function getReplayText(data,logid,index,position)
+	{
+		var commentListHtml = "";
+		commentListHtml+= "<div class='comment_list'>";
+		commentListHtml+= "<div class='comment_list_headimg'>";
+		commentListHtml+= "<img src='images/111.jpg'/>";
+		commentListHtml+= "</div>";
+		commentListHtml+= "<div class='comment_list_comment_info'>";
+		commentListHtml+= "<a href='zone/"+data.replyUsername+"'>"+data.replyUsername+"</a>回复<a href='zone/"+data.commentUsername+"'>"+data.commentUsername+"</a>&nbsp;&nbsp;"+data.conten+"";
+		commentListHtml+= " <div class='clr'></div>";
+		commentListHtml+= " </div>";
+		commentListHtml+= " <div class='comment_list_reply'><a href='javascript:void(0);' onclick='replay("+data.id+","+logid+","+index+","+position+")'>回复</a></div>";
 		commentListHtml+= " <div class='clr'></div>";
 		commentListHtml+= " </div>";
 		return commentListHtml;
@@ -272,7 +350,13 @@
 				var length = data.length;
 				for(var i=0; i<length; i++)
 				{
-					commentListHtml+=getcommentText(data[i],logid,index);
+					if(""==data[i].replyUsername)
+					{
+						commentListHtml+=getcommentText(data[i],logid,index,i);
+					}else{
+						commentListHtml+=getReplayText(data[i],logid,index,i);
+					}
+					
 				}
 				
 				$(".comment_position:eq("+index+")").empty().append(commentListHtml);
@@ -355,8 +439,15 @@
 	///绑定回复点击事件
 	$(".comment_list_reply").live("click",function()
 	{
-	
+
 	});
+	
+	function updateComment(index)
+	{
+		var commentNum = parseInt($(".commentNum:eq("+index+")").text()); //获取原来的清理数量
+		$(".commentNum:eq("+index+")").text(commentNum+1); ///更新评论数量
+		$(".comment_text:eq("+index+")").empty().focus(); ///将输入框设置为空，并添加焦点
+	}
 	
 	////点击发布按钮
 	$(".comment_button").live("click",function()
@@ -370,15 +461,27 @@
 		}else{
 			/////获取用户发表的内容
 			//alert($(".comment_text").text());
-			var commentText = $(".comment_text").text();
 			var logid = $(this).attr("logid");
 			var index = $(this).attr("position");
+			var commentText = $(".comment_text").text();
+			if("回复" == commentText.substring(0,2)) ////判断用户输入的内容是不是以回复开头，如果是，则表示用户要发表的内容是回复
+			{
+				var toUserName = commentText.substring(2,commentText.indexOf(":")); ///得到被回复的是哪个用户
+				var commentid="";
+				var replayContent = commentText.substring((commentText.indexOf(":")+1));
+				var commentid = $(".comment_text:eq("+index+")").attr("commentid");
+				$.post("ajax/replay/saveReplay.do",{"logid":logid,"commentid":commentid,"toUserName":toUserName,"replayContent":replayContent},function(data)
+				{
+					$(".comment_position:eq("+index+")").prepend(getReplayText(data,logid,index,0)); ////向评论列表中添加一条最新的评论数据
+					updateComment(index);
+				});
+				return false;
+			}
+			
 			$.post("ajax/comment/save.do",{"commentText":commentText,"logid":logid},function(data)
 			{
-				$(".comment_position:eq("+index+")").prepend(getcommentText(data,logid,index)); ////向评论列表中添加一条最新的评论数据
-				var commentNum = parseInt($(".commentNum:eq("+index+")").text()); //获取原来的清理数量
-				$(".commentNum:eq("+index+")").text(commentNum+1); ///更新评论数量
-				$(".comment_text:eq("+index+")").empty().focus(); ///将输入框设置为空，并添加焦点
+				$(".comment_position:eq("+index+")").prepend(getcommentText(data,logid,index,0)); ////向评论列表中添加一条最新的评论数据
+				updateComment(index);
 			});
 			///alert($(this).attr("logid"));
 		}
@@ -404,6 +507,7 @@
 		$(this).toggle(function()
 		{
 			hideComment(index);
+			myHideHotList(index);
 			removeAddTag(index); ////移除标签文本框
 		},
 		function()
@@ -476,10 +580,11 @@
 		$(".comment_info:eq("+index+")").find(".comment_button").attr("position",index);
 		//alert($(".comment_list:eq("+index+")").text());
 		////为了避免多次请求，如果列表为空，就异步请求评论数据
-		
+		removeAddTag(index);////将添加标签框移除
+		myHideHotList(index);
 		$(".comment_info:eq("+index+")").slideToggle('fast',function()
 		{
-			removeAddTag(index);////将评论框移除
+			
 			///如果评论框是显示的，像素就变为0，否则恢复
 			if($(".comment_info:eq("+index+")").is(":visible"))
 			{
@@ -602,7 +707,7 @@
 	        			showListData(data.data);
 	        			if(-1 == data.hasNext)
 	        			{
-	        				$("#pagebar").empty().html("精彩内容到此为止！<a href=''>发现关注更过内容</a>");
+	        				$("#pagebar").empty().html("精彩内容到此为止！<a href='tag/'>发现关注更多内容</a>");
 	        			}else
 	        			{
 	        				$("#pagebar").empty().html(loadIndex).css("display","none");

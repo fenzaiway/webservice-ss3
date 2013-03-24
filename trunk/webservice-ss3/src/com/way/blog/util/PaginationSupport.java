@@ -68,7 +68,7 @@ public class PaginationSupport{
 	  	  .append("{var pagego=0; pagego=document.getElementsByName('pagego')[0].value; ")
 	  	  .append("if(pagego == \"\"){alert('请输入页码'); return false;}")
 	  	  .append("var reg = /^[1-9]*[1-9][0-9]*$/;")
-	  	  .append("if(!reg.test(pagego)){alert('页码位数字,请正确填写页码'); return false;}")
+	  	  .append("if(!reg.test(pagego)){alert('页码为数字,请正确填写页码'); return false;}")
 	  	  .append("var myStartIndex=0;myStartIndex=(pagego*").append(getPageSize()).append("-").append(getPageSize())
 	  	  .append("); if(pagego < 1 || myStartIndex > ").append(getTotalCount()).append("){alert('页码范围不正确，请正确填写页码'); return false;}");
     	
