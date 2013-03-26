@@ -46,6 +46,9 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 		 * 2、验证用户的账号是否可用
 		 */
 		String returnString=INPUT;
+		System.out.println(account);
+		System.out.println(mypassword);
+		
 		////登录成功
 		//if(userLoginServiceImpl.login(account, mypassword)){
 		if(userLoginServiceImpl.login(account, mypassword)){
@@ -59,7 +62,7 @@ public class UserLoginAction extends BaseAction implements ModelDriven<UserLogin
 				myusername = userLogin.getNickname();
 				session.setAttribute("myusername", myusername);
 				session.setAttribute("zoneuser", myusername);
-				if(null == prePage){ //如果用户登录前没有前往其他页面，那就默认跳转到用户的个人中心也页面
+				if(null == prePage||"/userlogin/sessionInvalidate.do?".equals(prePage)){ //如果用户登录前没有前往其他页面，那就默认跳转到用户的个人中心也页面
 					//prePage = "/zone/"+myusername+"";
 					prePage = "/userzone/infocenter.do";
 				}

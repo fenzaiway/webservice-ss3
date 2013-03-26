@@ -7,7 +7,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'register.jsp' starting page</title>
+    <title>轻轻一点--注册</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -18,6 +18,10 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<style type="text/css">
+		*{margin: 0px; padding: 0px;}
+		body{background-color: #F5F5F5;}
+		.top_banner{position: absolute;border-bottom: 1px solid #E1E1E1;height: 100px;width: 100%;left: 0px;top:0px;}
+		.myRegisterForm{margin: 0px auto; margin-top: 100px;}
 		#mailBox{background:#fff;border:1px solid #ddd;padding:3px 5px 5px;position:absolute;z-index:9999;display:none;-webkit-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);-moz-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);margin-top: 20px; }
 #mailBox p{width:100%;margin:0;padding:0;height:20px;line-height:20px;clear:both;font-size:12px;color:#ccc;cursor:default;}
 #mailBox ul{padding:0;margin:0;}
@@ -49,10 +53,13 @@
 </head>
   
   <body>
-   <fieldset style="width: 60%">
-		<legend>用户注册</legend>
-    <s:fielderror fieldName="saveError"></s:fielderror>
+	<div class="top_banner">
+		<div style="position: relative;left:25%;margin-top: 15px;">
+			<a href="userlogin/gotoLogin.do"><img src="<%=basePath%>images/top_logo.gif"><img src="<%=basePath%>images/top_reg.gif"></a>
+		</div>
+	</div>
 	<div class="myRegisterForm">
+	 <s:fielderror fieldName="saveError"></s:fielderror>
 	<form class="registerform" method="post" action="register/save.do">
             <table width="100%" style="table-layout:fixed;">
 			 <tr>
@@ -100,7 +107,7 @@
 		  <tr>
                <td class="need">*</td>
                <td>性别：</td>
-               <td><input type="radio" value="1" name="userRegister.sex" id="male" class="pr1" datatype="*" nullmsg="请选择性别！" errormsg="请选择性别！" /><label for="male">男</label> <input type="radio" value="2" name="userRegister.sex" id="female" class="pr1" /><label for="female">女</label></td>
+               <td><input type="radio" checked="checked" value="1" name="userRegister.sex" id="male" class="pr1" datatype="*" nullmsg="请选择性别！" errormsg="请选择性别！" /><label for="male">男</label> <input type="radio"  value="2" name="userRegister.sex" id="female" class="pr1" /><label for="female">女</label></td>
                <td>
                	<div class="Validform_checktip"></div>
                    <div class="info">请告诉我们您的性别<span class="dec"><s class="dec1">&#9670;</s><s class="dec2">&#9670;</s></span></div>
@@ -113,13 +120,12 @@
                     <td class="need"></td>
                     <td></td>
                     <td colspan="2" style="padding:10px 0 18px 0;">
-                        <input type="submit" value="提 交" /> <input type="reset" value="重 置" />
+                        <input type="submit" value="" style="background-image: url('images/regbut.gif');width: 140px; height: 40px; border: 0px solid #fff;" />
                     </td>
                 </tr>
 
           </table>
     </form>
 	</div>
-</fieldset>
   </body>
 </html>
