@@ -22,8 +22,8 @@
 		<intercept-url pattern="/admin/main/**" access="ROLE_ADMIN"/> -->
 		<remember-me use-secure-cookie="true"/>
 		<logout delete-cookies="JSESSIONID" logout-url="/j_spring_security_logout" invalidate-session="true" logout-success-url="/userlogin/gotoLogin.do"/>
-		<intercept-url pattern="/userlogin/gotoLogin.do" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/userlogin/gotoLogin.do" default-target-url="/admin/main/gotoMainMenu.do" authentication-failure-url="/userlogin/gotoLogin.do?error=true"/>
+		<intercept-url pattern="/admin/admin_login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<form-login login-page="/admin/admin_login.jsp" default-target-url="/admin/main/gotoMainMenu.do" authentication-failure-url="/admin/admin_login.jsp?error=true"/>
 		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
 		<session-management invalid-session-url="/register/sessionError.do" />  
 		<session-management>
