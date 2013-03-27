@@ -102,4 +102,23 @@ public class UserLoginServiceImpl extends BaseGenericService<UserLogin, Integer>
 		paginationSupport = this.findPageByQuery(sb.toString(), pageSize, startIndex, new Object[]{});
 		return paginationSupport;
 	}
+	
+	/**
+	 * 获取所以的用户名
+	 * @return
+	 */
+	public List<String> getNickNameList(){
+		List<String> nickNameList = new ArrayList<String>();
+		List<UserLogin> ulList = this.find(HQL,new Object[]{});
+		for(UserLogin ul : ulList){
+			nickNameList.add(ul.getNickname());
+		}
+//		String sql = "select u.nickname from UserLogin u where 1=1";
+//		Object []name = this.find(sql, new Object[]{}).toArray();
+//		String str[] = (String[]) name[0];
+//		for(String s: str){
+//			nickNameList.add(s);
+//		}
+		return nickNameList;
+	}
 }

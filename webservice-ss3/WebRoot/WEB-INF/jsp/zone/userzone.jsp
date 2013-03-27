@@ -6,7 +6,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'MyJsp.jsp' starting page</title>
+    <title>个人中心</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -78,7 +78,7 @@
 		</div>
 		<div id="user_setting"><s:property value="myusername"/></div>
 	<div class="clr"></div>
-  	<span style="color:#999999;font-size:16px;font-family:Verdana, Arial, Helv, Helvetica, sans-serif;">我关注的空间动态</span>
+  	<span style="color:#999999;font-size:16px;font-family:Verdana, Arial, Helv, Helvetica, sans-serif;">空间动态</span>
 	<div class="clr"></div>
 	<hr style="width: 720px;float: left;margin-bottom: 15px;"/>
 	<div class="clr"></div>

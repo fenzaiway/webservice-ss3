@@ -89,7 +89,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		////注册成功后，将用户名保存到Session中
 		//session.setAttribute("myusername",userRegister.getUsername());
 		//为用户设置一个默认的头像
-		//userHeadImgAction.save();
+		userHeadImgAction.save();
 		
 		
 		return SUCCESS;

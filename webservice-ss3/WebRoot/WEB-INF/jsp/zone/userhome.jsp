@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ include file="/top_navi.jsp" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -55,7 +56,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-	<div id="user_top_navi"><a href="userzone/infocenter.do">首页</a></div>
     <div style="height:70px;"></div>
     <div id="main">
     	<div id="left">
