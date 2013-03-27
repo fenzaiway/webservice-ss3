@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ include file="/top_navi.jsp" %>
 <%@ include file="/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -25,6 +26,7 @@
   </head>
   
   <body>
+  	<div style="width: 980px;margin: 0px auto;">
   	<a href="albumtype/gotoAlbumTypeList.do">返回</a>相册分类列表
   	<br/>
   	<div id="picUpload" style="width: 980px;margin: 0 auto;display: none;">
@@ -70,7 +72,6 @@
 		});	
     	
     </script>
-    
   	<s:if test="albumList.size==0">
     	暂无数据，<a href="javascript:upImage();">上传</a>
     </s:if>
@@ -108,5 +109,6 @@
 		});
 	</script>
 	<s:debug></s:debug>
+	</div>
   </body>
 </html>

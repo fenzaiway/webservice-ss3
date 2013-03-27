@@ -28,7 +28,7 @@ public class UserHeadImgAction extends BaseAction implements ModelDriven<UserHea
 	@Autowired
 	private UserLogin userLogin;
 	
-	private static final String DEFAULT_IMG_LOCATION = "images/default_head/001.png"; /// 默认头像路径
+	
 	////保存头像,通过jquery异步提交的方式保存
 	@Action(value="save",results={
 			@Result(type="json")
@@ -39,14 +39,7 @@ public class UserHeadImgAction extends BaseAction implements ModelDriven<UserHea
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		userHeadImg.setUsername(myusername);
-		userHeadImg.setImgLocation(DEFAULT_IMG_LOCATION);
-		System.out.println("-------------------myusername==" + myusername);
-		userLogin = userLoginServiceImpl.myFindByProperty("username", myusername);
-		///设置双向关联
-		userLogin.setUserHeadImg(userHeadImg);
-		userHeadImg.setUser(userLogin);
-		userHeadImgServiceImpl.save(userHeadImg);
+		userHeadImgServiceImpl.saveHeadImg(myusername);
 		return SUCCESS;
 	}
 	

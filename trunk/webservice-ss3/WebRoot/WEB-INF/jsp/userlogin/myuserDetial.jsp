@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ include file="/common.jsp" %>
-
+<%@ include file="/top_navi.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -18,8 +18,15 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<style type="text/css">
+		*{margin: 0px;padding: 0px;}
 		ul{list-style: none;}
+		h2{line-height: 100px;}
+		.top{position: absolute;width: 100%;height: 100px;top: 50px;left: 0px;border-bottom: 0px solid E1E1E1; margin-bottom: 20px;}
 		.head_img{width: 100px;height: 100px;margin-right: 5px;border-right: 1px solid red;}
+		.detail_main{margin: 0px auto;width: 820px;background-color: #eee;padding-left: 80px;padding-top: 30px;padding-bottom: 20px;}
+		.span{width: 80px;height: 35px;line-height: 35px;display: block;float: left;text-align: right;margin-right: 10px;margin-top: 5px;}
+		.input{width: 260px; height: 35px;line-height: 35px;border: 1px solid green;}
+		select{width: 120px;border: 1px solid green;height: 33px;line-height: 33px;}
 	</style>
 	<script type="text/javascript">
 
@@ -147,15 +154,13 @@
   </head>
   
   <body>
-   	用户详细登录页面
-	<s:if test="null == myUserDetial.username || '' == myUserDetial.username">
-		请登录
-	</s:if>
-	<s:else>
-		用户名：<s:property value="#myUserDetial.username"/>
-		用户的账号：<s:property value="myUserDetial.user.account"/>
-		<hr>
-		<div style="height: 120px;min-height:120px;height:auto!important; width:600px;border:1px solid green;">
+  		<div class="top">
+  			<center>
+  				<h2>修改用户资料</h2>
+  			</center>
+  		</div>
+  		<div class="detail_main">
+		<div style="height: 120px;min-height:120px;height:auto!important; width:600px;border:1px solid green;margin-bottom: 20px;padding: 20px;">
 		默认头像<br/>
 		<img src="images/default_head/001.png" class="head_img" alt="headImg"/>
 		<img src="images/default_head/002.png" class="head_img" alt="headImg"/>
@@ -197,10 +202,10 @@
 			<input type="hidden" value="${myUserDetial.id}" name="myUserDetial.id">
 			<input type="hidden" value="${myUserDetial.address.id}" name="addressid">
 			<ul>
-				<li>昵称：</li><li><input type="text" name="myUserDetial.username" value="${myUserDetial.username}" readonly="readonly"/></li><br/>
-				<li>生日：</li><li><input type="text" onClick="WdatePicker()" name="myUserDetial.birthday" value="${myUserDetial.birthday}"/></li><br/>
-				<li>感情状态：</li>
+				<li><span class="span">昵称：</span><input type="text" class="input" name="myUserDetial.username" value="${myUserDetial.username}" readonly="readonly"/></li><br/>
+				<li><span class="span">生日：</span><input type="text" class="input" onClick="WdatePicker()" name="myUserDetial.birthday" value="${myUserDetial.birthday}"/></li><br/>
 					<li>
+						<span class="span">感情状态：</span>
 						<select name="myUserDetial.loveStatue">
 							<option value="1" <s:if test="myUserDetial.loveStatue==1">selected="selected"</s:if>>单身</option>
 							<option value="2" <s:if test="myUserDetial.loveStatue==2">selected="selected"</s:if>>恋爱中</option>
@@ -211,8 +216,9 @@
 							<option value="7" <s:if test="myUserDetial.loveStatue==7">selected="selected"</s:if>>保密</option>
 						</select>
 					</li><br/>
-				<li>用户血型：</li>
+				
 					<li>
+						<span class="span">用户血型：</span>
 						<select name="myUserDetial.bloodType">
 							<option value="1" <s:if test="myUserDetial.bloodType==1">selected="selected"</s:if>>A</option>
 							<option value="2" <s:if test="myUserDetial.bloodType==2">selected="selected"</s:if>>B</option>
@@ -221,21 +227,18 @@
 							<option value="5" <s:if test="myUserDetial.bloodType==5">selected="selected"</s:if>>其他</option>
 						</select>
 					</li><br/>
-				<li>公司名称：</li><li><input type="text" name="myUserDetial.companyName" value="${myUserDetial.companyName }"/></li><br/>
-				<li>公司地址：</li><li><input type="text" name="myUserDetial.companyAddress" value="${ myUserDetial.companyAddress}"/></li><br/>
-				<li>详细地址：</li>
+				<li><span class="span">公司名称：</span><input type="text" class="input" name="myUserDetial.companyName" value="${myUserDetial.companyName }"/></li><br/>
+				<li><span class="span">公司地址：</span><input type="text" class="input" name="myUserDetial.companyAddress" value="${ myUserDetial.companyAddress}"/></li><br/>
+				
 					<li>
-						<input type="text" name="myUserDetial.addressDetial" value="${ myUserDetial.addressDetial}"/>
+						<span class="span">详细地址：</span>
+						<input type="text" class="input" name="myUserDetial.addressDetial" value="${ myUserDetial.addressDetial}"/>
 					</li><br/>
-				<li>邮编：</li><li><input type="text" name="myUserDetial.zcode" value="${myUserDetial.zcode }"/></li><br/>
-				<li>联系电话：</li><li><input type="text" name="myUserDetial.phone" value="${myUserDetial.phone }"/></li><br/>
-				<li>所在地：</li><li>
+				<li><span class="span">邮编：</span><input class="input" type="text" name="myUserDetial.zcode" value="${myUserDetial.zcode }"/></li><br/>
+				<li><span class="span">联系电话：</span><input class="input" type="text" name="myUserDetial.phone" value="${myUserDetial.phone }"/></li><br/>
+				<li>
 						<div id="address">
-							 <s:if test='myProvince.provinceID!=""'>
-							 	 <s:property value="myProvince.province"/>|
-								 <s:property value="myCity.city"/>|
-								 <s:property value="myArea.area"/><br/>
-							 </s:if>
+							<span class="span">所在地：</span>
 							<select id="province" name="province">
 								<option selected="selected">省份</option>
 							</select>
@@ -249,12 +252,16 @@
 							</select>
 						</div>
 				</li><br/>
-				<li>工作：</li>
+				
 				<li>
+					<span class="span">工作：</span>
 					<s:select list="jobList" listKey="jobName" listValue="jobName" name="myUserDetial.jobName"></s:select>
 				</li><br/>
-				<li>兴趣爱好：</li>
+				
 				<li>
+					<span class="span">兴趣爱好：</span>
+					<div style="margin-right:165px;width: 550px;margin-left: 13px;float: right;">
+					
 					<s:iterator value="interestList" id="interest" status="st">
 						<span style="display:inline-block;width:120px;"><input type="checkbox" value="${interest.interestName}" class="myinterest" name="myUserDetial.interests"/><s:property value="#interest.interestName"/></span>
 						&nbsp;&nbsp;&nbsp;&nbsp;
@@ -262,16 +269,18 @@
 							<br/>
 						</s:if>
 					</s:iterator>
+					</div>
 				</li><br/>
 			</ul>
+			<div style="clear: both;"></div>
 			<s:if test='myUserDetial.interests==""'>
-			<input type="submit" value="提交"/>
+			<input type="submit" style="background-color:green;width: 55px;height: 33px;line-height: 33px;border: 1px solid #eee;" value="提交"/>
 			</s:if>
 			<s:else>
-			<input type="submit" value="更新"/>
+			<input type="submit" style="background-color:#94B600;width: 70px;height: 35px;line-height: 35px;border: 1px solid #eee;" value="更新"/>
 			</s:else>
 		</form>
-	</s:else>
+	</div>
 	<s:debug></s:debug>
 	  </body>
 </html>

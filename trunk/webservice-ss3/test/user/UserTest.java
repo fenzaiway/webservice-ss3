@@ -47,7 +47,7 @@ public class UserTest extends BaseTest {
 			if(null == userLogin.getUserHeadImg()){
 				UserHeadImg userHeadImg = new UserHeadImg();
 				userHeadImg.setImgLocation("images/default_head/001.png");
-				userHeadImg.setUsername(userLogin.getUsername());
+				userHeadImg.setUsername(userLogin.getNickname());
 				userHeadImg.setUser(userLogin);
 				userLogin.setUserHeadImg(userHeadImg);
 				userHeadImgServiceImpl.save(userHeadImg);
@@ -149,4 +149,12 @@ public class UserTest extends BaseTest {
 		//System.out.println(myUserLoginServiceImpl.userlogin("fenzaiway@qq.com", "way890727"));
 	}
 	
+	@Test
+	public void nickNameTest(){
+		this.init();
+		List<String> nameList = userLoginService.getNickNameList();
+		for(String str : nameList){
+			System.out.println(str);
+		}
+	}
 }

@@ -180,6 +180,17 @@ H1 a {
           <sec:authorize ifAllGranted="ROLE_LOGINFO_MGR"><li><a href="../loginfo/loginfoList.do" target="showFrame">日志列表</a></li></sec:authorize>
         </ul>
       </div>
+      <h1 class="type"><a href="javascript:void(0)">公告管理</a></h1>
+      <div class="content">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><img src="images/menu_topline.gif" width="182" height="5" /></td>
+          </tr>
+        </table>
+        <ul class="MM">
+          <sec:authorize ifAllGranted="ROLE_LOGINFO_MGR"><li><a href="../notice/noticeList.do" target="showFrame">公告列表</a></li></sec:authorize>
+        </ul>
+      </div>
       <h1 class="type"><a href="javascript:void(0)">权限管理</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">

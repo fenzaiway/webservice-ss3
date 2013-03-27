@@ -16,7 +16,9 @@ import com.way.blog.base.entity.Message;
 import com.way.blog.base.entity.MessageData;
 import com.way.blog.base.service.BaseGenericService;
 import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
+import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.util.MyFormatDate;
+import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.entity.LogInfo;
 
 @Service("messageServiceImpl")
@@ -31,6 +33,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	
 	@Autowired private Message message;
 	@Autowired UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired UserLoginServiceImpl userLoginServiceImpl;
 	
 	private static final String HQL = "from Message where 1=1 ";
 	
@@ -43,8 +46,8 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	 */
 	public List<Message> getNewMessage(String username){
 		
-		String hql = HQL+" and (username=? and msgStatus=0 ) or ( msgtype=5 )";
-		messageList = this.find(hql, new String[]{username});
+		String hql = HQL+" and (username=? and msgStatus=0 ) or ( msgtype=5 and username=?  and msgStatus=0)";
+		messageList = this.find(hql, new String[]{username,username});
 		return messageList;
 	}
 	
@@ -76,7 +79,16 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	 */
 	public int saveMessage(String fromusername,int msgType, LogInfo logInfo, String content,String username){
 			if(5 == msgType){
-				message = getMessage(fromusername,content,msgType);
+				List<Message> messageList = new ArrayList<Message>();
+				for(String str : userLoginServiceImpl.getNickNameList()){
+				//.out.println("nickName=" + str);
+					message = getMessage(fromusername,content,msgType);
+					message.setUsername(str);
+					messageList.add(message);
+					//this.save(message);
+				}
+				this.saveAll(messageList);
+				return 0;
 			}else if(6==msgType)
 			{
 				message = getMessage(fromusername,msgType,username);
@@ -93,6 +105,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 					return 0; ///如果是自己评论、like自己的内容，那么就不会触发保存
 				}
 			}
+			System.out.println("0----");
 			return this.save(message);
 		
 	}
@@ -158,6 +171,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 		msg.setMsgtype(msgType);
 		msg.setTriggerTime(MyFormatDate.getNowDate());
 		msg.setMsgStatus(0);
+		msg.setUsername("");
 		msg.setMsgContent(content);
 		return msg;
 	}
@@ -286,5 +300,14 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 		
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * 获取公告列表
+	 * @return
+	 */
+	public PaginationSupport getPaginationSupport(int pageSize, int startIndex){
+		String hql = HQL+" and msgtype=5";
+		return this.findPageByQuery(hql, pageSize, startIndex, new Object[]{});
 	}
 }

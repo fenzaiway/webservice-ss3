@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ include file="/top_shortup.jsp" %>
+<%@ include file="/top_navi.jsp" %>
+<%@ include file="/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -25,6 +26,7 @@
   </head>
   
   <body>
+  	<div style="width: 980px;margin: 0px auto;">
   	<s:property value="albumTypeList.get(0).album."/>
   	<div style="width: 980px;margin: 0px auto;">
     <div id="newAlbumType" style="display: none;">
@@ -37,7 +39,9 @@
     	暂无数据，创建<a href="javascript:createAlbumType();">相册分类</a>
     </s:if>
     <s:else>
+    	
     	<div id="albumType" style="width: 85%;border: 1px solid #ccc;height: auto;margin: 0px auto;margin-top: 20px;padding-left: 45px;">
+    		
     		<s:iterator id="albumType" value="albumTypeList" status="st">
     			<a href="album/gotoAlbumList.do?albumTypeId=<s:property value='#albumType.id'/>">
     			<div style="width: 120px;height: 120px;border: 1px solid #eee;margin: 16px;display: inline;float: left;">
@@ -51,7 +55,7 @@
     	</div>
     	创建<a href="javascript:createAlbumType();">相册分类</a>
     </s:else>
-   <s:debug></s:debug>
+   </div>
    <script type="text/javascript">
   	
   	function createAlbumType()
@@ -66,6 +70,6 @@
    
    </script>
    </div>
-   <s:debug></s:debug>
+   
   </body>
 </html>
