@@ -21,6 +21,7 @@
 			background-color: #fff;
 			margin: 0px auto;
 		}
+		#albumTypeName{width: 150px;height: 18px;line-height: 18px;border: 1px solid green;}
 	</style>
 <script type="text/javascript" src="<%=basePath%>js/jquery-1.6.2.js"></script>
   </head>
@@ -31,8 +32,8 @@
   	<div style="width: 980px;margin: 0px auto;">
     <div id="newAlbumType" style="display: none;">
     	<form action="albumtype/save.do" method="post">
-    		相册名称：<input type="text" name="albumTypeName" id="albumTypeName"/><br/>
-    		<input type="submit" value="创建"/>
+    		相册名称：<input type="text" name="albumTypeName" id="albumTypeName"/>
+    		<input type="submit" style="margin-left: 10px;width: 70px;height: 35px;line-height: 35px;" value="创建"/>
     	</form>
     </div>
     <s:if test="albumTypeList.size==0">
