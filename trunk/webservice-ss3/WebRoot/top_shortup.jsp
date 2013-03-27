@@ -32,7 +32,7 @@ body{
 ul{list-style:none;}
 li{float:left;}
 
-#top{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:50px; background:#3FA7CB;}
+#top{padding-bottom:5px;position:fixed;_position:absolute;top:0;left:0;right:0;z-index:1023;height:90px; background:#50803F;}
 #head_img{position:relative; margin-top:55px;  height:160px; border:1px solid #ccc; margin-bottom:20px; background-color:#000000; filter: alpha(opacity=50); opacity: 0.5;border-bottom:2px solid #3DA8CC; z-index: -1;margin-right: 0px; margin-left: 0px;}
 .clr{clear:both;}
 .outer{
@@ -48,8 +48,8 @@ li{float:left;}
      margin:0 auto;
      padding-left: 30px;
  }
- #logo{float:left;}
- #logo img{width:100px; height:55px;position:fixed;_position:absolute;top:0;}
+ #logo{float:left;padding-right: 200px;}
+ #logo img{width:300px; height:90px;position:fixed;_position:absolute;top:0;}
  #top_text1{width:50%; height:55px; float:left;}
  #top_text1 a{color: #fff;text-decoration: none;}
  #top_text1 a:hover{text-decoration: underline;}
@@ -83,7 +83,7 @@ li{float:left;}
     <div id="top">
 	<div class="outer">
  		<div class="inner">
-        	<div id="logo"><img src="images/top_logo.gif" alt="a"/></div>
+        	<div id="logo"><img src="images/top_logo.jpg" alt="a"/></div>
          	<div style="position:relative; width:800px; float:right; height:55px; margin-bottom:5px;">
               <div id="top_text1">
                 <span>
