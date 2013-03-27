@@ -18,7 +18,7 @@ body{ background-color:#EEEFEF;}
 
 .hot_spaces{ width:320px; padding-left:30px;}
 .hot_spaces div{ float:left; width:42px; height:42px; border:1px solid #CCCCFF; margin-right:12px;}
-.space_img{ width:42px; height:42px;}
+.space_img{ width:41px; height:41px;}
 .clr{ clear:both;}
 #tags_buttom{min-height:200px; height:auto!important;}
 .scroll_imgs{ width:140px; height:140px; float:left;  position:relative; display:block;}
