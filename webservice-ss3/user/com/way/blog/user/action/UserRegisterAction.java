@@ -68,8 +68,8 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	 * 可以在这里修改注册成功后跳转的路径
 	 */
 	@Action(value="save",results={
-			//@Result(name="success", type = "redirectAction",location="mailActivity.do",params={"account","${username}"}),
-			@Result(name="success", type = "redirectAction",location="gotoLogin.do"), ////测试的时候，用户注册完就算注册成功了，先不进行邮箱验证
+			@Result(name="success", type = "redirectAction",location="mailActivity.do",params={"account","${username}"}),
+			//@Result(name="success", type = "redirectAction",location="gotoLogin.do"), ////测试的时候，用户注册完就算注册成功了，先不进行邮箱验证
 			@Result(name="input", location="/register/register.jsp")
 	})
 	public String save(){
@@ -78,7 +78,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		userRegister.setIp(IP);
 		try {
 			userRegisterServiceImpl.mySave(userRegister);
-			///this.setUsername(userRegister.getUsername());
+			this.setUsername(userRegister.getUsername());
 		} catch (Exception e) {
 			e.printStackTrace();
 			addFieldError("saveError", e.getMessage());
@@ -87,7 +87,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 		///注册的时候同时为用户开通空间(后期是用户通过邮箱验证后才开通空间)
 		blogZoneServiceImpl.createBlog(userRegister);
 		////注册成功后，将用户名保存到Session中
-		//session.setAttribute("myusername",userRegister.getUsername());
+		session.setAttribute("myusername",userRegister.getUsername());
 		//为用户设置一个默认的头像
 		userHeadImgAction.save();
 		
@@ -100,7 +100,7 @@ public class UserRegisterAction extends BaseAction implements ModelDriven<UserRe
 	 * @return
 	 */
 	@Action(value="mailActivity",results={
-			@Result(name="success", location="/register/register.jsp"),
+			@Result(name="success", location="/register/mailActivity.jsp"),
 	})
 	public String gotoMailActivity(){
 		System.out.println("account============" + account);

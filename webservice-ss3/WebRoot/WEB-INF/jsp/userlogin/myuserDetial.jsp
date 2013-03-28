@@ -162,7 +162,7 @@
   		</div>
   		<div class="detail_main">
 		<div style="height: 120px;min-height:120px;height:auto!important; width:600px;border:1px solid green;margin-bottom: 20px;padding: 20px;">
-		默认头像<br/>
+		修改头像<br/>
 		<img src="images/default_head/001.png" class="head_img" alt="headImg"/>
 		<img src="images/default_head/002.png" class="head_img" alt="headImg"/>
 		<img src="images/default_head/003.png" class="head_img" alt="headImg"/>

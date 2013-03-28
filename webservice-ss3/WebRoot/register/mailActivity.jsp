@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="mail_main">
     	<div id="mail_top" align="center">
         	<div style="margin:50px 0px 50px 0px; margin-top:50pxp;"><img style="margin-top:50px;" src="<%=basePath%>images/mail_pic.gif" /></div>
-            <div  style="margin-bottom:50px;"><img src="<%=basePath%>images/activate_title.png" alt="注册成功" style="margin-bottom:30px;" /><p>只需登录邮箱<s:property value='account'/>点击链接激活空间</p></div>
+            <div  style="margin-bottom:50px;"><img src="<%=basePath%>images/activate_title.png" alt="注册成功" style="margin-bottom:30px;" /><p>只需登录邮箱<s:property value='email'/>点击链接激活空间</p></div>
             <div><a href="<s:property value='mailurl'/>"><img src="<%=basePath%>images/activate_go.png" alt="前往登陆" /></a></div>
             <hr style="width:880px; border:1px solid #E6E6E6; margin-top:50px;" align="center"/>
         </div>
