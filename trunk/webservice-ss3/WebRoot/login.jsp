@@ -31,6 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		a{text-decoration: none;color: #F0F0F0}
 		ul{list-style: none;}
+		#top{height: 100px;width: 100%;background-color: #184677;display: none;}
+		#top img{height: 100px;}
 		#mailBox{background:#fff;border:1px solid #ddd;padding:3px 5px 5px;position:absolute;z-index:9999;display:none;-webkit-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);-moz-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);margin-top: 0px; }
 #mailBox p{width:100%;margin:0;padding:0;height:20px;line-height:20px;clear:both;font-size:12px;color:#ccc;cursor:default;}
 #mailBox ul{padding:0;margin:0;}
@@ -81,16 +83,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
 	
-		
+		<div id="top">
+				<img alt="" src="<%=basePath %>images/index_logo.jpg">
+			</div>
 		<div id="normal">
-			<div></div>
+			
 			<div class="error_msg">
 				<s:fielderror fieldName="sessionTimeout"></s:fielderror>
 				<s:fielderror fieldName="loginFail"></s:fielderror>
 			</div>
 			<div>
 	   		<form action="userlogin/login.do" method="post">
-		    			<input type="text" name="account" value="登录邮箱" class="input" id="account" />
+		    			<input type="text" name="account" value="邮箱登录" class="input" id="account" />
 		  			
 		    			<input type="password" class="input" value="" name="mypassword" id="password" />
 		    	

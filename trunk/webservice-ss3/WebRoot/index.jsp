@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ include file="top_shortup.jsp" %>
+<jsp:forward page="userlogin/gotoLogin.do"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -18,7 +18,7 @@
 		#tipShow{border: 1px solid gray;width: 100px;height: 100px;text-align: center;position: absolute;}
 	</style>
   <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript">
+  <!--<script type="text/javascript">
   	$(function()
   	{
   		isAttention();////加载是否关注		
@@ -76,11 +76,12 @@
 			}
 		});
   	}
-  </script>
+  </script>-->
   </head>
 
   <body>
-  	<div class="outer">
+  	
+  	<!-- <div class="outer">
  		<div class="inner">
 <div id="main">
 <s:property value="loadIndexContent.size()"/>
@@ -106,6 +107,6 @@
 	<div style=" clear: both;"></div>
    <div id="pageToolbar"><s:property value="paginationSupport.pageToolBar" escape="false"/></div>
 </div>
-</div></div>
+</div></div> -->
   </body>
 </html>

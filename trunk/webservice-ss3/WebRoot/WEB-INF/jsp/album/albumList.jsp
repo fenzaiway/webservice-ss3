@@ -27,7 +27,7 @@
   
   <body>
   	<div style="width: 980px;margin: 0px auto;">
-  	<a href="albumtype/gotoAlbumTypeList.do">返回</a>相册分类列表
+  	<a href="${ctx }/albumtype/gotoAlbumTypeList.do">返回</a>相册分类列表
   	<br/>
   	<div id="picUpload" style="width: 980px;margin: 0 auto;display: none;">
   	</div>

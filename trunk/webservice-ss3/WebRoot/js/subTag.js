@@ -29,9 +29,9 @@ function loadOtherTags()
 		var html = "";
 		for(var i=0; i<data.length;i++)
 		{
-			html+="<li tagid="+data[i].id+">";
+			html+="<li tagid="+data[i].id+"><span>";
 			html+=data[i].tagName;
-			html+="<a href='javascript:userSubTag("+data[i].id+")'>订阅</a>"
+			html+="</span><a href='javascript:userSubTag("+data[i].id+")'>订阅</a>"
 			html+="</li>";
 		}
 		$(".rec_sub").empty().html(html);
@@ -47,9 +47,9 @@ function loadUserTags()
 		var html = "";
 		for(var i=0; i<data.length;i++)
 		{
-			html+="<li>";
+			html+="<li><span>";
 			html+=data[i].tagName;
-			html+="<a href='javascript:userCancelSubTag("+data[i].id+")'>取消订阅</a>"
+			html+="</span><a href='javascript:userCancelSubTag("+data[i].id+")'>取消订阅</a>"
 			html+="</li>";
 		}
 		$(".my_rec_sub").empty().html(html);
