@@ -31,7 +31,7 @@
   	<s:property value="albumTypeList.get(0).album."/>
   	<div style="width: 980px;margin: 0px auto;">
     <div id="newAlbumType" style="display: none;">
-    	<form action="albumtype/save.do" method="post">
+    	<form action="${ctx }/albumtype/save.do" method="post">
     		相册名称：<input type="text" name="albumTypeName" id="albumTypeName"/>
     		<input type="submit" style="margin-left: 10px;width: 70px;height: 35px;line-height: 35px;" value="创建"/>
     	</form>
@@ -44,10 +44,10 @@
     	<div id="albumType" style="width: 85%;border: 1px solid #ccc;height: auto;margin: 0px auto;margin-top: 20px;padding-left: 45px;">
     		
     		<s:iterator id="albumType" value="albumTypeList" status="st">
-    			<a href="album/gotoAlbumList.do?albumTypeId=<s:property value='#albumType.id'/>">
+    			<a href="${ctx }/album/gotoAlbumList.do?albumTypeId=<s:property value='#albumType.id'/>">
     			<div style="width: 120px;height: 120px;border: 1px solid #eee;margin: 16px;display: inline;float: left;">
     				<div style="width: 120px;height: 100px;border: 1px solid green;">
-    					<img alt="" style="width: 120px;height: 100px;" src="<s:property value='#albumType.coverImg'/>">
+    					<img alt="" style="width: 120px;height: 100px;border: 0 none;" src="<s:property value='#albumType.coverImg'/>">
     				</div>
     				<div style="width: 120px;height: 20px;border: 1px solid pink;text-align: center;"><span style="float:left;display:block;width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><s:property value="#st.count"/>、<s:property value="#albumType.albumTypeName"/></span>（<s:property value="#albumType.album.size()"/>）</div>
     			</div></a>

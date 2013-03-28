@@ -20,8 +20,9 @@
 	<style type="text/css">
 		*{margin: 0px;padding: 0px;}
 		ul{list-style: none;}
-		h2{line-height: 100px;}
-		.top{position: absolute;width: 100%;height: 100px;top: 50px;left: 0px;border-bottom: 0px solid E1E1E1; margin-bottom: 20px;}
+		.detail_main li{float: none;}
+		h2{line-height: 100px;margin-top: 33px;}
+		.top{position: absolute;width: 100%;height: 100px;top: 50px;left: 0px;border-bottom: 0px solid E1E1E1; margin-bottom: 40px;clear: both;}
 		.head_img{width: 100px;height: 100px;margin-right: 5px;border-right: 1px solid red;}
 		.detail_main{margin: 0px auto;width: 820px;background-color: #eee;padding-left: 80px;padding-top: 30px;padding-bottom: 20px;}
 		.span{width: 80px;height: 35px;line-height: 35px;display: block;float: left;text-align: right;margin-right: 10px;margin-top: 5px;}

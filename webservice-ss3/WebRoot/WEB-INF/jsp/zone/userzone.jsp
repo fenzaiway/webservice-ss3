@@ -76,7 +76,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="user_setting"><s:property value="myusername"/></div>
+		<div id="user_setting"><span><s:property value="myusername"/></span></div>
 	<div class="clr"></div>
   	<span style="color:#999999;font-size:16px;font-family:Verdana, Arial, Helv, Helvetica, sans-serif;">空间动态</span>
 	<div class="clr"></div>
@@ -153,7 +153,7 @@
 				</form>
 			</div>
 			<div style="height: 40px;height: auto!important;">
-				<h5>我订阅的标签</h5>
+				<h5 style="padding: 0px;margin: 0px;">我订阅的标签</h5>
 				<ul class="my_rec_sub">
 					<li>美女</li>
 					<li>明星</li>
@@ -161,7 +161,7 @@
 				</ul>
 			</div>
 			<div style="height: 250px;height: auto!important;">
-			<div><span style="float:left;">推荐订阅的标签</span><span style="float:right;"><a href="javascript:loadOtherTags();">换一批</a></span></div>
+			<div><span style="float:left;"><h5 style="padding: 0px;margin: 0px;">推荐订阅的标签</h5></span><span style="float:right;"><a href="javascript:loadOtherTags();">换一批</a></span></div>
 			<div class="clr"></div>
 			<ul class="rec_sub">
 					<li>美女</li>
@@ -171,12 +171,14 @@
 			</div>
 		</div>
 		<div style="height: 40px;" id="more_tags"><a href="tag/" style="font-size: 16; font-family: 微软雅黑; text-decoration: none;">发现更多有趣内容</a></div>
-		<div style="height: 90px; border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">访问统计
+		<div style="display:none;height: 90px; border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">访问统计
 			<span style="display:block;">今日访问量：0</span>
 			<span style="display:block;">总的访问量：0</span>
 		</div>
 		
-		<div style="height: 320px;">客户端</div>
+		<div style="height: 320px;height: auto!important;">
+			<img alt="" style="width:230px; " src="<%=basePath %>images/phone.jpg">
+		</div>
 	</div>
 	<div class="clr"></div>
 	

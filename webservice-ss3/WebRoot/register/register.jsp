@@ -20,7 +20,8 @@
 	<style type="text/css">
 		*{margin: 0px; padding: 0px;}
 		body{background-color: #F5F5F5;}
-		.top_banner{position: absolute;border-bottom: 1px solid #E1E1E1;height: 100px;width: 100%;left: 0px;top:0px;}
+		.top_banner{position: absolute;border-bottom: 1px solid #E1E1E1;height: 100px;width: 100%;left: 0px;top:0px;background-color: #50803F;}
+		.top_banner img{height: 90px;}
 		.myRegisterForm{margin: 0px auto; margin-top: 100px;}
 		#mailBox{background:#fff;border:1px solid #ddd;padding:3px 5px 5px;position:absolute;z-index:9999;display:none;-webkit-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);-moz-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);margin-top: 20px; }
 #mailBox p{width:100%;margin:0;padding:0;height:20px;line-height:20px;clear:both;font-size:12px;color:#ccc;cursor:default;}
@@ -54,8 +55,8 @@
   
   <body>
 	<div class="top_banner">
-		<div style="position: relative;left:25%;margin-top: 15px;">
-			<a href="userlogin/gotoLogin.do"><img src="<%=basePath%>images/top_logo.gif"><img src="<%=basePath%>images/top_reg.gif"></a>
+		<div style="position: relative;left:15%;">
+			<a href="userlogin/gotoLogin.do"><img src="<%=basePath%>images/top_logo.jpg"><img style="height: 100px;" src="<%=basePath%>images/top_reg.gif"></a>
 		</div>
 	</div>
 	<div class="myRegisterForm">
