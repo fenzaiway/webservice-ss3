@@ -20,7 +20,7 @@
 	<style type="text/css">
 		*{margin: 0px; padding: 0px;}
 		body{background-color: #F5F5F5;}
-		.top_banner{position: absolute;border-bottom: 1px solid #E1E1E1;height: 100px;width: 100%;left: 0px;top:0px;background-color: #50803F;}
+		.top_banner{position: absolute;border-bottom: 1px solid #E1E1E1;height: 100px;width: 100%;left: 0px;top:0px;right: 0px;;background-color: #50803F;}
 		.top_banner img{height: 90px;}
 		.myRegisterForm{margin: 0px auto; margin-top: 100px;}
 		#mailBox{background:#fff;border:1px solid #ddd;padding:3px 5px 5px;position:absolute;z-index:9999;display:none;-webkit-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);-moz-box-shadow:0px 2px 7px rgba(0, 0, 0, 0.35);margin-top: 20px; }
@@ -55,7 +55,7 @@
   
   <body>
 	<div class="top_banner">
-		<div style="position: relative;left:15%;">
+		<div style="margin-left: 260px;">
 			<a href="userlogin/gotoLogin.do"><img src="<%=basePath%>images/top_logo.jpg"><img style="height: 100px;" src="<%=basePath%>images/top_reg.gif"></a>
 		</div>
 	</div>

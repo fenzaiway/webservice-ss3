@@ -87,7 +87,7 @@ li{float:left;}
 	
     <div id="top">
 	
-        	<a href="${ctx }/userzone/infocenter.do"><div id="logo"><img src="images/top_logo.jpg" alt="a"/></div></a>
+        	<a href="${ctx }/userzone/infocenter.do"><div id="logo"><img style="border: 0 none;" src="images/top_logo.jpg" alt="a"/></div></a>
          	<div style="position:relative; width:800px; float:right; height:55px; margin-bottom:5px;">
               <div id="top_text1">
                 <span>

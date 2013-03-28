@@ -52,7 +52,7 @@ public class UserHeadImgServiceImpl extends BaseGenericService<UserHeadImg, Inte
 	public int saveHeadImg(String username){
 		userHeadImg.setUsername(username);
 		userHeadImg.setImgLocation(DEFAULT_IMG_LOCATION);
-		userLogin = userLoginServiceImpl.myFindByProperty("username", username);
+		userLogin = userLoginServiceImpl.myFindByProperty("nickname", username);
 		///设置双向关联
 		userLogin.setUserHeadImg(userHeadImg);
 		userHeadImg.setUser(userLogin);
