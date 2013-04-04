@@ -30,6 +30,8 @@ public class LogTypeServiceImpl extends BaseGenericService<LogType, Integer> {
 	
 	@Autowired LogType logType;
 	
+	public static final String HQL = "from LogType where 1=1 ";
+	
 	@Override
 	@Resource(name="logTypeDao")
 	public void setDao(IHibernateGenericDao<LogType, Serializable> dao) {
@@ -80,5 +82,10 @@ public class LogTypeServiceImpl extends BaseGenericService<LogType, Integer> {
 			logType = logTypeList.get(0);
 		}
 		return logType;
+	}
+	
+	public List<LogType> getLogTypeList(String username){
+		String hql = HQL+" and username=?";
+		return this.find(hql, username);
 	}
 }

@@ -361,5 +361,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		return super.findPageByQuery(hql, pageSize, startIndex, new Object[]{});
 	}
 	
-	
+	public List<LogInfo> getLogInfoList(String username){
+		String hql = HQL+" and username=?";
+		return this.find(hql, username);
+	}
 }

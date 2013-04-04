@@ -24,9 +24,11 @@ import com.way.blog.zone.blog.service.impl.AttentionServiceImpl;
 import com.way.blog.zone.blog.service.impl.BlogZoneServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
+import com.way.blog.zone.blog.service.impl.LogTypeServiceImpl;
 import com.way.blog.zone.entity.BlogZone;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
+import com.way.blog.zone.entity.LogType;
 
 @Controller
 @ParentPackage("struts-default")
@@ -37,6 +39,7 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	@Autowired private BlogZoneServiceImpl blogZoneService;
 	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired private LogTypeServiceImpl logTypeServiceImpl;
 	@Autowired private LogTagServiceImpl logTagServiceImpl;
 	@Autowired protected PaginationSupport paginationSupport;
 	@Autowired private AttentionServiceImpl attentionServiceImpl;
@@ -51,6 +54,7 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	
 	private List<LogInfo> logInfoList;
 	private List<LogTag> logTagList = new ArrayList<LogTag>();
+	private List<LogType> logTypeList = new ArrayList<LogType>();
 	
 	private BlogZone blogZone;
 	
@@ -66,7 +70,7 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 	 * @return
 	 */
 	@Action(value="userzone",results={
-			@Result(name="success",location="/WEB-INF/jsp/zone/userhome.jsp"), ///通过这个路径转到用户的主页
+			@Result(name="success",location="/WEB-INF/jsp/zone/userhome2.jsp"), ///通过这个路径转到用户的主页
 			@Result(name="input",location="/404.jsp"),
 			@Result(name="login",location="/register/sessionError.do",type="redirect")
 	})
@@ -79,50 +83,53 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 		if(!userLoginServiceImpl.isUserNameExist(username)){
 			return INPUT;
 		}
-		
-		/////根据session获取查看用户
-		////如果是其他用户查看，则空间的访问量+1
-		if(null == myusername){ ////游客查看
-			System.out.println("游客查看空间");
-		}else if(!username.equals(myusername)){
-			////其他登录用户
-			System.out.println("会员用户:" + myusername);
-		}else{
-			System.out.println("用户自己查看空间");
-		}
-		
-		blogZone = blogZoneService.myFindByProperty("username",username);
-		//设置当前用户所在的空间，根据当前用户昵称来判断是哪个用户的空间
-		session.setAttribute("zoneuser", username);
-		
-		this.checkIsUserAttention();
-		
-		/**
-		 * 步骤：
-		 * 1、加载用户的个人资料（暂时不做）
-		 * 2、加载用户的空间资料（暂时不做）
-		 * 3、加载用户的所有标签
-		 * 4、加载日志信息，包括转载、评论数，
-		 * 5、加载用户的最新照片（由于照片功能还没有完善，暂时不做）
-		 */
-		
-		//3、加载用户的所有标签
-		logTagList = logTagServiceImpl.getUserLogInfoTagList(username);
-		
-		//4、加载用户所有的日志
-		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=? and deleteStatue=0", PaginationSupport.PAGESIZE, startIndex, username);
-		paginationSupport.setUrl("zone/"+username);
-		logInfoList = paginationSupport.getItems();
-		//logInfoList = logInfoServiceImpl.findByProperty("username", zoneuser);
-		if(null != logInfoList){
-			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
-		}
-		///System.out.println(blogZone.getBlogZoneName());
-		///System.out.println(blogZone.getZoneUrl());
-//		logInfoList = logInfoServiceImpl.findByProperty("username", username);
+//		
+//		/////根据session获取查看用户
+//		////如果是其他用户查看，则空间的访问量+1
+//		if(null == myusername){ ////游客查看
+//			System.out.println("游客查看空间");
+//		}else if(!username.equals(myusername)){
+//			////其他登录用户
+//			System.out.println("会员用户:" + myusername);
+//		}else{
+//			System.out.println("用户自己查看空间");
+//		}
+//		
+//		blogZone = blogZoneService.myFindByProperty("username",username);
+//		//设置当前用户所在的空间，根据当前用户昵称来判断是哪个用户的空间
+//		session.setAttribute("zoneuser", username);
+//		
+//		this.checkIsUserAttention();
+//		
+//		/**
+//		 * 步骤：
+//		 * 1、加载用户的个人资料（暂时不做）
+//		 * 2、加载用户的空间资料（暂时不做）
+//		 * 3、加载用户的所有标签
+//		 * 4、加载日志信息，包括转载、评论数，
+//		 * 5、加载用户的最新照片（由于照片功能还没有完善，暂时不做）
+//		 */
+//		
+//		//3、加载用户的所有标签
+//		logTagList = logTagServiceImpl.getUserLogInfoTagList(username);
+//		
+//		//4、加载用户所有的日志
+//		paginationSupport = logInfoServiceImpl.findPageByQuery("from LogInfo where username=? and deleteStatue=0", PaginationSupport.PAGESIZE, startIndex, username);
+//		paginationSupport.setUrl("zone/"+username);
+//		logInfoList = paginationSupport.getItems();
+//		//logInfoList = logInfoServiceImpl.findByProperty("username", zoneuser);
 //		if(null != logInfoList){
 //			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
 //		}
+//		///System.out.println(blogZone.getBlogZoneName());
+//		///System.out.println(blogZone.getZoneUrl());
+////		logInfoList = logInfoServiceImpl.findByProperty("username", username);
+////		if(null != logInfoList){
+////			logInfoList = logInfoServiceImpl.changeLogInfoText(logInfoList);
+////		}
+//		return SUCCESS;
+		logTypeList = logTypeServiceImpl.getLogTypeList(username);
+		logInfoList = logInfoServiceImpl.getLogInfoList(username);
 		return SUCCESS;
 	}
 
@@ -247,6 +254,16 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 
 	public void setIsAttention(int isAttention) {
 		this.isAttention = isAttention;
+	}
+
+
+	public List<LogType> getLogTypeList() {
+		return logTypeList;
+	}
+
+
+	public void setLogTypeList(List<LogType> logTypeList) {
+		this.logTypeList = logTypeList;
 	}
 
 	
