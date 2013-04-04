@@ -31,7 +31,7 @@ public class UserZoneAction extends BaseAction {
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
 	
 	private List<LogTag> logTagList = new ArrayList<LogTag>();
-	private List<LogInfo> logInfoList = new ArrayList<LogInfo>(); 
+	private List<LogInfo> logInfoList = new ArrayList<LogInfo>();
 	
 	/**
 	 * 进入用户的个人主页
