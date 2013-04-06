@@ -4,3 +4,5 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script type="text/javascript" src="${ctx }/js/jquery.js"></script>
+<script type="text/javascript" src="${ctx }/js/commons.js"></script>
+<link rel="stylesheet" href="${ctx }/css/commons.css" type="text/css"></link>

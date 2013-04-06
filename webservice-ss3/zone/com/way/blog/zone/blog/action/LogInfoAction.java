@@ -72,6 +72,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private List<LogReprint> logReprintList = new ArrayList<LogReprint>();
 	private List<LogLike> logLikeList = new ArrayList<LogLike>();
 	private List<LogTag> logTagList = new ArrayList<LogTag>();
+	private List<LogTag> userLogTagList = new ArrayList<LogTag>();
 	private List<SimilarLogInfo> similarLogInfoList = new ArrayList<SimilarLogInfo>();
 	private List<LogStore> logStoreList = new ArrayList<LogStore>();
 	private List<Tag> tagList = new ArrayList<Tag>();
@@ -119,10 +120,20 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		return SUCCESS;
 	}
 	
+	
 	@Action(value="getLogInfoByLogTypeId",results={
 			@Result(name="success",location="/WEB-INF/jsp/zone/userhome2.jsp"), ///通过这个路径转到用户的主页
 	})
 	public String getLogInfoByLogTypeId(){
+		logTypeList = logTypeServiceImpl.getLogTypeList(zoneuser);
+		logInfoList = logInfoServiceImpl.changeLogInfoText(new ArrayList<LogInfo>(logTypeServiceImpl.findById(logTypeId).getLogInfos()));
+		return SUCCESS;
+	}
+	
+	@Action(value="findLogInfoListByTagName",results={
+			@Result(name="success",location="/WEB-INF/jsp/zone/userhome2.jsp"), ///通过这个路径转到用户的主页
+	})
+	public String findLogInfoListByTagName(){
 		logTypeList = logTypeServiceImpl.getLogTypeList(zoneuser);
 		logInfoList = logInfoServiceImpl.changeLogInfoText(new ArrayList<LogInfo>(logTypeServiceImpl.findById(logTypeId).getLogInfos()));
 		return SUCCESS;
@@ -239,12 +250,13 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			logReprintList = logReprintServiceImpl.findByProperty("logInfo", li);
 		}
 		
-		logCommentList = new ArrayList<LogComment>(logInfo.getLogComments());
+		logCommentList = logCommentServiceImpl.descSort(logInfo.getLogComments());
 		logStoreList = new ArrayList<LogStore>(logInfo.getLogStores());
 		logTypeList = logTypeServiceImpl.getLogTypeList(logInfo.getUsername());
 		logLikeList = logLikeServiceImpl.findByProperty("logInfo", logInfoServiceImpl.findOriginalLogInfo(logInfoid));
 		////加载与这篇文章相似的文章
 		logTagList = new ArrayList<LogTag>(logInfo.getLogTags());
+		userLogTagList = logTagServiceImpl.getUserLogInfoTagList(zoneuser);
 		loadSimilarLogInfo(logInfo, logTagList);
 		//logTagList = this.removeSaveLogInfo(logInfo, logTagList);
 //		Set<LogInfo> logInfos = new HashSet<LogInfo>();
@@ -656,6 +668,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 
 	public void setTagid(int tagid) {
 		this.tagid = tagid;
+	}
+
+	public List<LogTag> getUserLogTagList() {
+		return userLogTagList;
+	}
+
+	public void setUserLogTagList(List<LogTag> userLogTagList) {
+		this.userLogTagList = userLogTagList;
 	}
 	
 	

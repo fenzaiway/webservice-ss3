@@ -3,7 +3,6 @@
 *,h5{margin:0px; padding:0px;}
 body{
 background-color:#F8F8F8;
-height:3000px;
 text-align: center;
 }
 h1{font-size: 20px;}
@@ -15,7 +14,7 @@ padding-left:30px;
 text-align: left;
 }
 
-
+#top{height: 100px;background:#50803F;width: 100%;position: absolute;position: fixed;top: 0px;z-index: 1023;}
 #left{
 width:285px;
 position:absolute;
@@ -52,23 +51,45 @@ top:40px;
 min-width:620px;
 margin-left:310px;
 width:78%;
-margin-top:58px;
+margin-top:78px;
 text-align:left;
 background-color: #fff;
-padding-bottom: 100px;
+
 }
 
 #content{height: 70px;margin: 25px;}
 #title{font-size: 20px;font-weight: bold;font-family:"Microsoft YaHei";color: #333;}
 #logtext{margin: 25px;width: 750px;font-size: 16px;margin-bottom: 45px;}
-#author,#author a{margin-top: 10px;color: #AAAAAA;font-size: 12px;}
+#author,#author a,.comment_span{margin-top: 10px;color: #AAAAAA;font-size: 12px;}
 #author a{text-decoration: none;}
 #author a:hover{text-decoration: underline;}
 #tag{margin: 25px;color: #AAA;}
 #tag a{margin: 0px;padding:0px;color:#333;text-decoration: none;background-color: #EEE;padding: 3px;}
 #tag a:hover{background-color: #4C7F3E;color: #fff;}
+#bdShare{margin:15px 15px 15px 25px;}
 #similarLogInfo{margin: 25px;}
 #similarLogInfo ul{margin: 0px;padding: 0px;list-style:none;}
 #similarLogInfo ul li{margin-top: 10px;height: 18px;}
 #similarLogInfo ul li span{line-height: 18px;}
 #similarLogInfo ul li a{text-decoration: none;color: #333;font-size: 14px;}
+.clr{clear: both;}
+#bottom_data{background-color: #EFEFEF;width: 100%;height: 50px;line-height: 50px;}
+.data_span{margin-left: 15px;margin-right: 15px;}
+.data_span_1{margin-left: 25px;}
+
+#pre_next_info{height: 100px; line-height: 100px;background-color:#F8F8F8;}
+.comments{background-color:#F8F8F8;}
+.separate-line{height:1px;background:url("../images/line-bg.png") repeat-x;margin-top: 15px;margin-bottom: 15px;}
+.comments_list{background-color:#F8F8F8;padding-bottom: 20px;font-size: 12px;color:#666666;}
+.comments_list a{color: #357B1C;text-decoration: none;}
+.button{ width:104px; height:40px; background-color:#E2E2E4; border:0px solid #EDEDEF; font-size:16px; font-family:微软雅黑;}
+.publish{ background-color:#94B600; color:#FFFFFF;margin-top: 10px;}
+.comm_name{margin-bottom: 8px;}
+
+#bottom{width:100%;height: 300px;margin-top: 130px;}
+#tagfeed{width: 450px;margin: 0px auto;height: auto!important;}
+.left_content{width: 550px;margin: 0px auto;}
+.left_content ul{margin-bottom: 50px;}
+.left_content li{ margin-right:15px;float:left;margin-top: 13px;}
+.left_content li a,.log_buttom li a{ text-decoration:none; font-size:12px; color:#454545; padding:3px;}
+.left_content li a:hover,.log_buttom li a:hover{ background-color:#F16E50;border-radius:4px; padding:3px;}
