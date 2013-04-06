@@ -4,32 +4,38 @@
 body{
 background-color:#F8F8F8;
 height:3000px;
+text-align: center;
 }
 ul{ list-style:none;
 margin-top:30px;
 color:#606566;}
 li{ height:40px;
 padding-left:30px;
+text-align: left;
 }
 
+
 #left{
-width:300px;
+width:285px;
 position:absolute;
 position:fixed;
 left:0px;
 top:0px;
+float:left;
 min-width:300px;
 min-height:800px;
-float:left;}
+z-index: 1023;
+}
 
 #left_logtype{
 width:220px;
 background-color:#FFFFFF;
 min-height:400px;
 height:auto!important;
+padding-bottom:30px;
 margin:0px auto;
 position:relative;}
-#left img{width:220px; height:100px;}
+#left img{width:220px; height:100px;border: none;}
 #left_logtype li a{ color:#606566;
 text-decoration:none;
 font-size:14px;
@@ -39,21 +45,49 @@ line-height:40px;}
 background-color:#F8F8F8;}
 
 #right{
+position:relative;
 float:left;
+top:40px;
 min-width:620px;
-margin-left:280px;
-width:85%;
-margin-top:58px;}
+margin-left:310px;
+width:82%;
+margin-top:58px;
+}
 
 .article{ width:287px;
 height:230px;
-background-color:#ccc;
-float:left; margin-left:23px;
-margin-top:42px;
+background-color:#fff;
+float:left;
+text-align:left;
+margin-left:23px;
+margin-top:0px;
+margin-bottom:40px;
 border:2px solid #F8F8F8;}
 
-.content{ height:153px; background-color:#F2F2F2;}
+.content{ 
+	height:153px; 
+	background-color:#F2F2F2;
+	color: #606566;
+	font-size: 12px;
+	letter-spacing:1px;
+	line-height: 24px;
+	word-wrap:break-word;
+	word-break:break-all;
+}
+.content_1{padding: 13px;display: block;}
+.content_1 a{color:#50803F;}
+.title{font-size: 15px;color:#333;;text-decoration:none}
+.title a{color: #333;text-decoration: none;}
+.title a:hover{color: #50803F;text-decoration: underline;}
+.title span{width:280px ;display: block;padding:12px;letter-spacing:1px;text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.time1{margin-left:12px;display: inline;width: 150px;}
+.time2{float: right;margin-right:12px;display: inline;width: 80px;text-align: right;}
+
+.article_bottom{background-color: #fff;}
+
 
 #bottom{
 position:absolute;
 bottom:0px;}
+
+.clr{clear: both;}

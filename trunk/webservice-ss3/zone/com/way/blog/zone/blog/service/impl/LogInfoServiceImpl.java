@@ -120,6 +120,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			///只有长度超过200个字符的才转换
 			if(logText.length() > 200){
 				logInfo.setLogText(logText.substring(0,200));
+			}else{
+				logInfo.setLogText(logText);
 			}
 			//System.out.println(logInfo.getLogText());
 			//System.out.println("\n\n--------------------------------");
@@ -363,6 +365,6 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	
 	public List<LogInfo> getLogInfoList(String username){
 		String hql = HQL+" and username=?";
-		return this.find(hql, username);
+		return this.changeLogInfoText(find(hql, username));
 	}
 }

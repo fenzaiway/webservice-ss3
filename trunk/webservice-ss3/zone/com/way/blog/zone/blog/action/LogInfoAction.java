@@ -119,7 +119,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		return SUCCESS;
 	}
 	
-	
+	@Action(value="getLogInfoByLogTypeId",results={
+			@Result(name="success",location="/WEB-INF/jsp/zone/userhome2.jsp"), ///通过这个路径转到用户的主页
+	})
+	public String getLogInfoByLogTypeId(){
+		logTypeList = logTypeServiceImpl.getLogTypeList(zoneuser);
+		logInfoList = logInfoServiceImpl.changeLogInfoText(new ArrayList<LogInfo>(logTypeServiceImpl.findById(logTypeId).getLogInfos()));
+		return SUCCESS;
+	}
 	
 	////进入转载页面
 	//进入日志管理页面
@@ -191,7 +198,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	 * 查看文章更多信息
 	 */
 	@Action(value="viewmore",results={
-			@Result(name="success",location="/WEB-INF/jsp/zone/info_detail.jsp"),
+			//@Result(name="success",location="/WEB-INF/jsp/zone/info_detail.jsp"),
+			@Result(name="success",location="/WEB-INF/jsp/loginfo/logInfoDetail2.jsp"),
 			@Result(name="404",location="/404.jsp")
 	})
 	public String viewMore(){
@@ -233,6 +241,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		
 		logCommentList = new ArrayList<LogComment>(logInfo.getLogComments());
 		logStoreList = new ArrayList<LogStore>(logInfo.getLogStores());
+		logTypeList = logTypeServiceImpl.getLogTypeList(logInfo.getUsername());
 		logLikeList = logLikeServiceImpl.findByProperty("logInfo", logInfoServiceImpl.findOriginalLogInfo(logInfoid));
 		////加载与这篇文章相似的文章
 		logTagList = new ArrayList<LogTag>(logInfo.getLogTags());
@@ -252,19 +261,43 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	public void loadSimilarLogInfo(LogInfo logInfo,List<LogTag> logTagList){
 		SimilarLogInfo similarLogInfo = null;
 		int i=0;
+		int liId = logInfo.getId();
 		for (LogTag logTag : logTagList) {
 			for (LogInfo logInfos : new ArrayList<LogInfo>(logTag.getLogInfos())) {
-				if(logInfo.getId() != logInfos.getId()){
-					similarLogInfo = new SimilarLogInfo();
-					similarLogInfo.setId(i);
-					similarLogInfo.setLogId(logInfos.getId());
-					similarLogInfo.setLogTitle(logInfos.getLogTitle());
-					similarLogInfo.setZoneuser(logInfos.getUsername());
-					similarLogInfoList.add(similarLogInfo);
-					i++;
+				int lisId = logInfos.getId();
+				if( liId!= lisId){
+					if(!checkIsRepeat(lisId,similarLogInfoList)){
+						if(!"".equals(logInfos.getLogTitle())){
+							similarLogInfo = new SimilarLogInfo();
+							similarLogInfo.setId(i);
+							similarLogInfo.setLogId(logInfos.getId());
+							similarLogInfo.setLogTitle(logInfos.getLogTitle());
+							similarLogInfo.setZoneuser(logInfos.getUsername());
+							similarLogInfoList.add(similarLogInfo);
+							i++;
+						}
+					}
+					
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 判断相似文章是否出现重复，如果出现重复则返回true
+	 * @param logidd
+	 * @param ssimilarLogInfoList
+	 * @return
+	 */
+	public boolean checkIsRepeat(int logidd,List<SimilarLogInfo> ssimilarLogInfoList){
+		boolean flag = false;
+		for(SimilarLogInfo sli : ssimilarLogInfoList){
+			if(logidd == sli.getLogId()){
+				flag = true;
+				break;
+			}
+		}
+		return flag;
 	}
 	
 	///移除相似文章中的当前文章
