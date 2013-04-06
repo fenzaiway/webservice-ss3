@@ -5,7 +5,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -25,9 +25,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$(".article").live("mouseover",function()
 			{	
 				$(this).css("border-color","#50803F");
+				return false;
 			}).live("mouseout",function()
 			{
 				$(this).css("border-color","#F8F8F8");
+				return false;
+			});
+			
+			$("#left_logtype li").live("mouseover",function()
+			{
+				$(this).css("background-color","#F8F8F8");
+				return false;
+			}).live("mouseout",function()
+			{
+				$(this).css("background-color","#FFF");
+				return false;
 			});
 		});
 	</script>
@@ -38,25 +50,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="main">
 <div id="left">
 	<div id="left_logtype">
-    	<img  src="${ctx }/images/top_logo.jpg"/>
+    	<a href="${ctx }/userzone/infocenter.do"><img  src="${ctx }/images/top_logo.jpg"/></a>
     	<ul>
-        	<li>首页</li>
+        	<li><a href="${ctx }/zone/${zoneuser}">首页</a></li>
 			<s:iterator value="logTypeList" id="logType">
-				<li><a href=""><s:property value="#logType.logTypeName"/></a></li>
+				<li><a href="${ctx}/loginfo/getLogInfoByLogTypeId.do?logTypeId=<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></a></li>
 			</s:iterator>
             
         </ul>
     </div>
     
 </div>
-
+<div class="clr"></div>
 <div id="right">
+			
 			<s:iterator value="logInfoList" id="loginfo">
 				<div class="article">
-					<div class="content"><s:property value="#loginfo.logText"/></div>
-					<div>
-						<div class="title"><s:property value="#loginfo.logTitle"/></div>
-						<div class="time"><s:property value="#loginfo.logPublishTime"/></div>
+				
+					<div class="content">
+						<span class="content_1">
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<s:if test="#loginfo.logText.length() > 100">
+								<s:property value="#loginfo.logText.substring(0, 100)" escape="false"/>...
+							</s:if>
+							<s:else>
+								<s:property value="#loginfo.logText" escape="false"/>...
+							</s:else>
+							<a href="loginfo/viewmore.do?zoneuser=${zoneuser }&logInfoid=<s:property value='#loginfo.id'/>">更多</a>
+							
+							
+						<span>
+					</div>
+					<div class="article_bottom">
+						<div class="title"><span><a href="loginfo/viewmore.do?zoneuser=${zoneuser }&logInfoid=<s:property value='#loginfo.id'/>"><s:property value="#loginfo.logTitle"/></a></span></div>
+						<div class="time">
+							<span class="time1"><s:property value="#loginfo.logPublishTime"/></span>
+							<span class="time2"><img src="${ctx }/images/commons.gif"/><s:property value="#loginfo.logComments.size()"/></span>
+						</div>
 					</div>
 				</div>
 			</s:iterator>
@@ -64,9 +94,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 
 
-</div>
-<div id="bottom">
-底部
 </div>
 </body>
 

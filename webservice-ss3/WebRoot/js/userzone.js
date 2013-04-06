@@ -791,6 +791,7 @@
 				"background-color":"#F9F9F9",
 				"border-bottom":"2px solid #3DA8CC"
 			});
+			return false;
 		}).mouseout(function()
 		{
 			$(this).css(
@@ -798,6 +799,7 @@
 				"background-color":"#FFF",
 				"border-bottom":"0px solid #3DA8CC"
 			});
+			return false;
 		});
 
 		///将img前面的p标签去掉
