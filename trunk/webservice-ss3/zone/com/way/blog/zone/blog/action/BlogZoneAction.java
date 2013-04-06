@@ -99,7 +99,7 @@ public class BlogZoneAction extends ActionSupport implements ModelDriven<BlogZon
 //		//设置当前用户所在的空间，根据当前用户昵称来判断是哪个用户的空间
 		session.setAttribute("zoneuser", username);
 //		
-//		this.checkIsUserAttention();
+		this.checkIsUserAttention();
 //		
 //		/**
 //		 * 步骤：

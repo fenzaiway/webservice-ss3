@@ -15,6 +15,8 @@ text-align: left;
 }
 
 
+#attention{width: 70px; height: 30px;position: absolute;position: fixed;background-color: #eee;right: 50px;top:20px;z-index: 1023;}
+.attentionBut{cursor:pointer;border-radius:4px;width:70px; height:30px; line-height:30px;background-color:#4D803E; color:#FFFFFF;border:0px solid #EDEDEF;font-size:16px; font-family:微软雅黑;}
 #left{
 width:285px;
 position:absolute;

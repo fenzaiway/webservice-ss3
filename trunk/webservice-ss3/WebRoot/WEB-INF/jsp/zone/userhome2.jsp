@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'userhome2.jsp' starting page</title>
+    <title>${zoneuser }的主页</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -20,8 +20,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="${ctx }/css/homeIndex1.css">
 	<script type="text/javascript">
+		var tousername; //关注的是哪个用户的空间
+		var attentionButHtml = "";
+		///加关注事件函数
+		function addAttention()
+		{
+			//alert(tousername)
+			$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				attentionButHtml = "<input type='button' class='attentionBut' onclick='cancelAttention();' value='取消关注'/>";
+				$(".attentionDiv").empty().html(attentionButHtml);
+			});
+		}
+		
+		//取消关注事件函数
+		function cancelAttention()
+		{
+			$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+			{
+				attentionButHtml = "<input type='button' class='attentionBut' onclick='addAttention();' value='加关注'/>";
+				$(".attentionDiv").empty().html(attentionButHtml);
+			});
+		}
 		$(function()
 		{
+			tousername = '<s:property value="username"/>';
 			$(".article").live("mouseover",function()
 			{	
 				$(this).css("border-color","#50803F");
@@ -47,6 +70,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+	<div id="attention">
+		<div class="attentionDiv">
+		<s:if test="0==isAttention">
+					<input type="button" class="attentionBut" onclick="addAttention();" value="加关注"/>
+             	  	</s:if>
+					<s:elseif test="1==isAttention">
+						<input type="button" class="attentionBut" onclick="cancelAttention();" value="取消关注"/>
+					</s:elseif>
+					<s:elseif test="-2==isAttention">
+						<input type="button" class="attentionBut" onclick="gotoLogin();" value="登录"/>
+					</s:elseif>
+		</div>
+</div>
 <div id="main">
 <div id="left">
 	<div id="left_logtype">

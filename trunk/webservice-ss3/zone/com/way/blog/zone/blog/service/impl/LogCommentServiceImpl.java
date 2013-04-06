@@ -136,6 +136,21 @@ public class LogCommentServiceImpl extends BaseGenericService<LogComment, Intege
 	}
 	
 	/**
+	 * 对HashSet中的内容排序,按照最后评论的时间进行排序
+	 */
+	public List<LogComment> descSort(Set<LogComment> logCommentSet){
+		List<LogComment> logCommentList = new ArrayList<LogComment>(logCommentSet);
+		Collections.sort(logCommentList, new Comparator(){
+
+			public int compare(Object o1, Object o2) {
+				
+				return ((LogComment)o1).getCommentTime().compareTo(((LogComment)o2).getCommentTime());
+			}});
+ 		return logCommentList;
+	}
+	
+	
+	/**
 	 * 对CommentListData按时间进行排序
 	 * @param commentListDataSet
 	 * @return
