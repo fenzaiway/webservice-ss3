@@ -82,7 +82,7 @@ public class Tag implements Serializable {
 	/**
 	 * 系统标签下的日志标签
 	 */
-	@ManyToMany(mappedBy="tags",cascade={CascadeType.ALL},fetch=FetchType.LAZY,targetEntity=LogTag.class)
+	@ManyToMany(mappedBy="tags",cascade={CascadeType.ALL},fetch=FetchType.EAGER,targetEntity=LogTag.class)
 	private Set<LogTag> logTags = new HashSet<LogTag>();
 
 	public Tag() {}

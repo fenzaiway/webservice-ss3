@@ -16,6 +16,5 @@ ul{list-style: none;}
 #navi a:hover{text-decoration: underline;}
 #navi span{display: inline;float: left;margin-right: 25px;}
 
-
 .separate-line{height:1px;background:url("../images/line-bg.png") repeat-x;margin-top: 15px;margin-bottom: 15px;}
 .cls{clear: both;}

@@ -63,7 +63,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							&nbsp;&nbsp;
 							<a href="${ctx }/zone/<s:property value="#logInfoData.username"/>"><s:property value="#logInfoData.username"/></a>&nbsp;&nbsp;
 							<s:property value="#logInfoData.publishTime"/>&nbsp;&nbsp;
-							评论（<s:property value="#logInfoData.commentNum"/>）
+							评论（<s:property value="#logInfoData.commentNum"/>）&nbsp;&nbsp;
+							标签：<s:iterator value="#logInfoData.tags" id="tag">
+									&nbsp;&nbsp;<a href="${ctx }/tag/<s:property value="#tag"/>">#<s:property value="#tag"/></a>
+							</s:iterator>
 							
 						</div>
 					</li>

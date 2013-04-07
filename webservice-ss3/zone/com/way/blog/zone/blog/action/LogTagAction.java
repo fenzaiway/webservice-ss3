@@ -59,7 +59,30 @@ public class LogTagAction extends BaseAction implements ModelDriven<LogTag>{
 			return "tagPage";
 		}else{
 			//SELECT t FROM Teacher t join t.students s join s.books b where b.name = 'a'
-			paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogInfo l join l.logTags lt where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			tag = tagServiceImpl.getTagByTagName(logTag.getTagName());
+			
+			if(null!=tag && 0!=tag.getId()){ ///说明用户点击的这个标签是一个系统标签
+				
+				if(null!=tag.getLogTags() && !tag.getLogTags().isEmpty()){
+					String hql = "select DISTINCT l from LogInfo l join l.logTags lt where 1=1 and(";
+					String whereStr = "";
+					
+					int i=0;
+					for(LogTag lt : tag.getLogTags()){
+						whereStr += " or lt.tagName='"+lt.getTagName()+"'";
+					}
+					whereStr += " or lt.tagName='"+logTag.getTagName()+"')";
+					whereStr = whereStr.substring(3);
+					hql += whereStr;
+					paginationSupport = logInfoServiceImpl.findPageByQuery(hql, PaginationSupport.PAGESIZE, startIndex, new String[]{});
+					paginationSupport = new PaginationSupport(paginationSupport.getItems(),paginationSupport.getItems().size(),PaginationSupport.PAGESIZE,startIndex);
+				}else{
+					paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogInfo l join l.logTags lt where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+				}
+			}else{
+				paginationSupport = logInfoServiceImpl.findPageByQuery("select l from LogInfo l join l.logTags lt where lt.tagName=?", PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
+			}
+			
 			//paginationSupport = logInfoServiceImpl.findPageByQuery(PaginationSupport.PAGESIZE, startIndex, logTag.getTagName());
 			/*paginationSupport = logInfoServiceImpl.findPageByQuery("from LogTag lt join lt.logInfos l where lt.tagName=?", 5, 0, logTag.getTagName());
 			*/

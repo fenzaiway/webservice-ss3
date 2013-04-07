@@ -2,6 +2,8 @@ package com.way.blog.zone.blog.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +21,7 @@ import com.way.blog.manager.admin.service.impl.TagClickCountServiceImpl;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
+import com.way.blog.zone.entity.LogComment;
 import com.way.blog.zone.entity.LogInfo;
 import com.way.blog.zone.entity.LogTag;
 
@@ -249,10 +252,25 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 					logInfoList.add(li);
 				}
 			}
+			if(null!=tag.getLogTags() && !tag.getLogTags().isEmpty()){
+				for(LogTag lt : tag.getLogTags()){
+					if(null!=lt.getLogInfos() && !lt.getLogInfos().isEmpty()){
+						for(LogInfo li : lt.getLogInfos()){
+							logInfoList.add(li);
+						}
+					}
+				}
+			}
 			
 		}
+		////去掉List中重复的内容
+		Set<LogInfo> logInfoSet = new HashSet<LogInfo>(logInfoList);
+		logInfoList.clear();
+		logInfoList.addAll(logInfoSet);
+		
 		return logInfoList;
 	}
+	
 	
 	
 }

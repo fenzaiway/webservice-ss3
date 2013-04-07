@@ -194,7 +194,11 @@
 	
 	<div class="clr"></div>
 	<div id="loginfo_list">
-			<s:iterator value="searchTagData.data" id="data">
+			<s:if test='null == searchTagData'>
+				暂时还没有与<span style="font-size:18px;color:red;"><s:property value="tagName"/></span>标签有关的内容，<a href="tag/" style="font-size: 18px;color: red;font-weight: bold">发现</a>更多有趣的内容^_^
+			</s:if>
+			<s:else>
+				<s:iterator value="searchTagData.data" id="data">
 		<div class="loginfo_list_left">
 			<div class="headImg">
 				<img src="<%=basePath %>images/111.jpg" title="sasa" alt="头像" />
@@ -253,6 +257,8 @@
 				<a href="tag/<s:property value="tagName"/>?startIndex=<s:property value="searchTagData.preIndex"/>"><img src="<%=basePath%>images/pre.gif" style="float:right; margin-right:10px;" alt="上一页"/></a>
 			</s:if>
 		</div>
+			</s:else>
+			
 </div>
 	<s:if test='"" == myusername || null == myusername'>
 	
@@ -301,7 +307,6 @@
 	</div>
 	</s:else>
 	<div class="clr"></div>
-	<s:debug></s:debug>
 </div></div>
   </body>
 </html>
