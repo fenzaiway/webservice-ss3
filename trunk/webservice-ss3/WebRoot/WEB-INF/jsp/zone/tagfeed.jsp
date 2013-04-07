@@ -26,11 +26,31 @@
 	<script type="text/javascript" src="<%=basePath%>js/commons.js"></script>
 	<SCRIPT type="text/javascript">
 		var username;
+		//鼠标移动到用户头像，显示用户详细资料
+		function headimgHover()
+		{
+			$(".headImg").live("mouseover",function(e)
+			{  
+				/*var x = e.pageX;
+				var y = e.pageY;
+				//alert($(this).height()+"--" + $(this).width());
+				x=(x+$(this).width()+10);
+				y=(y+$(this).height()-6);
+				var showDivHtml = "<div id='userdetail' style='width:80px;height:100px;background-color:#fff;position:absolute;left:"+x+"px;top:"+y+"px;'>用户信息</div>"
+				$("body").append(showDivHtml);*/
+				$(this).find(".imgdiv").css("display","block");
+				
+			}).live("mouseout",function()
+			{
+				$(this).find(".imgdiv").css("display","none");
+				//$("#userdetail").remove();
+			});
+		}
 		$(function()
 		{
 			username = '<s:property value="myusername"/>';
 			myusername = '<s:property value="myusername"/>';
-			
+			headimgHover();
 			if(""==myusername)
 			{
 				
@@ -82,6 +102,59 @@
 				userCancelSubTag(tagid); //取消订阅标签
 				
 			});
+			
+			
+			
+			$(".imgdiv a").live("click",function()
+			{
+				var isattention = $(this).attr("isattention");
+				var tousername = $(this).attr("username");
+				////取消喜欢
+				if(1==isattention)
+				{
+					
+					//alert("取消关注" + tousername);
+					
+					$.post("attention/updateAttention.do",{"toUserName":tousername},function(data,status)
+					{
+						$(".imgdiv a").each(function() 
+						{
+							//
+							var name11 = $(this).attr("username");
+							var isAttention11 = $(this).attr("isattention");
+							if(tousername==name11 && isattention==isAttention11) ////如果当前加载的内容是同一个人的话，那么当取消关注的时候，所有的所有的内容都需要修改
+							{
+								$(this).parent("li").html("<a username="+tousername+" isattention=0 href='javascript:void(0);'>加关注</a>");
+							}
+						});
+					});
+				}else if(0 == isattention) //加关注
+				{
+					$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+					{
+						$(".imgdiv a").each(function() 
+						{
+							//
+							var name11 = $(this).attr("username");
+							var isAttention11 = $(this).attr("isattention");
+							if(tousername==name11 && isattention==isAttention11) ////如果当前加载的内容是同一个人的话，那么当取消关注的时候，所有的所有的内容都需要修改
+							{
+								$(this).parent("li").html("<a username="+tousername+" isattention=1 href='javascript:void(0);'>取消关注</a>");
+							}
+						});
+					});
+					
+					
+				}
+				//alert($(this).attr("username"));
+				
+				/*$.post("attention/addAttention.do",{"toUserName":tousername},function(data,status)
+				{
+					var imgdivHtml = "<a href='javascript:cancelAttention();'>取消关注</a>";
+					$(this).parents("li").empty().html(imgdivHtml);
+				});*/
+				return false;
+			});
 		});
 	</SCRIPT>
 	
@@ -124,8 +197,13 @@
 			<s:iterator value="searchTagData.data" id="data">
 		<div class="loginfo_list_left">
 			<div class="headImg">
-				<img src="<%=basePath %>images/111.jpg" alt="头像" />
-				<div class='imgdiv'><ul><li><a href='javascript:void(0);'>加关注</a></li></ul></div>
+				<img src="<%=basePath %>images/111.jpg" title="sasa" alt="头像" />
+				<s:if test="0==#data.isAttention">
+					<div class='imgdiv'><ul><li><a username='<s:property value="#data.username"/>' isattention='<s:property value="#data.isAttention"/>' href='javascript:void(0);'>加关注</a></li></ul></div>
+				</s:if>
+				<s:elseif test="1==#data.isAttention">
+					<div class='imgdiv'><ul><li><a username='<s:property value="#data.username"/>' isattention='<s:property value="#data.isAttention"/>' href='javascript:void(0);'>取消关注</a></li></ul></div>
+				</s:elseif>
 			</div>
 			<div class="info">
 				
@@ -183,8 +261,8 @@
 		<div id="left_navi">
 		<div style="width: 100%;height: 355px;height: auto!important;">
 			<div class="left_navi_1">
-				<span>15<br/>关注</span>
-				<span>5<br/>粉丝</span>
+				<span><script src="attention/getAttentionNums.do" type="text/javascript"></script><br/>关注</span>
+				<span><script src="attention/getFans.do" type="text/javascript"></script><br/>粉丝</span>
 				<span style="border-right:0px solid #ccc;">
 				<script src="ajax/zone/record.do" type="text/javascript"></script>
 				<br/>记录</span>
@@ -196,7 +274,8 @@
 				</form>
 			</div>
 			<div style="height: 40px;height: auto!important;">
-				<h5>我订阅的标签</h5>
+				<h5 style="float: left;padding: 0px;margin: 0px;">我订阅的标签</h5><span>&nbsp;&nbsp;<a href="${ctx }/loginfo/getSubTagLogInfo.do">查阅</a></span>
+				<div class="clr"></div>
 				<ul class="my_rec_sub">
 					<li>美女</li>
 					<li>明星</li>
@@ -213,7 +292,7 @@
 				</ul>
 			</div>
 		</div>
-		<div style="height: 40px;" id="more_tags">发现更多有趣内容</div>
+		<div style="height: 40px;" id="more_tags"><a href="tag/" style="font-size: 16; font-family: 微软雅黑; text-decoration: none;">发现更多有趣内容</a></div>
 		<div style="height: 90px; border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">访问统计
 			<span style="display:block;">今日访问量：0</span>
 			<span style="display:block;">总的访问量：0</span>

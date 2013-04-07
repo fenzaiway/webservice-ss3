@@ -145,7 +145,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="like"><a href='javascript:like(1);'>like（<span class="likeNumber"><s:property value="logLikeList.size()"/></span>）</a></span>
 			</div>
 			<div id="pre_next_info">
-				上一篇|下一篇
+				上一篇：<s:if test="null==preLogInfo || 0==preLogInfo.id">没有了</s:if><a href="loginfo/viewmore.do?zoneuser=<s:property value='preLogInfo.username'/>&logInfoid=<s:property value='preLogInfo.id'/>"><s:property value="preLogInfo.logTitle"/></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+				下一篇：<s:if test="null==preLogInfo || 0==preLogInfo.id">没有了</s:if><a href="loginfo/viewmore.do?zoneuser=<s:property value='nextLogInfo.username'/>&logInfoid=<s:property value='nextLogInfo.id'/>"><s:property value="nextLogInfo.logTitle"/></a>
 			</div>
 			<div class="comments">
 				<span class="comment_span">
@@ -159,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<s:iterator value="logCommentList" id="logcomment">
 						<div class="head_img"><img src="${ctx }/images/zone_headimg.gif"/></div>
 						<div class="comment_detail">
-							<div class="comm_name"><a href="${ctx }/zone/${zoneuser}"><s:property value="#logcomment.username"/></a>：<s:property value="#logcomment.commentContent"/></div>
+							<div class="comm_name"><a href="${ctx }/zone/<s:property value="#logcomment.username"/>"><s:property value="#logcomment.username"/></a>：<s:property value="#logcomment.commentContent"/></div>
 							<div class="commentTime"><s:property value="#logcomment.commentTime"/></div>
 						</div>
 						

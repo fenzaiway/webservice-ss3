@@ -64,32 +64,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="tags_main">
 	<div id="tags_top_scroll">
     	<div class="scroll_imgs">
-		<img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/>
+		<img src="${ctx }/images/hottag_img/7.jpg" alt=""/>
 		<cite>文字</cite>
 		</div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-    	<div class="scroll_imgs"><img src="http://ww4.sinaimg.cn/thumb300/a25890cejw1e29z110rvhj.jpg" alt=""/></div>
-        
-       
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://ww3.sinaimg.cn/small/4e2e966bjw1dx4ifj2ox3j.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/1.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/2.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/3.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/4.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/5.jpg" alt=""/></div>
+    	<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/6.jpg" alt=""/></div>
+
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/8.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/9.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/10.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/11.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/12.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/13.jpg" alt=""/></div>
+		<div class="scroll_imgs"><img src="${ctx }/images/hottag_img/14.jpg" alt=""/></div>
       
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
-        <div class="scroll_imgs"><img src="http://www.bobd.cn/design/UploadFiles1008/201008/20100812085103687.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/15.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/16.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/17.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/18.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/19.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/20.jpg" alt=""/></div>
+        <div class="scroll_imgs"><img src="${ctx }/images/hottag_img/21.jpg" alt=""/></div>
+        
         
     </div>
 	<div id="tags_buttom_list">
@@ -109,14 +109,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</td>
 						<td class="hot_spaces">
 							<s:iterator value="#tagSpace.spaceList" id="space">
-							<a href=""><div>
-							<s:if test='#space.img==""'>
-							<img class="space_img" src="http://tp4.sinaimg.cn/1370795567/180/5654876831/1"/>
-							</s:if>
-							<s:else>
-								<img class="space_img" src="${ctx}/<s:property value='#space.img'/>"/>
-							</s:else>
-							</div></a>
+									<div>
+										<s:if test='#space.img==""'>
+											<img class="space_img" src="http://tp4.sinaimg.cn/1370795567/180/5654876831/1"/>
+										</s:if>
+										<s:else>
+											<img class="space_img" src="${ctx}/<s:property value='#space.img'/>"/>
+										</s:else>
+										
+									</div>
 							</s:iterator>
 						</td>
 					</tr>

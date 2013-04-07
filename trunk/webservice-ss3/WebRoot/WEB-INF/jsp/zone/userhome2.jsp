@@ -42,6 +42,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$(".attentionDiv").empty().html(attentionButHtml);
 			});
 		}
+		
+		function gotoLogin()
+		{
+			window.location.href="${pageContext.request.contextPath}/userlogin/gotoLogin.do";
+		}
+		
 		$(function()
 		{
 			tousername = '<s:property value="username"/>';
