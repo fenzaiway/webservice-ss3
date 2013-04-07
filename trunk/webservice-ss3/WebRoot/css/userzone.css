@@ -2,8 +2,9 @@
 h3,h4{margin-left: 10px;}
 a{text-decoration: none;}
 a:hover{text-decoration: underline;color: red;}
-.home_navi{width: 140px;height: 100px;float:left;border-left:1px solid #E4E4E4;background-color: #fff;vertical-align: middle;}
+.home_navi{width: 139px;height: 100px;float:left;border-left:1px solid #E4E4E4;background-color: #fff;vertical-align: middle;}
 .sub_navi{width:55px;height: 65px;margin:0 auto;margin-top: 20px; }
+.music{width: 142px;}
 .sub_navi span{display: block;margin-top:5px;margin-left: 5px;}
 .sub_navi img{margin-left: 5px;margin-top: 3px;}
 #loginfo_list{height:260px;min-height: 260px;height: auto!important;width: 720px; float: left;}

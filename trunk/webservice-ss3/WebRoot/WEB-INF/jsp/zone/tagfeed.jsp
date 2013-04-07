@@ -125,6 +125,7 @@
 		<div class="loginfo_list_left">
 			<div class="headImg">
 				<img src="<%=basePath %>images/111.jpg" alt="头像" />
+				<div class='imgdiv'><ul><li><a href='javascript:void(0);'>加关注</a></li></ul></div>
 			</div>
 			<div class="info">
 				
