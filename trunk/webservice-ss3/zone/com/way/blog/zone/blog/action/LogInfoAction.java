@@ -158,6 +158,7 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		tagList = tagServiceImpl.loadUserSubTagList(myusername);
 		//2、取出用户订阅标签日志列表
 		logInfoList = logTagServiceImpl.getLogInfoList(tagList);
+		logInfoList = logInfoServiceImpl.sort(logInfoList);
 		//封装用户订阅的内容
 		logInfoDataList = logInfoServiceImpl.getLogInfoDataList(logInfoList, myusername);
 		return SUCCESS;

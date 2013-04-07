@@ -115,6 +115,19 @@ public class TagServiceImpl extends BaseGenericService<Tag, Integer> {
 	}
 	
 	/**
+	 * 根据标签名取出系统标签
+	 * @param tagName
+	 * @return
+	 */
+	public Tag getTagByTagName(String tagName){
+		tags = this.find(HQL+" and isSysTag=1 and tagName=?", tagName);
+		if(!this.isListTEmpty(tags)){
+			tag = tags.get(0);
+		}
+		return tag;
+	}
+	
+	/**
 	 * 根据标签名判断这个标签是不是在系统中存在
 	 * 如果存在，返回true
 	 * @param tagName

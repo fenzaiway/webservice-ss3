@@ -2,6 +2,8 @@ package com.way.blog.zone.blog.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -399,5 +401,18 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	public List<LogInfo> getLogInfoList(String username){
 		String hql = HQL+" and username=?";
 		return this.changeLogInfoText(find(hql, username));
+	}
+	
+	/**
+	 * 对List中的内容排序,按照最后评论的时间进行排序
+	 */
+	public List<LogInfo> sort(List<LogInfo> logInfoList){
+		Collections.sort(logInfoList, new Comparator(){
+
+			public int compare(Object o1, Object o2) {
+				
+				return -((LogInfo)o1).getLogPublishTime().compareTo(((LogInfo)o2).getLogPublishTime());
+			}});
+ 		return logInfoList;
 	}
 }

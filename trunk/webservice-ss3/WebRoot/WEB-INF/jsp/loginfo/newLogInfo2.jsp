@@ -225,8 +225,8 @@ $(function()
 	body{ background-color:#E2E2E4;}
 	h2{ font-family:simsun,宋体; font-size:26px; color:#444444; margin-top:35px; margin-left:33px; height:auto!important;}
 	h3{ margin-top:33px; margin-left:33px; margin-bottom:20px; font-style:normal; font-family:宋体;color:#444444;  height:auto!important; display:table;}
-	#new_info_main{ width:926px; margin:0px auto; background-color:#F3F3F3; min-height:670px; height:auto!important; border:1px solid #B7B7B8; margin-top:100px; margin-bottom:100px;}
-	#new_info_left{ width:670px; float:left; background-color:#fff; border-right:1px solid #EBEBEB;min-height:300px; height:auto!important;}
+	#new_info_main{ width:980px; margin:0px auto; background-color:#F3F3F3; min-height:670px; height:auto!important; border:1px solid #B7B7B8; margin-top:100px; margin-bottom:100px;}
+	#new_info_left{ width:720px; float:left; background-color:#fff; border-right:1px solid #EBEBEB;min-height:300px; height:auto!important;}
 	#new_info_right{ width:255px; background-color:#F3F3F3; float:right;min-height:645px;; height:auto!important; position:relative; height:100%;}
 	#detail{ height:45px; border-bottom:1px solid #EBEBEB; height:auto!important;}
 	#new_info_title{ height:90px; height:auto!important;}
@@ -234,7 +234,7 @@ $(function()
 	#new_info_content{ width:610px; height:290px; margin-left:33px;min-height:290px; height:auto!important;}
 	#new_info_button{ height:90px; margin-left:33px; margin-top:30px; height:auto!important; margin-bottom:15px;}
 	.add_tags{ width:200px; background-color:#FFF; height:100px; margin:30px 10px 20px 20px;height:auto!important;}
-	.add_tags span{ background-color:#F3F3F3; font-size:12px; color:#999999; padding:10px; margin-top:5px;}
+	.a_1{ background-color:#F3F3F3; font-size:12px; color:#999999; padding:10px; margin-top:5px;}
 	.user_tags,.all_tags{ width:200px; margin-left:20px; border:1px solid #79A9B1; margin-bottom:20px; min-height:100px; height:auto!important;}
 	.user_tags ul{list-style: none;}
 	.user_tags_li{ float: left; background-color:#01A2D8;margin-left: 5px; margin-top: 5px;color:#fff; padding: 3px;font-family:微软雅黑;}
@@ -261,7 +261,7 @@ $(function()
             </div>
 			<div id="new_info_title">
             	<h3>标题</h3>
-                <input type="text" id="logtitle" name="logInfo.logTitle" style="border:1px solid #CECECF; width:610px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
+                <input type="text" id="logtitle" name="logInfo.logTitle" style="border:1px solid #CECECF; width:650px; height:45px; line-height:45px; font-size:26px; font-family:Microsoft YaHei,微软雅黑,tahoma,arial,simsun,宋体; margin-left:33px;" maxlength="50" /> 
             </div>
             <div id="content">
             	 <h3>内容</h3>
@@ -284,13 +284,12 @@ $(function()
               <input type="submit" id="subBut" class="button publish" value="发　布"/>
             </div>
         </div>
-      
         <div id="new_info_right">
         	<div class="add_tags">
             	<div id="feedTags"></div>
                
                 <input type="hidden" value="" name="myLogTags" style="width:200px;" id="tags" />
-                 <span>添加标签，用逗号或者回车号分隔</span>
+                 <div class="a_1">添加标签，用逗号或者回车号分隔</div>
             </div>
            <div class="user_tags">
            <ul>
@@ -331,14 +330,12 @@ $(function()
 			<input type="button" class="butSubmit" value="添加" style="color:#FFFFFF;margin-left: 0px;background-color:#94B600; border:0px solid #79A9B1; font-size:16px; font-family:微软雅黑;height: 30px; width: 50px;line-height: 30px;"/>
 			</div>
 			</div>
-            <div style="width:200px; height:35px; line-height:35px; color:#333;margin-left:20px; margin-bottom:15px;">同步到腾讯微博<input type="checkbox" id="syswb"/></div>
+            <div style="width:200px; height:35px; line-height:35px; color:#333;margin-left:20px; margin-bottom:15px;">同步到腾讯微博<input type="checkbox" id="syswb"/><input type="button" onclick="logout()" value="logout"/></div>
              <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
         </div>
         <div style="font: 0px/0px sans-serif;clear: both;display: block"> </div> 
     </div>
 </form>
-	<s:debug></s:debug>
-
 </body>
 
 </html>
