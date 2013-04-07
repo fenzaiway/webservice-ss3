@@ -22,6 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.base.entity.LogInfoData;
 import com.way.blog.base.service.impl.MessageServiceImpl;
 import com.way.blog.manager.admin.entity.Tag;
 import com.way.blog.manager.admin.service.impl.TagServiceImpl;
@@ -75,10 +76,14 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 	private List<LogTag> userLogTagList = new ArrayList<LogTag>();
 	private List<SimilarLogInfo> similarLogInfoList = new ArrayList<SimilarLogInfo>();
 	private List<LogStore> logStoreList = new ArrayList<LogStore>();
+	private List<LogInfoData> logInfoDataList = new ArrayList<LogInfoData>();
 	private List<Tag> tagList = new ArrayList<Tag>();
 	
 	private LogInfo logInfo;
+	private LogInfo preLogInfo;
+	private LogInfo nextLogInfo;
 	private LogType logType;
+	private LogInfoData logInfoData;
 	private LogLike logLike;
 	private LogTag logTag;
 	private int logTypeId;
@@ -138,6 +143,26 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 		logInfoList = logInfoServiceImpl.changeLogInfoText(new ArrayList<LogInfo>(logTypeServiceImpl.findById(logTypeId).getLogInfos()));
 		return SUCCESS;
 	}
+	
+	@Action(value="getSubTagLogInfo",results={
+			@Result(name="success",location="/tags/userSubTag.jsp"),
+	})
+	public String getSubTagLogInfo(){
+		/**
+		 * 思路
+		 * 1、取出用户订阅的标签
+		 * 2、通过用户订阅的标签取出标签对应的日志
+		 * 3、通过日志列表和用户名重新封装数据
+		 */
+		//1、取出用户订阅的标签
+		tagList = tagServiceImpl.loadUserSubTagList(myusername);
+		//2、取出用户订阅标签日志列表
+		logInfoList = logTagServiceImpl.getLogInfoList(tagList);
+		//封装用户订阅的内容
+		logInfoDataList = logInfoServiceImpl.getLogInfoDataList(logInfoList, myusername);
+		return SUCCESS;
+	}
+	
 	
 	////进入转载页面
 	//进入日志管理页面
@@ -249,7 +274,8 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 			li.setId(sourceLogInfoId);
 			logReprintList = logReprintServiceImpl.findByProperty("logInfo", li);
 		}
-		
+		preLogInfo = logInfoServiceImpl.getPreLogInfo(logInfo.getUsername(), logInfoid);
+		nextLogInfo = logInfoServiceImpl.getNextLogInfo(logInfo.getUsername(), logInfoid);
 		logCommentList = logCommentServiceImpl.descSort(logInfo.getLogComments());
 		logStoreList = new ArrayList<LogStore>(logInfo.getLogStores());
 		logTypeList = logTypeServiceImpl.getLogTypeList(logInfo.getUsername());
@@ -676,6 +702,46 @@ public class LogInfoAction extends BaseAction implements ModelDriven<LogInfo> {
 
 	public void setUserLogTagList(List<LogTag> userLogTagList) {
 		this.userLogTagList = userLogTagList;
+	}
+
+
+	public LogInfo getPreLogInfo() {
+		return preLogInfo;
+	}
+
+
+	public void setPreLogInfo(LogInfo preLogInfo) {
+		this.preLogInfo = preLogInfo;
+	}
+
+
+	public LogInfo getNextLogInfo() {
+		return nextLogInfo;
+	}
+
+
+	public void setNextLogInfo(LogInfo nextLogInfo) {
+		this.nextLogInfo = nextLogInfo;
+	}
+
+
+	public LogInfoData getLogInfoData() {
+		return logInfoData;
+	}
+
+
+	public void setLogInfoData(LogInfoData logInfoData) {
+		this.logInfoData = logInfoData;
+	}
+
+
+	public List<LogInfoData> getLogInfoDataList() {
+		return logInfoDataList;
+	}
+
+
+	public void setLogInfoDataList(List<LogInfoData> logInfoDataList) {
+		this.logInfoDataList = logInfoDataList;
 	}
 	
 	

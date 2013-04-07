@@ -48,7 +48,12 @@
 		<div id="top_navi">
 			<div id="head_navi">
 				<div>
-				 <img src="<%=basePath %>images/111.jpg" alt="头像" />
+				<s:if test='""==headImg || null==headImg'>
+					<img src="<%=basePath %>images/111.jpg" alt="头像" />
+				</s:if>
+				<s:else>
+				 	<img src="${headImg }" alt="头像" />
+				</s:else>
 				</div>
 			</div>
 			<div class="home_navi">
@@ -153,7 +158,7 @@
 				</form>
 			</div>
 			<div style="height: 40px;height: auto!important;">
-				<h5 style="padding: 0px;margin: 0px;">我订阅的标签</h5>
+				<h5 style="padding: 0px;margin: 0px;float: left;">我订阅的标签</h5><span>&nbsp;&nbsp;<a href="${ctx }/loginfo/getSubTagLogInfo.do">查阅</a></span>
 				<ul class="my_rec_sub">
 					<li>美女</li>
 					<li>明星</li>

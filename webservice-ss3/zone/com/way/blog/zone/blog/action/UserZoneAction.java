@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.way.blog.base.action.BaseAction;
+import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.util.PaginationSupport;
 import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.blog.service.impl.LogTagServiceImpl;
@@ -29,10 +30,11 @@ public class UserZoneAction extends BaseAction {
 
 	@Autowired private LogTagServiceImpl logTagServiceImpl;
 	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
+	@Autowired private UserHeadImgServiceImpl userHeadImgServiceImpl;
 	
 	private List<LogTag> logTagList = new ArrayList<LogTag>();
 	private List<LogInfo> logInfoList = new ArrayList<LogInfo>();
-	
+	private String headImg;
 	/**
 	 * 进入用户的个人主页
 	 * @return
@@ -75,6 +77,7 @@ public class UserZoneAction extends BaseAction {
 			@Result(name="success",location="/WEB-INF/jsp/zone/userzone.jsp"),
 	})
 	public String userInfoCenter(){
+		headImg = userHeadImgServiceImpl.getHeadImgUrl(myusername);
 		return SUCCESS;
 	}
 	
@@ -95,6 +98,14 @@ public class UserZoneAction extends BaseAction {
 
 	public void setLogInfoList(List<LogInfo> logInfoList) {
 		this.logInfoList = logInfoList;
+	}
+
+	public String getHeadImg() {
+		return headImg;
+	}
+
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
 	}
 	
 	

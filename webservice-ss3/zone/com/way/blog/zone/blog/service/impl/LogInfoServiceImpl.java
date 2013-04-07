@@ -55,6 +55,7 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 	@Autowired private UserLogin userLogin;
 	@Autowired private BlogZone blogZone;
 	List<Attention> attentionList = new ArrayList<Attention>();
+	List<LogInfo> logInfoList = new ArrayList<LogInfo>();
 	
 	@Override
 	@Resource(name="logInfoDao")
@@ -128,6 +129,38 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			myLogInfoList.add(logInfo);
 		}
 		return myLogInfoList;
+	}
+	
+	/**
+	 * 根据Id和日志所属用户取出该用户日志的上一篇日志
+	 * @param username
+	 * @param logid
+	 * @return
+	 */
+	public LogInfo getPreLogInfo(String username, int logid){
+		LogInfo loginfo = null;
+		String hql = HQL+" and username=? and id<?";
+		logInfoList = this.find(hql, new Object[]{username,logid});
+		if(!this.isListTEmpty(logInfoList)){
+			loginfo = logInfoList.get(logInfoList.size()-1);
+		}
+		return loginfo;
+	}
+	
+	/**
+	 * 根据Id和日志所属用户取出该用户日志的下一篇日志
+	 * @param username
+	 * @param logid
+	 * @return
+	 */
+	public LogInfo getNextLogInfo(String username, int logid){
+		LogInfo loginfo = null;
+		String hql = HQL+" and username=? and id>?";
+		logInfoList = this.find(hql, new Object[]{username,logid});
+		if(!this.isListTEmpty(logInfoList)){
+			loginfo = logInfoList.get(0);
+		}
+		return loginfo;
 	}
 	
 	/**

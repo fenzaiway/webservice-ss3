@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -24,8 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<style type="text/css">
 		*{margin: 0px; padding: 0px;}
 		body {
-			background-image: url("images/login_bg.jpg");
-			color: #F0F0F0;	
+			/*background-image: url("images/login_bg.jpg");*/
+			color: #F0F0F0;
 			font-family:sans-serif;
 			font-size: 16px;
 		}
@@ -82,11 +83,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
   
   <body>
-	
-		<div id="top">
+		
+<div id="Layer1" style="position:absolute; width:100%; height:100%; z-index:-1">  
+<img src="${ctx }/images/login_bg.jpg" height="100%" width="100%"/></div>
+		<!--<div id="top">
 				<img alt="" src="<%=basePath %>images/index_logo.jpg">
 			</div>
-		<div id="normal">
+		--><div id="normal">
 			
 			<div class="error_msg">
 				<s:fielderror fieldName="sessionTimeout"></s:fielderror>

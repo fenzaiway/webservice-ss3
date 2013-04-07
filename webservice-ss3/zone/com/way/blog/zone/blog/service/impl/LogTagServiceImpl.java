@@ -234,4 +234,25 @@ public class LogTagServiceImpl extends BaseGenericService<LogTag, Integer> {
 		logTagName = "%"+logTagName+"%";
 		return this.findPageByQuery(hql, pageSize, startIndex, new String[]{logTagName});
 	}
+	
+	/**
+	 * 根据用户订阅的标签取出标签对应的内容
+	 * @param tagList
+	 * @return
+	 */
+	public List<LogInfo> getLogInfoList(List<Tag> tagList){
+		List<LogInfo> logInfoList = new ArrayList<LogInfo>();
+		for(Tag tag : tagList){
+			logTag = this.myFindByProperty("tagName", tag.getTagName());
+			if(null!=logTag && !logTag.getLogInfos().isEmpty()){
+				for(LogInfo li : logTag.getLogInfos()){
+					logInfoList.add(li);
+				}
+			}
+			
+		}
+		return logInfoList;
+	}
+	
+	
 }
