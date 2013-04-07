@@ -80,6 +80,7 @@ background-color: #fff;
 #pre_next_info{height: 100px; line-height: 100px;background-color:#F8F8F8;}
 .comments{background-color:#F8F8F8;}
 .separate-line{height:1px;background:url("../images/line-bg.png") repeat-x;margin-top: 15px;margin-bottom: 15px;}
+.head_img{float: left;margin-right: 10px;}
 .comments_list{background-color:#F8F8F8;padding-bottom: 20px;font-size: 12px;color:#666666;}
 .comments_list a{color: #357B1C;text-decoration: none;}
 .button{ width:104px; height:40px; background-color:#E2E2E4; border:0px solid #EDEDEF; font-size:16px; font-family:微软雅黑;}

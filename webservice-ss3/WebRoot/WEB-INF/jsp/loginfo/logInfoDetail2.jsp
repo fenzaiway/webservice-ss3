@@ -157,8 +157,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="separate-line"></div>
 				<div class="comments_list">
 					<s:iterator value="logCommentList" id="logcomment">
-						<div class="comm_name"><a href="${ctx }/zone/${zoneuser}"><s:property value="#logcomment.username"/></a>：<s:property value="#logcomment.commentContent"/></div>
-						<div class="commentTime"><s:property value="#logcomment.commentTime"/></div>
+						<div class="head_img"><img src="${ctx }/images/zone_headimg.gif"/></div>
+						<div class="comment_detail">
+							<div class="comm_name"><a href="${ctx }/zone/${zoneuser}"><s:property value="#logcomment.username"/></a>：<s:property value="#logcomment.commentContent"/></div>
+							<div class="commentTime"><s:property value="#logcomment.commentTime"/></div>
+						</div>
+						
 						<div class="separate-line"></div>
 					</s:iterator>
 				</div>

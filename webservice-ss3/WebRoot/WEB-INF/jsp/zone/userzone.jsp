@@ -69,7 +69,7 @@
 					<span>转视频</span>
 				</div>
 			</div>
-			<div class="home_navi">
+			<div class="home_navi music">
 				<div class="sub_navi">
 					<img src="<%=basePath %>images/navi_music.gif" alt="发音乐">
 					<span>发音乐</span>
