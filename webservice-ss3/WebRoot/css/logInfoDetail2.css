@@ -59,7 +59,7 @@ background-color: #fff;
 
 #content{height: 70px;margin: 25px;}
 #title{font-size: 20px;font-weight: bold;font-family:"Microsoft YaHei";color: #333;}
-#logtext{margin: 25px;width: 750px;font-size: 16px;margin-bottom: 45px;}
+#logtext{margin: 25px;width: 750px;font-size: 16px;margin-bottom: 45px;word-wrap:break-word;word-break:break-all;}
 #author,#author a,.comment_span{margin-top: 10px;color: #AAAAAA;font-size: 12px;}
 #author a{text-decoration: none;}
 #author a:hover{text-decoration: underline;}
