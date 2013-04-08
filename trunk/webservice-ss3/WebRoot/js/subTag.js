@@ -144,9 +144,16 @@ function searchTag()
 ////在这个函数中加载数据
 function init()
 {
-	///加载推荐订阅的标签
-	loadOtherTags();	
-	///加载当期用户订阅的标签
-	loadUserTags();
+	if(null==username || ""==username)
+	{
+		
+	}else
+	{
+		///加载推荐订阅的标签
+		loadOtherTags();	
+		///加载当期用户订阅的标签
+		loadUserTags();
+	}
+	
 	
 }
