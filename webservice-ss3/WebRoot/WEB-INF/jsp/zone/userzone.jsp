@@ -29,7 +29,7 @@
 		$(function()
 		{
 			backToTop();
-			username = '<s:property value="zoneuser"/>';
+			username = '<s:property value="myusername"/>';
 			myusername = '<s:property value="myusername"/>';
 			//alert(username);
 			searchTag(); ///搜索标签
