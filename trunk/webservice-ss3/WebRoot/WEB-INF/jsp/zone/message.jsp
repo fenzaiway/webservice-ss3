@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%
@@ -12,16 +12,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>阅读订阅内容</title>
+    <title>${myusername }--的消息列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
 	<link rel="stylesheet" href="${ctx }/css/commons.css" type="text/css"></link>
 	<link rel="stylesheet" type="text/css" href="${ctx }/css/userSubTag.css">
-	<script type="text/javascript" src="<%=basePath%>js/jquery-1.6.2.js"></script>
+	
+	<STYLE type="text/css">
+		h3{float: left;}
+		h3 a{text-decoration: none;color: #333;}
+		h3 a:hover{text-decoration: underline;color: red;}
+		
+	</STYLE>
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.6.2.js"></script>
 <script type="text/javascript" src="${ctx }/js/commons.js"></script>
 	<script type="text/javascript">
 		$(function()
@@ -52,31 +62,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="cls"></div>
 	<div id="main">
-	   	<s:if test="0==logInfoDataList.size"> 
-	   		你订阅的标签暂时还没有内容更新。 
-	   	</s:if>
-		<s:else>
-			<h3>您订阅的内容列表如下：</h3>
-			<ul>
-				<s:iterator value="logInfoDataList" id="logInfoData" status="st">
-					<li class="li_list">
-						<div><div class="separate-line"></div>
-							<s:property value="#st.count"/>.&nbsp;
-							<a href="loginfo/viewmore.do?zoneuser=<s:property value='#logInfoData.username'/>&logInfoid=<s:property value='#logInfoData.logid'/>"><s:property value="#logInfoData.logTitle"/></a>
-							&nbsp;&nbsp;
-							<a href="${ctx }/zone/<s:property value="#logInfoData.username"/>"><s:property value="#logInfoData.username"/></a>&nbsp;&nbsp;
-							<s:property value="#logInfoData.publishTime"/>&nbsp;&nbsp;
-							评论（<s:property value="#logInfoData.commentNum"/>）&nbsp;&nbsp;
-							标签：<s:iterator value="#logInfoData.tags" id="tag">
-									&nbsp;&nbsp;<a href="${ctx }/tag/<s:property value="#tag"/>">#<s:property value="#tag"/></a>
-							</s:iterator>
-							
-						</div>
-					</li>
-				</s:iterator><div class="separate-line" style="margin-left: 25px;"></div>
-				<li><a href="tag/" style="font-size: 16; font-family: 微软雅黑; text-decoration: none;">发现更多有趣内容</a></li>
-			</ul>
-		</s:else>
-	</div>
+  		<div style="float: left;"><span><h3 style="color: #3FA7CB">我的消息列表</h3></span></div>
+		<div class="cls"></div>
+	<ul>
+		<s:iterator value="messageList" id="message" status="st">
+			<li  class="li_list">
+			<div class="separate-line"></div>
+				<s:property value="#st.count"/>.&nbsp;<span style="color: #3FA7CB;"><s:property value="#message.msgContent" escape="false"/></span>
+				<span style="float:right;margin-right:10px;">
+					<s:if test="1 == #message.msgtype">评论消息</s:if>
+					<s:elseif test="2 == #message.msgtype">转载消息</s:elseif>
+					<s:elseif test="3 == #message.msgtype">收藏消息</s:elseif>
+					<s:elseif test="4 == #message.msgtype">like消息</s:elseif>
+					<s:elseif test="5 == #message.msgtype">公告消息</s:elseif>
+					<s:elseif test="6 == #message.msgtype">关注信息 </s:elseif>
+					<s:elseif test="7 == #message.msgtype">回复消息</s:elseif>
+					
+				</span>
+			</li>
+		</s:iterator>
+		<div class="separate-line" style="margin-left: 25px;"></div>
+	</ul>
+    </div>
   </body>
 </html>

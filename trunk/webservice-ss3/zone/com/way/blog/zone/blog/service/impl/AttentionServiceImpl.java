@@ -123,12 +123,44 @@ public class AttentionServiceImpl extends BaseGenericService<Attention, Integer>
 	
 	public int getFans(String username){
 		int num=0;
-		String hql = HQL+" and toUserName=? and isAttention=1";
-		attentionList = find(hql, new String[]{username});
+		attentionList = getFansList(username);
 		if(null!=attentionList && !attentionList.isEmpty()){
 			num = attentionList.size();
 		}
 		return num;
+	}
+	
+	/**
+	 * 获取粉丝列表
+	 * @param username
+	 * @return
+	 */
+	public List<Attention> getFansList(String username){
+		String hql = HQL+" and toUserName=? and isAttention=1";
+		attentionList = find(hql, new String[]{username});
+		return attentionList;
+	}
+	
+	/**
+	 * 获取粉丝列表并判断与粉丝是否双方都相互关注
+	 * @param fansList
+	 * @return
+	 */
+	public List<Attention> getFansList(List<Attention> fansList){
+		List<Attention> fans = new ArrayList<Attention>();
+		Attention fan = null;
+		for(Attention attention : fansList){
+			fan = new Attention();
+			fan.setFromUserName(attention.getFromUserName());
+			fan.setToUserName(attention.getToUserName());
+			if(isUserAttention(attention.getToUserName(), attention.getFromUserName())){
+				fan.setIsAttention(1);
+			}else{
+				fan.setIsAttention(0);
+			}
+			fans.add(fan);
+		}
+		return fans;
 	}
 	
 	/**
@@ -138,11 +170,22 @@ public class AttentionServiceImpl extends BaseGenericService<Attention, Integer>
 	
 	public int getAttentionNum(String username){
 		int num=0;
-		String hql = HQL+" and fromUserName=? and isAttention=1";
-		attentionList = find(hql, new String[]{username});
+		
+		attentionList = getAttentionList(username);
 		if(null!=attentionList && !attentionList.isEmpty()){
 			num = attentionList.size();
 		}
 		return num;
+	}
+	
+	/**
+	 * 获取关注空间列表
+	 * @param username
+	 * @return
+	 */
+	public List<Attention> getAttentionList(String username){
+		String hql = HQL+" and fromUserName=? and isAttention=1";
+		attentionList = find(hql, new String[]{username});
+		return attentionList;
 	}
 }

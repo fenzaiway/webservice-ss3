@@ -49,7 +49,7 @@
     				<div style="width: 120px;height: 100px;border: 1px solid green;">
     					<img alt="" style="width: 120px;height: 100px;border: 0 none;" src="<s:property value='#albumType.coverImg'/>">
     				</div>
-    				<div style="width: 120px;height: 20px;border: 1px solid pink;text-align: center;"><span style="float:left;display:block;width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><s:property value="#st.count"/>、<s:property value="#albumType.albumTypeName"/></span>（<s:property value="#albumType.album.size()"/>）</div>
+    				<div style="width: 120px;height: 20px;border: 1px solid pink;text-align: center;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span style="float:left;display:block;width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><s:property value="#st.count"/>、<s:property value="#albumType.albumTypeName"/></span>（<s:property value="#albumType.album.size()"/>）</div>
     			</div></a>
     		</s:iterator>
     		<div style="clear: both;"></div>
