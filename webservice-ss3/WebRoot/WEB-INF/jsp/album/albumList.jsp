@@ -108,7 +108,6 @@
 			window.location.reload();
 		});
 	</script>
-	<s:debug></s:debug>
 	</div>
   </body>
 </html>

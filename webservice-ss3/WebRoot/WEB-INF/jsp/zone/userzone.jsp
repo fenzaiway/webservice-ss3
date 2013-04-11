@@ -143,10 +143,10 @@
 			<div class="left_navi_1">
 				<span>
 					<script src="attention/getAttentionNums.do" type="text/javascript"></script>
-				<br/>关注</span>
+				<br/><a href="${ctx }/attention/readAttentionList.do">关注</a></span>
 				<span>
 				<script src="attention/getFans.do" type="text/javascript"></script>
-				<br/>粉丝</span>
+				<br/><a href="${ctx }/attention/readFansList.do">粉丝</a></span>
 				<span style="border-right:0px solid #ccc;">
 				<script src="ajax/zone/record.do" type="text/javascript"></script>
 				<br/>记录</span>

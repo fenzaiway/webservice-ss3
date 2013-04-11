@@ -19,6 +19,7 @@ import com.way.blog.user.service.impl.UserHeadImgServiceImpl;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.util.MyFormatDate;
 import com.way.blog.util.PaginationSupport;
+import com.way.blog.zone.blog.service.impl.LogInfoServiceImpl;
 import com.way.blog.zone.entity.LogInfo;
 
 @Service("messageServiceImpl")
@@ -32,8 +33,9 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	}
 	
 	@Autowired private Message message;
-	@Autowired UserHeadImgServiceImpl userHeadImgServiceImpl;
-	@Autowired UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired private UserHeadImgServiceImpl userHeadImgServiceImpl;
+	@Autowired private UserLoginServiceImpl userLoginServiceImpl;
+	@Autowired private LogInfoServiceImpl logInfoServiceImpl;
 	
 	private static final String HQL = "from Message where 1=1 ";
 	
@@ -94,11 +96,12 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 				message = getMessage(fromusername,msgType,username);
 			}else if(7==msgType){
 				if(!fromusername.equals(username))//当回复的不是自己评论的时候
+				//this.saveOriginalLogInfoMessage(logInfo,fromusername,msgType);
 				message = getMessage(msgType,logInfo,fromusername);
 				message.setUsername(username);
 			}else{
 				if(!fromusername.equals(logInfo.getUsername())){ //当评论用户评论的不是自己的内容的时候，才会触发
-					
+						//this.saveOriginalLogInfoMessage(logInfo,fromusername,msgType);
 						message = getMessage(msgType,logInfo,fromusername);
 					
 				}else{
@@ -111,6 +114,20 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	}
 	
 	/**
+	 * 评论的时候，如果是原创文章，则消息也会提醒原创文章用户
+	 * @param liTemp
+	 * @param fromusername
+	 * @param msgType
+	 */
+	public void saveOriginalLogInfoMessage(LogInfo liTemp,String fromusername,int msgType){
+		if(0!=liTemp.getSourceLogInfoId()){ ////如果这篇日志不是原创的时候，同时通知原创用户和转载用户
+			LogInfo li = logInfoServiceImpl.findOriginalLogInfo((liTemp.getId()));
+			Message ms = getMessage(msgType,li,fromusername);
+			this.save(ms);
+		}
+	}
+	
+	/**
 	 * 获取用户关注空间消息
 	 * @param fromusername
 	 * @param msgType
@@ -120,7 +137,7 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 		String userzoneUrl = "<a href='zone/"+fromusername+"'>"+fromusername+"</a>";
 		//表示评论
 		StringBuffer sb = new StringBuffer();
-		sb.append(userzoneUrl).append("关注了你的空间");
+		sb.append(userzoneUrl).append("关注了您的空间");
 		Message msg = new Message();
 		msg.setFromusername(fromusername);
 		msg.setMsgContent(sb.toString());
@@ -201,14 +218,14 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 		StringBuffer sb = new StringBuffer();
 		if(1 == msgType){
 			//表示评论
-			sb.append(userzoneUrl).append("评论了你的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
+			sb.append(userzoneUrl).append("评论了您的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
 		}
 		if(4 == msgType){
 			//表示评论
-			sb.append(userzoneUrl).append("喜欢了你的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
+			sb.append(userzoneUrl).append("喜欢了您的").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
 		}
 		if(7==msgType){
-			sb.append(userzoneUrl).append("回复了你的评论").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
+			sb.append(userzoneUrl).append("回复了您的评论").append("<a href='").append(url).append("'>").append(logTitle).append("</a>");
 		}
 		
 		return sb.toString();
@@ -309,5 +326,15 @@ public class MessageServiceImpl extends BaseGenericService<Message, Integer> {
 	public PaginationSupport getPaginationSupport(int pageSize, int startIndex){
 		String hql = HQL+" and msgtype=5";
 		return this.findPageByQuery(hql, pageSize, startIndex, new Object[]{});
+	}
+	
+	/**
+	 * 根据用户名获取用户的消息列表
+	 * @param username
+	 * @return
+	 */
+	public List<Message> messageList(String username){
+		this.updateMessage(username); ///在获取用户消息之前先更新消息为已读状态
+		return this.findByProperty("username", username);
 	}
 }

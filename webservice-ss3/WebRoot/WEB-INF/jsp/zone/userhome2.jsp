@@ -19,6 +19,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
 	<link rel="stylesheet" type="text/css" href="${ctx }/css/homeIndex1.css">
+	<style type="text/css">
+		#top{z-index: 2;line-height: 40px;position: absolute;position: fixed;height: 40px;background-color: #EEEEEE;width:100%;top:0px;left: 0px;}
+		#top h1{font-size:16px;}
+		#navi{width: 980px;margin: 0px auto;}
+		#navi a{color:#333;text-decoration: none;}
+		#navi a:hover{text-decoration: underline;}
+		#navi span{display: inline;float: left;margin-right: 25px;}
+	</style>
 	<script type="text/javascript">
 		var tousername; //关注的是哪个用户的空间
 		var attentionButHtml = "";
@@ -50,6 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		$(function()
 		{
+			backToTop();
 			tousername = '<s:property value="username"/>';
 			$(".article").live("mouseover",function()
 			{	
@@ -76,6 +85,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+	<div id="top">
+		<div id="navi">
+			<span><h1><a href="${ctx }/userzone/infocenter.do">首页</a></h1></span>
+			<span><h1><a href="${ctx }/zone/${myusername}">我的主页</a></h1></span>
+			<span><h1><a href="${ctx }/albumtype/gotoAlbumTypeList.do?zoneuser=${zoneuser }">相册</a></h1></span>
+			<span><h1><a href="${ctx }/tag/">发现</a></h1></span>
+			<span><h1><a href="${ctx }/ajax/message/getUserMessageList.do">消息</a></h1></span>
+		</div>
+	</div>
+	<div id="home_top"><h1>${zoneuser}</h1></div>
 	<div id="attention">
 		<div class="attentionDiv">
 		<s:if test="0==isAttention">
