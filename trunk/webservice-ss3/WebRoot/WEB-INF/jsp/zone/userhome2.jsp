@@ -30,6 +30,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		var tousername; //关注的是哪个用户的空间
 		var attentionButHtml = "";
+		
+		//定义全局变量
+		var lastLiHtml = ""; ///上一个Li的html内容
+		var nowLiHtml = "";
+		var lastTypeName = "";// 原来日志类型，用来判断是否要进行日志更新
+		var lastIndex = -1; ///上一条记录
+		
 		///加关注事件函数
 		function addAttention()
 		{
@@ -56,6 +63,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			window.location.href="${pageContext.request.contextPath}/userlogin/gotoLogin.do";
 		}
 		
+		function delete_type(index)
+		{
+			if(window.confirm('你确定要删除吗？删除后该分类目录将移动到“个人日志”分类下'))
+			{
+              	var myLogTypeId = $("#left_logtype li:eq("+index+")").attr("logid");
+					
+				$.post("logtype/delete.do",{"myLogTypeId":myLogTypeId},function(data,status)
+				{
+					/////成功删除，则将该行删除
+					if("success"==status)
+					{
+						$("#left_logtype li:eq("+index+")").remove();
+						alert("分类成功删除");
+					}
+				})
+              }else
+              {
+                 //alert("取消");
+                // return false;
+             }
+		}
+		
+		///日志类型编辑
+		function editType(index)
+		{
+			//alert('aaa');
+			//判断上一个li Index是不是为-1
+			if(-1 != lastIndex) //表示已经点击过编辑链接，上一条内容要进行还原
+			{
+				var lastLi = $("#left_logtype li:eq("+lastIndex+")");
+				lastLi.empty().html(lastLiHtml); //还原上一条li的html数据
+				lastIndex = index;
+			}else
+			{
+				lastIndex = index;
+			}
+			var liThis = $("#left_logtype li:eq("+index+")");
+			lastLiHtml = liThis.html(); //取得当前li的内容
+			lastTypeName = liThis.find(".type_a").text();
+			var editHtml = "<input class='type_name' type='text' value='"+lastTypeName+"' name=''>"+
+							"<input type='button' class='update_but' value='更新'/><input type='button' class='cancle_but' value='取消'/>";
+			
+			liThis.empty().html(editHtml);
+			alert();
+		}
+		
+		//取消更新
+		function cancleBut()
+		{
+			$(".cancle_but").live("click",function()
+			{
+				$("#left_logtype li:eq("+lastIndex+")").empty().html(lastLiHtml);
+				return false;
+			});
+		}
+		
+		//点击更新按钮
+		function updateBut()
+		{
+			$(".update_but").live("click",function()
+			{
+				//获取内容
+				var nowTypeName = $(".type_name").val();
+				if("" == nowTypeName)
+				{
+					alert("分类名称不能为空");
+					return false;
+				}
+				if(nowTypeName==lastTypeName) ///如果用户不更新分类名称的话
+				{
+					//还原原来的内容
+					$("#left_logtype li:eq("+lastIndex+")").empty().html(lastLiHtml);
+				}else //用户更新名称的时候才异步更新分类的名称
+				{
+					var myLogTypeId = $("#left_logtype li:eq("+lastIndex+")").attr("logid");
+					//alert(myLogTypeId);
+					$.post("logtype/update.do",{"myLogTypeName":nowTypeName,"myLogTypeId":myLogTypeId},function(data,status)
+					{
+						//alert(status);
+						if("success" == status)///成功后隐藏div
+						{
+							$("#left_logtype li:eq("+lastIndex+")").empty().html(lastLiHtml);
+							$("#left_logtype li:eq("+lastIndex+")").find(".type_a").text(nowTypeName);
+							lastLiHtml="";
+							lastIndex=-1;
+							alert("更新成功");
+						}
+					});
+				}
+				return false;
+			})
+			
+			
+		}
+		
 		$(function()
 		{
 			backToTop();
@@ -73,12 +175,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#left_logtype li").live("mouseover",function()
 			{
 				$(this).css("background-color","#F8F8F8");
+				$(this).find("span").css("display","inline");
 				return false;
 			}).live("mouseout",function()
 			{
 				$(this).css("background-color","#FFF");
+				$(".type_edit").css("display","none");
 				return false;
 			});
+			
+			
+			cancleBut(); ///点击取消按钮
+			updateBut(); //点击更新按钮
 		});
 	</script>
 
@@ -114,8 +222,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<a href="${ctx }/userzone/infocenter.do"><img  src="${ctx }/images/top_logo.jpg"/></a>
     	<ul>
         	<li><a href="${ctx }/zone/${zoneuser}">首页</a></li>
-			<s:iterator value="logTypeList" id="logType">
-				<li><a href="${ctx}/loginfo/getLogInfoByLogTypeId.do?logTypeId=<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></a></li>
+			<s:iterator value="logTypeList" id="logType" status="st">
+				<li logid=<s:property value="#logType.id"/>>
+					<a class='type_a' href="${ctx}/loginfo/getLogInfoByLogTypeId.do?logTypeId=<s:property value="#logType.id"/>"><s:property value="#logType.logTypeName"/></a>
+					<c:if test="${zoneuser==myusername}">
+						<s:if test="0==#logType.isDefaultLogType">
+						<span class="type_edit">
+						&nbsp;&nbsp;<a href="javascript:editType(<s:property value='#st.count'/>)" >编辑</a>
+						&nbsp;&nbsp;<a href="javascript:delete_type(<s:property value='#st.count'/>)" >删除</a>
+						</span></s:if>
+						<s:elseif test="1==#logType.isDefaultLogType">
+							(不支持编辑及删除)
+						</s:elseif>
+					</c:if>
+				</li>
 			</s:iterator>
             
         </ul>
