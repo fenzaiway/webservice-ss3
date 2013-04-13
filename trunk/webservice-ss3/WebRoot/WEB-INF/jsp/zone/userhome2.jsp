@@ -106,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							"<input type='button' class='update_but' value='更新'/><input type='button' class='cancle_but' value='取消'/>";
 			
 			liThis.empty().html(editHtml);
-			alert();
+			
 		}
 		
 		//取消更新
