@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.loginfo.blog.way.com/" targetNamespace="http://service.loginfo.blog.way.com/" version="1.0">
 
+  <xs:element name="getLogInfoById" type="tns:getLogInfoById"/>
+
+  <xs:element name="getLogInfoByIdResponse" type="tns:getLogInfoByIdResponse"/>
+
   <xs:element name="getRecoreCount" type="tns:getRecoreCount"/>
 
   <xs:element name="getRecoreCountResponse" type="tns:getRecoreCountResponse"/>
@@ -12,6 +16,18 @@
   <xs:element name="save" type="tns:save"/>
 
   <xs:element name="saveResponse" type="tns:saveResponse"/>
+
+  <xs:complexType name="getLogInfoById">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="logId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getLogInfoByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="save">
     <xs:sequence>
