@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.way.blog.base.entity.LoginReturn;
-import com.way.blog.base.entity.ReturnStatus;
 import com.way.blog.user.entity.UserLogin;
 import com.way.blog.user.service.impl.UserLoginServiceImpl;
 import com.way.blog.util.JsonUtil;
@@ -41,6 +40,8 @@ public class MyUserLoginServiceImpl extends SpringBeanAutowiringSupport implemen
 	public String login(@WebParam(name="username")String username,@WebParam(name="password") String password) {
 		LoginReturn lr = new LoginReturn();
 		if(userLoginServiceImpl.login(username, password)){
+			System.out.println("-------username---"+username);
+			System.out.println("-------password----"+password);
 			userLogin = userLoginServiceImpl.myFindByProperty("account", username);
 			lr.setStatus(1);
 			lr.setUsername(userLogin.getNickname());

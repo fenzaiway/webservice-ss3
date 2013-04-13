@@ -153,6 +153,10 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LogInfoServiceService</servlet-name>
+		<url-pattern>/MessageServicePort</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LogInfoServiceService</servlet-name>
 		<url-pattern>/MyUserLoginServiceImplPort</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>

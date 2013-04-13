@@ -28,4 +28,8 @@ public class LogInfoServiceDelegate {
 		return logInfoService.getRecoreCount(username);
 	}
 
+	public String getLogInfoById(String logId) {
+		return logInfoService.getLogInfoById(logId);
+	}
+
 }

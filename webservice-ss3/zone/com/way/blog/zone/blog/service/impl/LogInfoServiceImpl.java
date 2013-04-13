@@ -415,4 +415,27 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 			}});
  		return logInfoList;
 	}
+
+	/**
+	 * 根据日志Id返回日志json数据格式
+	 * @param logId
+	 * @return
+	 */
+	public String getLogInfoById(String logId) {
+		logInfo = findById(Integer.parseInt(logId));
+		//return JsonUtil.returnJsonByObjectOfExpose(logInfo);
+		if(null != logInfo){
+//			LogInfoData lid = new LogInfoData();
+//			//lid = this.getLogInfoData(logInfo, logInfo.getUsername());
+//			lid.setLogid(logInfo.getId());
+//			lid.setLogTitle(logInfo.getLogTitle());
+//			lid.setLogContent(logInfo.getLogText());
+//			System.out.println(lid);
+//			return JsonUtil.toJson(lid);
+			return JsonUtil.returnJsonByObjectOfExpose(logInfo);
+		}else{
+			return "";
+		}
+		
+	}
 }

@@ -8,4 +8,8 @@
 	<endpoint name="LogInfoServicePort"
 		implementation="com.way.blog.loginfo.service.LogInfoService"
 		url-pattern="/LogInfoServicePort">
+	</endpoint>
+	<endpoint name="MessageServicePort"
+		implementation="com.way.blog.service.MessageService"
+		url-pattern="/MessageServicePort">
 	</endpoint></endpoints>

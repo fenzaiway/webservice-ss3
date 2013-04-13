@@ -58,4 +58,14 @@ public class LogInfoService extends SpringBeanAutowiringSupport implements ILogI
 		return logInfoServiceImpl.getRecoreCount(username);
 	}
 	
+	/**
+	 * 根据日志ID返回日志的JSON数据格式
+	 * @param logId
+	 * @return
+	 */
+	@WebMethod
+	public String getLogInfoById(@WebParam(name="logId")String logId){
+		return logInfoServiceImpl.getLogInfoById(logId);
+	}
+	
 }
