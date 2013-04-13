@@ -39,6 +39,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	资源描述：<textarea rows="" cols="" name="descString"><s:property value='myResources.descString'/></textarea><br/>
     	<input type="submit" value="更新">
     </form>
-<s:debug></s:debug>
   </body>
 </html>

@@ -39,16 +39,19 @@ min-height:400px;
 height:auto!important;
 padding-bottom:30px;
 margin:0px auto;
-
 position:relative;}
 #left img{width:220px; height:100px;border: none;}
 #left_logtype li a{ color:#606566;
 text-decoration:none;
 font-size:14px;
 line-height:40px;}
-
+#left_logtype li a:hover{text-decoration:underline;color: red; }
+.type_edit{display: none;}
 #left_logtype li:hover{
 background-color:#F8F8F8;}
+.type_name{width: 90px;height: 26px; line-height: 26px;border:1px solid #4D803E; }
+.update_but,.cancle_but{background-color: #9CC63D;color: #FFF;height: 26px;line-height: 26px;border:0px solid #4D803E; width: 45px;vertical-align:bottom;margin-left: 2px;}
+
 
 #right{
 position:relative;
