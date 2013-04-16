@@ -21,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>js/jquery.feedTags.js" type="text/javascript"></script>
     <script type="text/javascript">
    
+   	var time = 30000;
+   
     ////、初始化微博数据同步	
     T.init({
         appkey:801321945
@@ -92,13 +94,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		return curStr;  //结束函数
 	}
 	
+	////执行保存函数
+	function saveToDraft11()
+	{
+		var content = UE.getEditor('editor').getContent(); ///获取编辑框中的内容
+		var logTitle = $("#logtitle").val();
+		if(""==content)
+		{
+			alert("请输入文字内容");
+		}else //异步保存
+		{
+			
+			if(""==logTitle) //如果日志标题为空，则从文本内容中截取5个字符作为标题
+			{
+				var logText = UE.getEditor('editor').getPlainTxt();
+				var textLength = GetCharLength(logText);
+				if(textLength>5)
+				{
+					logTitle = CutStr(logText,5);
+				}else
+				{
+					logTitle = textLength;
+				}
+			}
+			
+			$.post("ajax/draft/save.do",{"title":logTitle,"content":content},function(data,status)
+			{
+				if("success"==status)
+				{
+					var showText = "草稿保存成功，最新保存时间：" + data.saveTime;
+					$(".draftSuccess").empty().html(showText).show(300).delay(3000).hide(300);
+				}
+			});
+			
+		}
+	}
+	
+	///用户点击异步保存到草稿
+	function saveToDraft()
+	{
+		$("#saveToDraft").live("click",function()
+		{
+			saveToDraft11();
+		});
+	}
+
+	///检测用户是否输入内容	
+	function checkIsEdit()
+	{
+		var content = UE.getEditor('editor').getContent(); ///获取编辑框中的内容
+		if(""!=content)
+		{
+			saveToDraft11();
+			time = 120000;
+		}	
+	}
+
 $(function()
 {
 	$('#feedTags').feedTags({
 		isview:false,
 		tags:$('#tags')
 	});
-	
+	//checkIsEdit();///判断编辑框是否存在内容，如果存在自动保存
+	/*页面加载后间隔多少秒开始进行异步保存*/
+	setTimeout(function() {
+     checkIsEdit();
+	},time);
+	//轮循保存到草稿
+	setInterval(function() {
+        checkIsEdit();
+	}, time);
+	saveToDraft(); ///保存到草稿
 	////判断用户是否选择同步到微博
 	$("#syswb").click(function()
 	{
@@ -232,6 +299,7 @@ $(function()
 	#new_info_title{ height:90px; height:auto!important;}
 	#content{ height:33px;min-height:300px; height:auto!important;}
 	#new_info_content{ width:610px; height:290px; margin-left:33px;min-height:290px; height:auto!important;}
+	.draftSuccess{margin-left:33px;margin-top:5px;color: #50803F;margin-bottom: 10px;display: none;}
 	#new_info_button{ height:90px; margin-left:33px; margin-top:30px; height:auto!important; margin-bottom:15px;}
 	.add_tags{ width:200px; background-color:#FFF; height:100px; margin:30px 10px 20px 20px;height:auto!important;}
 	.a_1{ background-color:#F3F3F3; font-size:12px; color:#999999; padding:10px; margin-top:5px;}
@@ -279,10 +347,11 @@ $(function()
             
             <div id="new_info_button">
             	<input type="button" class="button" value="取　消"/>
-              <input style="display:none" type="button" class="button" value="保存草稿"/>
+              	<input type="button" class="button" id="saveToDraft" value="保存草稿"/>
               <input type="button" class="button" value="预　览"/>
               <input type="submit" id="subBut" class="button publish" value="发　布"/>
             </div>
+			<div class="draftSuccess"></div>
         </div>
         <div id="new_info_right">
         	<div class="add_tags">

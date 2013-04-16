@@ -159,11 +159,6 @@ public class LogInfo implements Serializable {
 	@OneToMany(mappedBy="logInfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=LogReprint.class)
 	public Set<LogReprint> logReprints = new HashSet<LogReprint>();
 	
-	/**
-	 * 日志草稿箱，一篇日志对应一草稿记录
-	 */
-	@OneToOne(mappedBy="logInfo",fetch=FetchType.LAZY,targetEntity=LogDraft.class)
-	public Set<LogDraft> logDraft = new HashSet<LogDraft>();
 	
 	/**
 	 * 日志分享
@@ -206,7 +201,7 @@ public class LogInfo implements Serializable {
 	public LogInfo(int deleteStatue, int id, int logAllowComment,
 			int logAllowVisit, Set<LogAttachment> logAttachments,
 			Set<LogCommentReply> logCommentReplys, Set<LogComment> logComments,
-			int logContentStatus, Set<LogDraft> logDraft, int logIsOriginal,
+			int logContentStatus, int logIsOriginal,
 			Set<LogLike> logLikes, String logPublishTime,
 			Set<LogReprint> logReprints, Set<LogShare> logShares,
 			Set<LogStore> logStores, Set<LogTag> logTags, String logText,
@@ -222,7 +217,6 @@ public class LogInfo implements Serializable {
 		this.logCommentReplys = logCommentReplys;
 		this.logComments = logComments;
 		this.logContentStatus = logContentStatus;
-		this.logDraft = logDraft;
 		this.logIsOriginal = logIsOriginal;
 		this.logLikes = logLikes;
 		this.logPublishTime = logPublishTime;
@@ -352,14 +346,6 @@ public class LogInfo implements Serializable {
 
 	public void setLogReprints(Set<LogReprint> logReprints) {
 		this.logReprints = logReprints;
-	}
-
-	public Set<LogDraft> getLogDraft() {
-		return logDraft;
-	}
-
-	public void setLogDraft(Set<LogDraft> logDraft) {
-		this.logDraft = logDraft;
 	}
 
 	public Set<LogShare> getLogShares() {
