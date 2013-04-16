@@ -367,8 +367,8 @@ public class LogInfoServiceImpl extends BaseGenericService<LogInfo, Integer> {
 		logInfo.setUsername(username);
 		logInfo.setLogAllowVisit(visible);
 		int myid = this.save(logInfo);
-		logInfo = this.findById(myid);
-		logTagServiceImpl.saveTag(logInfo, tags); //保存日志标签
+		LogInfo li = this.findById(myid);
+		logTagServiceImpl.saveTag(li, tags); //保存日志标签
 		returnStatus = new ReturnStatus();
 		returnStatus.setStatus(1); ///表示成功
 		return JsonUtil.toJson(returnStatus);

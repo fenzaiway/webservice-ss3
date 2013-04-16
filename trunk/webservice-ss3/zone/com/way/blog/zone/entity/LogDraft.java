@@ -58,22 +58,20 @@ public class LogDraft implements Serializable {
 	@Column(name="ld_time",unique = false, nullable = false, insertable = true, updatable = true,length=25)
 	private String saveTime;
 	
-	/**
-	 * 草稿关联的日志
-	 */
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.REFRESH})
-	private LogInfo logInfo;
+	@Expose
+	@Column(name="ld_username",unique = false, nullable = false, insertable = true, updatable = true,length=50)
+	private String username;
 
 	public LogDraft() {}
 
-	public LogDraft(int id, LogInfo logInfo, String logText, String logTitle,
-			String saveTime) {
+	public LogDraft(int id, String logText, String logTitle, String saveTime,
+			String username) {
 		super();
 		this.id = id;
-		this.logInfo = logInfo;
 		this.logText = logText;
 		this.logTitle = logTitle;
 		this.saveTime = saveTime;
+		this.username = username;
 	}
 
 	public int getId() {
@@ -108,12 +106,14 @@ public class LogDraft implements Serializable {
 		this.saveTime = saveTime;
 	}
 
-	public LogInfo getLogInfo() {
-		return logInfo;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLogInfo(LogInfo logInfo) {
-		this.logInfo = logInfo;
+	public void setUsername(String username) {
+		this.username = username;
 	}
+	
+	
 	
 }
