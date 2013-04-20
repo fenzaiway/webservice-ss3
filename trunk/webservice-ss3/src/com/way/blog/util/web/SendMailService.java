@@ -27,14 +27,14 @@ public class SendMailService {
 	private static final String ISAUTHVALUE = "true";	//将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
 	private static final String TIMEOUTKEY = "mail.smtp.timeout";	//设置超时时间
 	private static final String TIMEOUTVALUE = "25000";		//超时时间/s
-	//private static final String SENDFROM = "fenzaiway@sina.com";
-	private static final String SENDFROM = "fenzaiway@qq.com";
-	//private static final String USERNAME = "fenzaiway@sina.com";
-	private static final String USERNAME = "fenzaiway@qq.com";
-	//private static final String PASSWORD = "moway890727";
-	private static final String PASSWORD = "Ajavaway890905";
-	private static final String REPLAYTO = "fenzaiway@vip.qq.com";	//回复地址
-	private static final String CC = "fenzaiway@sina.com";	//抄送地址
+	//private static final String SENDFROM = "*******@sina.com";
+	private static final String SENDFROM = "*******@qq.com";
+	//private static final String USERNAME = "*******@sina.com";
+	private static final String USERNAME = "*******@qq.com";
+	//private static final String PASSWORD = "*******";
+	private static final String PASSWORD = "*******";
+	private static final String REPLAYTO = "*******";	//回复地址
+	private static final String CC = "*******";	//抄送地址
 	private static final String ENCODE = "UTF-8";
 	
 	private static final String[] EMAILS = {
