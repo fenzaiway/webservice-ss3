@@ -42,13 +42,13 @@ public class MailServiceTest extends BaseTest{
 		this.init();
 		List<Map<String, String>> maps = new ArrayList<Map<String,String>>();
 		Map map1 = new HashMap<String, String>();
-		map1.put("抄送人001", "fenzaiway@sina.com");
+		map1.put("抄送人001", "*******@sina.com");
 		Map map2 = new HashMap<String, String>();
-		map2.put("抄送人001", "fenzaiway@foxmail.com");
+		map2.put("抄送人001", "*******@foxmail.com");
 		maps.add(map1);
 		maps.add(map2);
 		List<String> userEmailList = new ArrayList<String>();
-		userEmailList.add("fenzaiway@qq.com");
+		userEmailList.add("*******@qq.com");
 		String htmlText="<html><head><title>测试封装的发送html</title></head><body>111这是一篇使用封装的HTML邮件，<a href='http://www.baidu.com'>百度</a></body></html>";
 		sendMailService.sendMailByHtml(userEmailList, "测试发送html邮件", htmlText, maps);
 	}
@@ -66,14 +66,14 @@ public class MailServiceTest extends BaseTest{
 		sender.setHost( "smtp.sina.com" );
 		SimpleMailMessage mail = new SimpleMailMessage();
 		
-		mail.setFrom("fenzaiway@sina.com");
-		mail.setTo("fenzaiway@qq.com");
-		mail.setReplyTo("fenzaiway@vip.qq.com");
-		mail.setCc("fenzaiway@sina.com");
+		mail.setFrom("*******@sina.com");
+		mail.setTo("*******@qq.com");
+		mail.setReplyTo("*******@vip.qq.com");
+		mail.setCc("*******@sina.com");
 		mail.setSubject("注册成功11");
 		mail.setText("尊敬的fenzaiway用户，恭喜您在轻轻一点博客注册成功");
-		//sender.setUsername( "fenzaiway@sina.com" ) ;  //  根据自己的情况,设置username 
-		//sender.setPassword( "moway890727" ) ;  //  根据自己的情况, 设置password 
+		//sender.setUsername( "*******@sina.com" ) ;  //  根据自己的情况,设置username 
+		//sender.setPassword( "*******" ) ;  //  根据自己的情况, 设置password 
 		// Properties prop  =   new  Properties() ;
 		// prop.put( "mail.smtp.auth" ,  "true" ) ;  //  将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
 		// prop.put( "mail.smtp.timeout" ,  "25000" ) ; 
@@ -91,13 +91,13 @@ public class MailServiceTest extends BaseTest{
 	     // 设置收件人，寄件人 用数组发送多个邮件
 	     // String[] array = new String[]    {"sun111@163.com","sun222@sohu.com"};    
 	     // mailMessage.setTo(array);  
-	    mailMessage.setTo( "fenzaiway@qq.com" ); 
-	    mailMessage.setFrom( "fenzaiway@sina.com" ); 
+	    mailMessage.setTo( "*******@qq.com" ); 
+	    mailMessage.setFrom( "*******@sina.com" ); 
 	    mailMessage.setSubject( " 测试简单文本邮件发送！ " ); 
 	    mailMessage.setText( " 测试我的简单邮件发送机制！！ " ); 
 	    
-	    senderImpl.setUsername( "fenzaiway@sina.com" ) ;  //  根据自己的情况,设置username 
-	    senderImpl.setPassword( "moway890727" ) ;  //  根据自己的情况, 设置password 
+	    senderImpl.setUsername( "*******@sina.com" ) ;  //  根据自己的情况,设置username 
+	    senderImpl.setPassword( "*******" ) ;  //  根据自己的情况, 设置password 
 	    
 	 Properties prop  =   new  Properties() ;
 	 prop.put( "mail.smtp.auth" ,  "true" ) ;  //  将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
@@ -120,21 +120,21 @@ public class MailServiceTest extends BaseTest{
 //	            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,"utf-8"); 
 //	           // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");  
 //	            //设置发送人名片  
-//	            helper.setFrom("fenzaiway@qq.com");  
+//	            helper.setFrom("*******@qq.com");  
 //	            //设置收件人名片和地址  
-//	            helper.setTo(new InternetAddress("\"" + MimeUtility.encodeText("qq邮箱") + "\" <fenzaiway@qq.com>"));// 发送者  
+//	            helper.setTo(new InternetAddress("\"" + MimeUtility.encodeText("qq邮箱") + "\" <*******@qq.com>"));// 发送者  
 //	            // 邮件发送时间  
 //	            helper.setSentDate(new Date());  
 //	            //设置回复地址  
-//	            helper.setReplyTo(new InternetAddress("fenzaiway@sina.com"));  
+//	            helper.setReplyTo(new InternetAddress("*******@sina.com"));  
 //	            //设置抄送的名片和地址  
-//	            helper.setCc(InternetAddress.parse(MimeUtility.encodeText("抄送人001") + " <fenzaiway@sina.com>," + MimeUtility.encodeText("抄送人002") + " <fenzaiway@foxmail.com>"));  
+//	            helper.setCc(InternetAddress.parse(MimeUtility.encodeText("抄送人001") + " <*******@sina.com>," + MimeUtility.encodeText("抄送人002") + " <*******@foxmail.com>"));  
 //	            //主题  
 //	            helper.setSubject("HTML邮件");  
 //	            // 邮件内容，注意加参数true，表示启用html格式  
-//	            helper.setText("<html><head></head><body><h1>hello!!我是乔布斯111</h1><a href=\"http://172.16.13.98:8080/ss3/zone/fenzaiway\">验证</a></body></html>",true);  
-//	            senderImpl.setUsername( "fenzaiway@qq.com" ) ;  //  根据自己的情况,设置username 
-//	    	    senderImpl.setPassword( "Ajavaway890905" ) ;  //  根据自己的情况, 设置password 
+//	            helper.setText("<html><head></head><body><h1>hello!!我是乔布斯111</h1><a href=\"http://172.16.13.98:8080/ss3/zone/*******\">验证</a></body></html>",true);  
+//	            senderImpl.setUsername( "*******@qq.com" ) ;  //  根据自己的情况,设置username 
+//	    	    senderImpl.setPassword( "*******" ) ;  //  根据自己的情况, 设置password 
 //	    	    
 //	    	 Properties prop  =   new  Properties() ;
 //	    	 prop.put( "mail.smtp.auth" ,  "true" ) ;  //  将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确 
@@ -161,8 +161,8 @@ public class MailServiceTest extends BaseTest{
 	    MimeMessageHelper messageHelper = new MimeMessageHelper(mailMessage,true); 
 	    
 	    //设置收件人，寄件人 
-	    messageHelper.setTo("fenzaiway@qq.com"); 
-	    messageHelper.setFrom("fenzaiway@sina.com"); 
+	    messageHelper.setTo("*******@qq.com"); 
+	    messageHelper.setFrom("*******@sina.com"); 
 	    messageHelper.setSubject("测试邮件中嵌套图片!！"); 
 	    //true 表示启动HTML格式的邮件 
 	    messageHelper.setText("<html><head></head><body><h1>hello!!spring image html mail</h1>" + 
@@ -172,8 +172,8 @@ public class MailServiceTest extends BaseTest{
 	    
 	    messageHelper.addInline("aaa",img); 
 	    
-	    senderImpl.setUsername("fenzaiway@sina.com") ; // 根据自己的情况,设置username
-	    senderImpl.setPassword("moway890727") ; // 根据自己的情况, 设置password
+	    senderImpl.setUsername("*******@sina.com") ; // 根据自己的情况,设置username
+	    senderImpl.setPassword("*******") ; // 根据自己的情况, 设置password
 	    Properties prop = new Properties() ;
 	    prop.put("mail.smtp.auth", "true") ; // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
 	    prop.put("mail.smtp.timeout", "25000") ; 
@@ -196,8 +196,8 @@ public class MailServiceTest extends BaseTest{
 	    MimeMessageHelper messageHelper = new MimeMessageHelper(mailMessage,true,"utf-8"); 
 	    
 	    //设置收件人，寄件人 
-	    messageHelper.setTo("fenzaiway@qq.com");    
-	    messageHelper.setFrom("fenzaiway@sina.com"); 
+	    messageHelper.setTo("*******@qq.com");    
+	    messageHelper.setFrom("*******@sina.com"); 
 	    messageHelper.setSubject("测试邮件中上传附件!！"); 
 	    //true 表示启动HTML格式的邮件 
 	    messageHelper.setText("<html><head></head><body><h1>你好：附件中有学习资料！</h1></body></html>",true); 
@@ -206,8 +206,8 @@ public class MailServiceTest extends BaseTest{
 	    //这里的方法调用和插入图片是不同的。 
 	    messageHelper.addAttachment(MimeUtility.encodeWord(file.getFilename()),file); 
 	    
-	    senderImpl.setUsername("fenzaiway@sina.com") ; // 根据自己的情况,设置username
-	    senderImpl.setPassword("moway890727") ; // 根据自己的情况, 设置password
+	    senderImpl.setUsername("*******@sina.com") ; // 根据自己的情况,设置username
+	    senderImpl.setPassword("*******") ; // 根据自己的情况, 设置password
 	    Properties prop = new Properties() ;
 	    prop.put("mail.smtp.auth", "true") ; // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
 	    prop.put("mail.smtp.timeout", "25000") ; 
@@ -221,8 +221,8 @@ public class MailServiceTest extends BaseTest{
 //		  //设置utf-8或GBK编码，否则邮件会有乱码    
 //		  MimeMessageHelper messageHelper = new MimeMessageHelper(mailMessage,true,"utf-8");    
 //		  try {    
-//			  messageHelper.setTo("fenzaiway@qq.com");//接受者       
-//		   messageHelper.setFrom("fenzaiway@sina.com");//发送者    
+//			  messageHelper.setTo("*******@qq.com");//接受者       
+//		   messageHelper.setFrom("*******@sina.com");//发送者    
 //		   messageHelper.setSubject("测试邮件");//主题    
 //		   //邮件内容，注意加参数true    
 //		   messageHelper.setText("<html><head></head><body><h1>hello!!chao.wang</h1></body></html>",true);    
