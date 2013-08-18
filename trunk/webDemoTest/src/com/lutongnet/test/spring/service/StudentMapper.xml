@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lutongnet.test.spring.service.StudentMapper">
+
+	<resultMap type="StudentEntity" id="studentResultMap">
+		<id property="studentID" column="STUDENT_ID"/>
+		<result property="studentName" column="STUDENT_NAME"/>
+		<result property="studentSex" column="STUDENT_SEX"/>
+		<result property="studentBirthday" column="STUDENT_BIRTHDAY"/>
+		<result property="classId" column="CLASS_ID"/>
+	</resultMap>
+	<sql id="demo_sql">
+		STUDENT_BIRTHDAY,STUDENT_ID,STUDENT_NAME,STUDENT_SEX,CLASS_ID
+	</sql>
+	
+	<!-- 查询学生，根据id -->
+	<select id="getStudent" parameterType="String" resultType="com.lutongnet.test.spring.entity.StudentEntity" resultMap="studentResultMap">
+		
+			SELECT * from STUDENT_TBL ST
+				WHERE ST.STUDENT_ID = #{studentID} 
+		
+	</select>
+	
+	<!-- 查询学生列表 -->
+	<select id="getStudentAll"  resultType="com.lutongnet.test.spring.entity.StudentEntity" resultMap="studentResultMap">
+		<![CDATA[
+			SELECT * from STUDENT_TBL
+		]]> 
+	</select>
+	
+	<!-- 插入学生数据 -->
+	<insert id="insertStudent">
+		insert into STUDENT_TBL(<include refid="demo_sql"/>) values(#{studentBirthday},#{studentID},#{studentName},#{studentSex},#{classId})
+	</insert>
+	
+</mapper>

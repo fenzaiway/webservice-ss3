@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper     
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"     
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">     
+   
+<!-- namespace用于java代码调用时识别指定xml的mapper文件 -->
+<mapper namespace="com.lutong.test.mybatis.User">
+	<!-- 配置ORM映射 -->
+	<resultMap type="User" id="user_orm">
+		<id property="id" column="id"/>
+		<result property="userName" column="userName"/>
+		<result property="password" column="password"/>
+	</resultMap>
+	
+	<!-- 用来定义可重用的SQL代码段 -->
+	<sql id="demo_sql">
+       userName,password
+	</sql>
+	
+	<insert id="inser_user" parameterType="User">
+		<!-- include 引用可重用的SQL代码段 -->
+		INSERT INTO USER(<include refid="demo_sql"/>) VALUES(#{userName},#{password})
+	</insert>
+	
+	<update id="update_user" parameterType="User">
+		UPDATE USER SET userName=#{userName} ,password=#{password}  WHERE id=#{id}
+	</update>
+	
+	<update id="delete_user" parameterType="int">
+		DELETE FROM USER WHERE id=#{id}
+	</update>
+  
+    <select id="selectAll_user" useCache="false" flushCache="true" resultMap="user_orm">
+    	SELECT * FROM USER
+  	</select>
+  	
+  	<!-- 使用map传人多个参数 -->
+    <select id="selectList_user" useCache="false" flushCache="true" parameterType="map" resultMap="user_orm">
+    	SELECT * FROM USER LIMIT #{pageNow},#{pageSize} 
+  	</select>
+  	
+  	<select id="selectById_user" parameterType="int" resultType="User">
+    	SELECT * FROM USER WHERE id= #{id}
+  	</select>
+  	
+  	<select id="selectCount_user"  resultType="int">
+    	SELECT count(*) FROM USER 
+  	</select>
+  	
+  	<select id="selectByName_user" parameterType="String" resultType="User">
+    	SELECT * FROM USER WHERE userName= #{userName}
+  	</select>
+
+    <!--模糊 MyIbatis 3.2.0-->
+    <select id="selectUserByName" parameterType="String" resultMap="user_orm">
+	     SELECT * FROM USER WHERE userName like "%"#{userName}"%"
+	</select>
+  	
+</mapper>
